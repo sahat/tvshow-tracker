@@ -1,0 +1,29 @@
+<div class="container">
+  <br/>
+  <div class="row">
+    <div class="col-xs-10 col-sm-8 col-xs-offset-1 col-sm-offset-2">
+      <form method="POST" ng-submit="signup()" name="signupForm" class="panel">
+        <div class="panel-body">
+          <legend>Create Account</legend>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="fullName" class="form-control" ng-model="fullName" required autofocus>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" class="form-control" ng-model="email" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" ng-model="password" required>
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" name="confirmPassword" class="form-control" ng-model="confirmPassword" repeat-password="password" required>
+          </div>
+          <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-success">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
