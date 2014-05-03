@@ -4,12 +4,11 @@
       <h3 class="panel-title">Add TV Show</h3>
     </div>
     <div class="panel-body">
-      <form method="post" class="form-inline">
+      <form method="post" ng-submit="addShow()" name="addForm" class="form-inline">
         <div class="form-group">
-          <label>Show Name</label>
-          <input class="form-control" type="text" name="show"/>
+          <input class="form-control" type="text" name="showName" ng-model="showName" placeholder="Enter TV show name">
         </div>
-        <button class="btn btn-default" type="submit">Add</button>
+        <button class="btn btn-primary" type="submit">Add</button>
       </form>
     </div>
   </div>

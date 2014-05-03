@@ -28,6 +28,7 @@ angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'ng
       })
       .when('/add', {
         templateUrl: 'views/add-show.html',
+        controller: 'AddCtrl',
         title: 'Add Show'
       })
       .otherwise({
