@@ -9,6 +9,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var crypto = require('crypto');
 var bcrypt = require('bcrypt');
 var session = require('express-session');
+var parseString = require('xml2js').parseString;
+var request = require('request');
+var async = require('async');
 
 var userSchema = new mongoose.Schema({
   fullName: String,
@@ -36,7 +39,9 @@ var showSchema = new mongoose.Schema({
   fanart: String, //base64
   banner: String, //base64
   poster: String, //base64
-  episodes : [{ type: Number, ref: 'Episode' }]
+  episodes: [
+    { type: Number, ref: 'Episode' }
+  ]
 });
 
 var episodeSchema = new mongoose.Schema({
@@ -124,7 +129,7 @@ app.use(passport.session());
 app.use(function(req, res, next) {
   if (req.user) res.cookie('user', JSON.stringify(req.user));
   next();
-})
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/api/login', passport.authenticate('local'), function(req, res) {
@@ -157,13 +162,44 @@ app.get('/api/status', function(req, res) {
   res.send(req.isAuthenticated() ? req.user : 'Not Authenticated');
 });
 
+//app.get('/api/shows', function(req, res) {
+//
+//});
+
+
+// Add new show
+// @param show
 app.get('/api/shows', function(req, res) {
 
+  var apiKey = '9EF1D1E7D28FDA0B';
+
+  async.waterfall([
+    function getSeriesId(callback) {
+//      var seriesName = (req.body.showName).toLowerCase().replace(/ /g,'_').replace(/[^\w-]+/g,'');
+      var seriesName = 'orphan_black';
+      request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function(error, response, body) {
+        parseString(body, function(err, result) {
+          var seriesId = result.Data.Series[0].seriesid;
+          callback(err, seriesId);
+        });
+      });
+    },
+    function getSeriesInfo(seriesId, callback) {
+      request.get('http://thetvdb.com/api/' + apiKey +  '/series/' + seriesId + '/all/en.xml', function(error, response, body) {
+        parseString(body, function(err, result) {
+          return res.send(result);
+//          var seriesInfo = result.Data.Series[0].seriesid;
+//          callback(err, seriesInfo);
+        });
+      });
+    }
+  ], function(err, result) {
+    res.send(result);
+  });
+
+
 });
 
-app.post('/api/shows', function(req, res) {
-  var api = '9EF1D1E7D28FDA0B';
-});
 
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
