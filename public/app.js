@@ -26,6 +26,10 @@ angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'ng
         controller: 'SignupCtrl',
         title: 'Create Account'
       })
+      .when('/add', {
+        templateUrl: 'views/add-show.html',
+        title: 'Add Show'
+      })
       .otherwise({
         redirectTo: '/'
       });
