@@ -1,15 +1,14 @@
 angular.module('MyApp')
-  .controller('AddCtrl', ['$rootScope', '$scope', '$alert', '$location', '$window', function($rootScope, $scope, $alert, $location, $window) {
+  .controller('AddCtrl', ['$scope', '$alert', '$location', '$http', function($scope, $alert, $location, $http) {
     $scope.addShow = function() {
-      $http.post('/api/shows', $scope.showName)
+      $http.post('/api/shows', { showName: $scope.showName })
         .success(function() {
-          $location.path('/');
           $alert({
             content: 'TV show has been added.',
             placement: 'top-right',
             type: 'success',
             duration: 3
           });
-        });
+        })
     };
   }]);
