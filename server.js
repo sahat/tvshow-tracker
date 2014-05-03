@@ -12,9 +12,9 @@ var session = require('express-session');
 
 var userSchema = new mongoose.Schema({
   fullName: String,
-  gravatar: String,
   email: { type: String, unique: true },
   password: String,
+  gravatar: String
 });
 
 var showSchema = new mongoose.Schema({
@@ -36,7 +36,7 @@ var showSchema = new mongoose.Schema({
   fanart: String, //base64
   banner: String, //base64
   poster: String, //base64
-  episodes : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Episode' }]
+  episodes : [{ type: Number, ref: 'Episode' }]
 });
 
 var episodeSchema = new mongoose.Schema({
@@ -48,9 +48,6 @@ var episodeSchema = new mongoose.Schema({
   thumbnail: String, //base64
   showId: { type: Number, ref: 'Show' }
 });
-
-var Show = mongoose.model('Show', showSchema);
-var Episode = mongoose.model('Episode', episodeSchema);
 
 /**
  * User Schema pre-save hooks.
@@ -83,6 +80,8 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 };
 
 var User = mongoose.model('User', userSchema);
+var Show = mongoose.model('Show', showSchema);
+var Episode = mongoose.model('Episode', episodeSchema);
 
 /**
  * Passport setup.
