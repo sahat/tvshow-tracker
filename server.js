@@ -127,16 +127,16 @@ app.use(function(req, res, next) {
 })
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.post('/login', passport.authenticate('local'), function(req, res) {
+app.post('/api/login', passport.authenticate('local'), function(req, res) {
   res.send(req.user);
 });
 
-app.get('/logout', function(req, res) {
+app.get('/api/logout', function(req, res) {
   req.logOut();
   res.send(200);
 });
 
-app.post('/signup', function(req, res, next) {
+app.post('/api/signup', function(req, res, next) {
   var user = new User({
     fullName: req.body.fullName,
     username: req.body.username,
@@ -153,16 +153,20 @@ app.post('/signup', function(req, res, next) {
   });
 });
 
-app.get('/status', function(req, res) {
+app.get('/api/status', function(req, res) {
   res.send(req.isAuthenticated() ? req.user : 'Not Authenticated');
 });
 
-app.get('/shows/add', function(req, res) {
+app.get('/api/shows', function(req, res) {
 
 });
 
-app.post('/shows', function(req, res) {
+app.post('/api/shows', function(req, res) {
   var api = '9EF1D1E7D28FDA0B';
+});
+
+app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
 });
 
 var ensureAuthenticated = function(req, res, next) {
@@ -172,8 +176,3 @@ var ensureAuthenticated = function(req, res, next) {
     res.send(401);
   }
 };
-
-app.listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + app.get('port'));
-});
-
