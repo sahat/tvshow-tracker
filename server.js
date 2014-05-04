@@ -39,9 +39,13 @@ var showSchema = new mongoose.Schema({
   fanart: String, //base64
   banner: String, //base64
   poster: String, //base64
-  episodes: [
-    { type: Number, ref: 'Episode' }
-  ]
+  episodes: [{
+    overview: String,
+    episodeName: String,
+    episodeNumber: Number,
+    firstAired: Date,
+    thumbnail: String //base64
+  }]
 });
 
 var episodeSchema = new mongoose.Schema({
@@ -86,7 +90,6 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 var User = mongoose.model('User', userSchema);
 var Show = mongoose.model('Show', showSchema);
-var Episode = mongoose.model('Episode', episodeSchema);
 
 /**
  * Passport setup.
@@ -187,14 +190,18 @@ app.get('/api/shows', function(req, res) {
     function getSeriesInfo(seriesId, callback) {
       request.get('http://thetvdb.com/api/' + apiKey +  '/series/' + seriesId + '/all/en.xml', function(error, response, body) {
         parseString(body, function(err, result) {
-          return res.send(result);
-//          var seriesInfo = result.Data.Series[0].seriesid;
-//          callback(err, seriesInfo);
+          var seriesInfo = result.Data;
+          callback(err, seriesInfo);
         });
       });
     }
   ], function(err, result) {
-    res.send(result);
+
+    var series = result[1].Series[0];
+    var episodes = result[1].Episode[0];
+
+
+
   });
 
 
