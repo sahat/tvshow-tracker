@@ -29,46 +29,43 @@
       <a href="#">Y</a>
       <a href="#">Z</a>
     </div>
-    <div class="categories-list">
-      <ul class="list-inline">
-        <li><a href="#">Action</a></li>
-        <li><a href="#">Adventure</a></li>
-        <li><a href="#">Animation</a></li>
-        <li><a href="#">Children</a></li>
-        <li><a href="#">Comedy</a></li>
-        <li><a href="#">Crime</a></li>
-        <li><a href="#">Documentary</a></li>
-        <li><a href="#">Drama</a></li>
-        <li><a href="#">Family</a></li>
-        <li><a href="#">Fantasy</a></li>
-        <li><a href="#">Food</a></li>
-        <li><a href="#">Home and Garden</a></li>
-        <li><a href="#">Horror</a></li>
-        <li><a href="#">Mini-Series</a></li>
-        <li><a href="#">Mystery</a></li>
-        <li><a href="#">News</a></li>
-        <li><a href="#">Reality</a></li>
-        <li><a href="#">Romance</a></li>
-        <li><a href="#">Sci-Fi</a></li>
-        <li><a href="#">Sport</a></li>
-        <li><a href="#">Suspense</a></li>
-        <li><a href="#">Talk Show</a></li>
-        <li><a href="#">Thriller</a></li>
-        <li><a href="#">Travel</a></li>
-      </ul>
+    <br/>
+    <div>
+      <a class="label label-default" href="#">Action</a>
+      <a class="label label-default" href="#">Adventure</a>
+      <a class="label label-default" href="#">Animation</a>
+      <a class="label label-default" href="#">Children</a>
+      <a class="label label-default" href="#">Comedy</a>
+      <a class="label label-default" href="#">Crime</a>
+      <a class="label label-default" href="#">Documentary</a>
+      <a class="label label-default" href="#">Drama</a>
+      <a class="label label-default" href="#">Family</a>
+      <a class="label label-default" href="#">Fantasy</a>
+      <a class="label label-default" href="#">Food</a>
+      <a class="label label-default" href="#">Home and Garden</a>
+      <a class="label label-default" href="#">Horror</a>
+      <a class="label label-default" href="#">Mini-Series</a>
+      <a class="label label-default" href="#">Mystery</a>
+      <a class="label label-default" href="#">News</a>
+      <a class="label label-default" href="#">Reality</a>
+      <a class="label label-default" href="#">Romance</a>
+      <a class="label label-default" href="#">Sci-Fi</a>
+      <a class="label label-default" href="#">Sport</a>
+      <a class="label label-default" href="#">Suspense</a>
+      <a class="label label-default" href="#">Talk Show</a>
+      <a class="label label-default" href="#">Thriller</a>
+      <a class="label label-default" href="#">Travel</a>
     </div>
   </div>
 </div>
 
 <div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Top Shows</h3>
-    </div>
-    <div class="panel-body">
 
+  <div class="panel panel-default">
+    <div class="panel-heading">Top Shows</div>
+    <div class="panel-body">
       <div class="row show-list">
-        <div class="col-xs-6 col-md-4" ng-repeat="show in shows">
+        <div class="col-xs-4 col-md-3" ng-repeat="show in shows">
           <img class="img-rounded" ng-src="http://thetvdb.com/banners/{{show.poster}}" width="100%"/>
           <div class="text-center">
             <a class="show-name" href="#/shows/{{show._id}}">{{show.name}}</a>

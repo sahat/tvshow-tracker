@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -201,11 +202,11 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   line-height: 1.42857;
   color: #333333;
-  background-color: #ecf0f0; }
+  background-color: #e4e7ec; }
 
 input, button, select, textarea {
   font-family: inherit;
@@ -240,7 +241,7 @@ img {
 .img-thumbnail {
   padding: 4px;
   line-height: 1.42857;
-  background-color: #ecf0f0;
+  background-color: #e4e7ec;
   border: 1px solid #ddd;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -339,7 +340,7 @@ cite {
   text-align: justify; }
 
 .text-muted {
-  color: #999999; }
+  color: #90939a; }
 
 .text-primary {
   color: #428bca; }
@@ -1084,7 +1085,7 @@ th {
   .table > tbody + tbody {
     border-top: 2px solid #ddd; }
   .table .table {
-    background-color: #ecf0f0; }
+    background-color: #e4e7ec; }
 
 .table-condensed > thead > tr > th, .table-condensed > thead > tr > td, .table-condensed > tbody > tr > th, .table-condensed > tbody > tr > td, .table-condensed > tfoot > tr > th, .table-condensed > tfoot > tr > td {
   padding: 5px; }
@@ -2696,7 +2697,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
         border-color: #eeeeee #eeeeee #ddd; }
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
       color: #555555;
-      background-color: #ecf0f0;
+      background-color: #e4e7ec;
       border: 1px solid #ddd;
       border-bottom-color: transparent;
       cursor: default; }
@@ -2746,7 +2747,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
       border-bottom: 1px solid #ddd;
       border-radius: 4px 4px 0 0; }
     .nav-tabs-justified > .active > a, .nav-tabs-justified > .active > .nav-tabs.nav-justified, .nav-tabs-justified > .active > .nav-tabs.nav-justified, .nav-tabs-justified > .active > a:hover, .nav-tabs-justified > .active > .nav-tabs.nav-justified, .nav-tabs-justified > .active > .nav-tabs.nav-justified, .nav-tabs-justified > .active > a:focus, .nav-tabs-justified > .active > .nav-tabs.nav-justified, .nav-tabs-justified > .active > .nav-tabs.nav-justified {
-      border-bottom-color: #ecf0f0; } }
+      border-bottom-color: #e4e7ec; } }
 
 .tab-content > .tab-pane {
   display: none; }
@@ -3272,7 +3273,7 @@ a.list-group-item.active > .badge, .nav-pills > .active > a > .badge {
   padding: 16px;
   margin-bottom: 16px;
   color: inherit;
-  background-color: #fbfcfc; }
+  background-color: #f4f6f8; }
   .jumbotron h1, .jumbotron .h1 {
     color: inherit; }
   .jumbotron p {
@@ -3298,7 +3299,7 @@ a.list-group-item.active > .badge, .nav-pills > .active > a > .badge {
   padding: 4px;
   margin-bottom: 20px;
   line-height: 1.42857;
-  background-color: #ecf0f0;
+  background-color: #e4e7ec;
   border: 1px solid #ddd;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -4383,13 +4384,38 @@ body {
   vertical-align: middle; }
 
 .panel {
-  border-width: 1px;
   border-color: #cfd9D7;
-  border-bottom-width: 2px;
-  border-bottom-color: #c1cdd2;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1); }
+
+.panel-default > .panel-heading {
+  color: #444;
+  border-color: #cfd9db;
+  font-weight: bold;
+  font-size: 85%;
+  text-transform: uppercase;
+  background-color: #f6f6f6; }
+
+.label {
+  display: inline-block;
+  margin-bottom: 5px;
+  padding: 4px 8px;
+  border: 0;
   border-radius: 3px;
-  box-shadow: none;
-  -webkit-box-shadow: none; }
+  font-size: 12px;
+  transition: 0.1s all;
+  -webkit-font-smoothing: antialiased; }
+
+.label-default {
+  background-color: #e4e7ec;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  color: #90939a; }
+
+.label-default:hover {
+  background-color: #90939a;
+  color: #f4f6f8;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2); }
 
 .navbar {
   box-shadow: 0 3px 2px -3px rgba(0, 0, 0, 0.1); }
@@ -4486,13 +4512,6 @@ body {
   .alphabetical-list a {
     color: #333; }
   .alphabetical-list .active {
-    font-weight: bold; }
-
-.categories-list {
-  text-align: center; }
-  .categories-list a {
-    color: #333; }
-  .categories-list .active {
     font-weight: bold; }
 
 .show-list [class^='col'] {

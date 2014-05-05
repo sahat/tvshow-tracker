@@ -1,5 +1,9 @@
-$body-bg: #ecf0f0;
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
 
+$body-bg: #e4e7ec;
+$font-family-base: 'Open Sans', sans-serif;
+
+$text-muted: #90939a;
 $link-color: #00b2e0;
 $link-hover-color: #009dd7;
 
@@ -22,7 +26,7 @@ $btn-primary-bg: #00b1e1;
 $btn-primary-border: darken($btn-primary-bg, 3%);
 
 $jumbotron-padding: 16px;
-$jumbotron-bg: #fbfcfc;
+$jumbotron-bg: #f4f6f8;
 
 $alert-border-radius: 0;
 
@@ -65,13 +69,42 @@ body {
 }
 
 .panel {
-  border-width: 1px;
   border-color: #cfd9D7;
-  border-bottom-width: 2px;
-  border-bottom-color: #c1cdd2;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+}
+
+.panel-default > .panel-heading {
+  color: #444;
+  border-color: #cfd9db;
+  font-weight: bold;
+  font-size: 85%;
+  text-transform: uppercase;
+  background-color: #f6f6f6;
+}
+
+.label {
+  display: inline-block;
+  margin-bottom: 5px;
+  padding: 4px 8px;
+  border: 0;
   border-radius: 3px;
-  box-shadow: none;
-  -webkit-box-shadow: none;
+  font-size: 12px;
+  transition: 0.1s all;
+  -webkit-font-smoothing: antialiased;
+}
+
+.label-default {
+  background-color: #e4e7ec;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+  color: #90939a;
+}
+
+.label-default:hover {
+  background-color: #90939a;
+  color: #f4f6f8;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
 }
 
 .navbar {
@@ -189,18 +222,6 @@ body {
 
 .alphabetical-list {
   font-size: 22px;
-  text-align: center;
-
-  a {
-    color: #333;
-  }
-
-  .active {
-    font-weight: bold;
-  }
-}
-
-.categories-list {
   text-align: center;
 
   a {
