@@ -2980,10 +2980,10 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
   background-color: #fff;
   border-color: #e3e9ec; }
   .navbar-default .navbar-brand {
-    color: #848484; }
+    color: #333; }
     .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-      color: #6b6b6b;
-      background-color: transparent; }
+      color: #ffe939;
+      background-color: #333; }
   .navbar-default .navbar-text {
     color: #777; }
   .navbar-default .navbar-nav > li > a {
@@ -4361,6 +4361,10 @@ button.close {
 
 body {
   padding-bottom: 20px; }
+
+.navbar-default .navbar-brand {
+  background-color: #ffe939;
+  transition: 0.25s all; }
 
 .jumbotron {
   margin-top: -20px;
