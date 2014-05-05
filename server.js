@@ -156,9 +156,11 @@ app.get('/api/status', function(req, res) {
   res.send(req.isAuthenticated() ? req.user : 'Not Authenticated');
 });
 
-//app.get('/api/shows', function(req, res) {
-//
-//});
+app.get('/api/shows', function(req, res) {
+  Show.find(function(err, shows) {
+    res.send(shows);
+  });
+});
 
 
 // Add new show
