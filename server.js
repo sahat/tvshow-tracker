@@ -36,16 +36,16 @@ var showSchema = new mongoose.Schema({
   ratingCount: Number,
   runtime: Number,
   status: String,
-  fanart: String, //base64
-  banner: String, //base64
-  poster: String, //base64
-  episodes: [{
-    overview: String,
-    episodeName: String,
-    episodeNumber: Number,
-    firstAired: Date,
-    thumbnail: String //base64
-  }]
+  banner: String,
+  poster: String,
+  episodes: [
+    {
+      episodeNumber: Number,
+      episodeName: String,
+      firstAired: Date,
+      overview: String
+    }
+  ]
 });
 
 
@@ -167,14 +167,14 @@ app.get('/api/shows', function(req, res) {
 // @param show
 app.post('/api/shows', function(req, res) {
   var apiKey = '9EF1D1E7D28FDA0B';
-  var seriesName = (req.body.showName).toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g,'');
+  var seriesName = (req.body.showName).toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g, '');
   var parser = xml2js.Parser({
     explicitArray: false,
     normalizeTags: true
   });
 
   async.waterfall([
-    function getSeriesId(callback) {
+    function(callback) {
       request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function(error, response, body) {
         parser.parseString(body, function(err, result) {
           var seriesId = result.data.series.seriesid;
@@ -182,51 +182,69 @@ app.post('/api/shows', function(req, res) {
         });
       });
     },
-    function getSeriesInfo(seriesId, callback) {
-      request.get('http://thetvdb.com/api/' + apiKey +  '/series/' + seriesId + '/all/en.xml', function(error, response, body) {
+    function(seriesId, callback) {
+      request.get('http://thetvdb.com/api/' + apiKey + '/series/' + seriesId + '/all/en.xml', function(error, response, body) {
         parser.parseString(body, function(err, result) {
-          var seriesInfo = result.data;
-          callback(err, seriesInfo);
+          var series = result.data.series;
+          var episodes = result.data.episode;
+
+          var show = new Show({
+            _id: series.id,
+            imdbId: series.imdb_id,
+            name: series.seriesname,
+            actors: series.actors.split('|').filter(Boolean),
+            airsDayOfWeek: series.airs_dayofweek,
+            airsTime: series.airs_time,
+            firstAired: series.firstaired,
+            contentRating: series.contentrating,
+            genre: series.genre.split('|').filter(Boolean),
+            network: series.network,
+            overview: series.overview,
+            rating: series.rating,
+            ratingCount: series.ratingcount,
+            runtime: series.runtime,
+            status: series.status,
+            banner: series.banner,
+            poster: series.poster,
+            episodes: []
+          });
+
+          for (var i = 0; i < episodes.length; i++) {
+            var episode = episodes[i];
+            show.episodes.push({
+              episodeNumber: episode.episodenumber,
+              episodeName: episode.episodename,
+              firstAired: episode.firstaired,
+              overview: episode.overview
+            });
+          }
+          callback(err, show);
         });
       });
-    }
-  ], function(err, result) {
-    var series = result.series;
-    var episodes = result.episode;
-
-    var show = new Show({
-      _id: series.id,
-      imdbId: series.imdb_id,
-      name: series.seriesname,
-      actors: series.actors.split('|').filter(Boolean),
-      airsDayOfWeek: series.airs_dayofweek,
-      airsTime: series.airs_time,
-      firstAired: series.firstaired,
-      contentRating: series.contentrating,
-      genre: series.genre.split('|').filter(Boolean),
-      network: series.network,
-      overview: series.overview,
-      rating: series.rating,
-      ratingCount: series.ratingcount,
-      runtime: series.runtime,
-      status: series.status,
-      fanart: series.fanart,
-      banner: series.banner,
-      poster: series.poster,
-      episodes: []
-    });
-
-    for (var i = 0; i < episodes.length; i++) {
-      var episode = episodes[i];
-      show.episodes.push({
-        overview: episode.overview,
-        episodeName: episode.episodename,
-        episodeNumber: episode.episodenumber,
-        firstAired: episode.firstaired,
-        thumbnail: episode.filename
+    },
+    function(show, callback) {
+      async.parallel([
+        function(callback) {
+          var url = 'http://thetvdb.com/banners/' + show.banner;
+          request({ url: url, encoding: null }, function(error, response, body) {
+            var base64 = 'data:' + response.headers['content-type'] + ';base64,' + body.toString('base64');
+            callback(error, base64);
+          });
+        },
+        function(callback) {
+          var url = 'http://thetvdb.com/banners/' + show.poster;
+          request({ url: url, encoding: null }, function(error, response, body) {
+            var base64 = 'data:' + response.headers['content-type'] + ';base64,' + body.toString('base64');
+            callback(error, base64);
+          });
+        }
+      ], function(err, results) {
+        show.banner = results[0];
+        show.poster = results[1];
+        callback(err, show);
       });
     }
-
+  ], function(err, show) {
     show.save(function(err) {
       res.send(200);
     });
