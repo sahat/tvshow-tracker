@@ -4,16 +4,18 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bootstrap 101 Template</title>
+  <title>ShowTrackr</title>
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link href="stylesheets/style.css" rel="stylesheet">
 </head>
 <body>
 <div ng-controller="NavbarCtrl" class="navbar navbar-default navbar-static-top" role="navigation" bs-navbar>
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
+  <div class="navbar-header">
+    <a class="navbar-brand" href="#">
+      <span class="glyphicon glyphicon-film"></span>
+      Show<strong>Trackr</strong></a>
+  </div>
+
     <ul class="nav navbar-nav">
       <li data-match-route="/$"><a href="#/">Home</a></li>
       <li data-match-route="/page1"><a href="#/page1">Page One</a></li>
@@ -31,7 +33,6 @@
         </a>
       </li>
     </ul>
-  </div>
 </div>
 
 <div ng-view></div>

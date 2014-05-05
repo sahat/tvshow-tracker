@@ -4367,6 +4367,9 @@ body {
   background-color: #ffe939;
   transition: 0.25s all; }
 
+.navbar-header {
+  padding-left: 15px; }
+
 .jumbotron {
   margin-top: -20px;
   border-bottom: 1px solid #dae2e4; }
