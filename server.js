@@ -9,7 +9,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var crypto = require('crypto');
 var bcrypt = require('bcrypt');
 var session = require('express-session');
-var parseString = require('xml2js').parseString;
+var xml2js = require('xml2js');
 var request = require('request');
 var async = require('async');
 
@@ -30,12 +30,12 @@ var showSchema = new mongoose.Schema({
   firstAired: Date,
   contentRating: String,
   genre: Array,
-  language: String,
   network: String,
   overview: String,
   rating: Number,
   ratingCount: Number,
   runtime: Number,
+  status: String,
   fanart: String, //base64
   banner: String, //base64
   poster: String, //base64
@@ -48,15 +48,6 @@ var showSchema = new mongoose.Schema({
   }]
 });
 
-var episodeSchema = new mongoose.Schema({
-  _id: Number,
-  overview: String,
-  episodeName: String,
-  episodeNumber: Number,
-  firstAired: Date,
-  thumbnail: String, //base64
-  showId: { type: Number, ref: 'Show' }
-});
 
 /**
  * User Schema pre-save hooks.
@@ -172,39 +163,72 @@ app.get('/api/status', function(req, res) {
 
 // Add new show
 // @param show
-app.get('/api/shows', function(req, res) {
-
+app.post('/api/shows', function(req, res) {
   var apiKey = '9EF1D1E7D28FDA0B';
+  var seriesName = (req.body.showName).toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g,'');
+  var parser = xml2js.Parser({
+    explicitArray: false,
+    normalizeTags: true
+  });
 
   async.waterfall([
     function getSeriesId(callback) {
-//      var seriesName = (req.body.showName).toLowerCase().replace(/ /g,'_').replace(/[^\w-]+/g,'');
-      var seriesName = 'orphan_black';
       request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function(error, response, body) {
-        parseString(body, function(err, result) {
-          var seriesId = result.Data.Series[0].seriesid;
+        parser.parseString(body, function(err, result) {
+          var seriesId = result.data.series.seriesid;
           callback(err, seriesId);
         });
       });
     },
     function getSeriesInfo(seriesId, callback) {
       request.get('http://thetvdb.com/api/' + apiKey +  '/series/' + seriesId + '/all/en.xml', function(error, response, body) {
-        parseString(body, function(err, result) {
-          var seriesInfo = result.Data;
+        parser.parseString(body, function(err, result) {
+          var seriesInfo = result.data;
           callback(err, seriesInfo);
         });
       });
     }
   ], function(err, result) {
+    var series = result.series;
+    var episodes = result.episode;
 
-    var series = result[1].Series[0];
-    var episodes = result[1].Episode[0];
+    var show = new Show({
+      _id: series.id,
+      imdbId: series.imdb_id,
+      name: series.seriesname,
+      actors: series.actors.split('|').filter(Boolean),
+      airsDayOfWeek: series.airs_dayofweek,
+      airsTime: series.airs_time,
+      firstAired: series.firstaired,
+      contentRating: series.contentrating,
+      genre: series.genre.split('|').filter(Boolean),
+      network: series.network,
+      overview: series.overview,
+      rating: series.rating,
+      ratingCount: series.ratingcount,
+      runtime: series.runtime,
+      status: series.status,
+      fanart: series.fanart,
+      banner: series.banner,
+      poster: series.poster,
+      episodes: []
+    });
 
+    for (var i = 0; i < episodes.length; i++) {
+      var episode = episodes[i];
+      show.episodes.push({
+        overview: episode.overview,
+        episodeName: episode.episodename,
+        episodeNumber: episode.episodenumber,
+        firstAired: episode.firstaired,
+        thumbnail: episode.filename
+      });
+    }
 
-
+    show.save(function(err) {
+      res.send(200);
+    });
   });
-
-
 });
 
 
