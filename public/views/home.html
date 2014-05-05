@@ -68,52 +68,15 @@
     <div class="panel-body">
 
       <div class="row show-list">
-        <div class="col-xs-6 col-md-4">
-          <img class="img-rounded" src="/images/thumb.jpg" width="100%"/>
+        <div class="col-xs-6 col-md-4" ng-repeat="show in shows">
+          <img class="img-rounded" ng-src="http://thetvdb.com/banners/{{show.poster}}" width="100%"/>
           <div class="text-center">
-            <a class="show-name" href="#">Show name</a>
+            <a class="show-name" href="#/shows/{{show._id}}">{{show.name}}</a>
           </div>
           <div class="text-center text-muted">
-            Followers: 20050 | Episodes: 72
+            Episodes: {{show.episodes.length}}
           </div>
         </div>
-        <div class="col-xs-6 col-md-4">
-          <img class="img-rounded" src="/images/thumb.jpg" width="100%"/>
-          <div class="text-center">
-            <a class="show-name" href="#">Show name</a>
-          </div>
-          <div class="text-center text-muted">
-            Followers: 20050 | Episodes: 72
-          </div>
-        </div>
-        <div class="col-xs-6 col-md-4">
-          <img class="img-rounded" src="/images/thumb.jpg" width="100%"/>
-          <div class="text-center">
-            <a class="show-name" href="#">Show name</a>
-          </div>
-          <div class="text-center text-muted">
-            Followers: 20050 | Episodes: 72
-          </div>
-        </div>
-        <div class="col-xs-6 col-md-4">
-          <img class="img-rounded" src="/images/thumb.jpg" width="100%"/>
-          <div class="text-center">
-            <a class="show-name" href="#">Show name</a>
-          </div>
-          <div class="text-center text-muted">
-            Followers: 20050 | Episodes: 72
-          </div>
-        </div>
-        <div class="col-xs-6 col-md-4">
-          <img class="img-rounded" src="/images/thumb.jpg" width="100%"/>
-          <div class="text-center">
-            <a class="show-name" href="#">Show name</a>
-          </div>
-          <div class="text-center text-muted">
-            Followers: 20050 | Episodes: 72
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>
