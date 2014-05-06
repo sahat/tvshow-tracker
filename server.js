@@ -36,7 +36,6 @@ var showSchema = new mongoose.Schema({
   ratingCount: Number,
   runtime: Number,
   status: String,
-  banner: String,
   poster: String,
   episodes: [
     {
@@ -187,7 +186,6 @@ app.post('/api/shows', function(req, res) {
         parser.parseString(body, function(err, result) {
           var series = result.data.series;
           var episodes = result.data.episode;
-
           var show = new Show({
             _id: series.id,
             imdbId: series.imdb_id,
@@ -204,11 +202,9 @@ app.post('/api/shows', function(req, res) {
             ratingCount: series.ratingcount,
             runtime: series.runtime,
             status: series.status,
-            banner: series.banner,
             poster: series.poster,
             episodes: []
           });
-
           for (var i = 0; i < episodes.length; i++) {
             var episode = episodes[i];
             show.episodes.push({
@@ -223,25 +219,10 @@ app.post('/api/shows', function(req, res) {
       });
     },
     function(show, callback) {
-      async.parallel([
-        function(callback) {
-          var url = 'http://thetvdb.com/banners/' + show.banner;
-          request({ url: url, encoding: null }, function(error, response, body) {
-            var base64 = 'data:' + response.headers['content-type'] + ';base64,' + body.toString('base64');
-            callback(error, base64);
-          });
-        },
-        function(callback) {
-          var url = 'http://thetvdb.com/banners/' + show.poster;
-          request({ url: url, encoding: null }, function(error, response, body) {
-            var base64 = 'data:' + response.headers['content-type'] + ';base64,' + body.toString('base64');
-            callback(error, base64);
-          });
-        }
-      ], function(err, results) {
-        show.banner = results[0];
-        show.poster = results[1];
-        callback(err, show);
+      var url = 'http://thetvdb.com/banners/' + show.poster;
+      request({ url: url, encoding: null }, function(error, response, body) {
+        show.poster = 'data:' + response.headers['content-type'] + ';base64,' + body.toString('base64');
+        callback(error, show);
       });
     }
   ], function(err, show) {
