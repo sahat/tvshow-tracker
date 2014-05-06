@@ -19,7 +19,6 @@ angular.module('MyApp')
     $scope.logout = function() {
       Auth.logout()
         .then(function() {
-          $location.path('/');
           $alert({
             content: 'You have been logged out.',
             placement: 'top-right',
