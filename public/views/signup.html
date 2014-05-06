@@ -1,10 +1,10 @@
 <div class="container">
   <br/>
   <div class="row">
-    <div class="pretty-form">
-      <form method="post" ng-submit="signup()" name="signupForm" class="panel">
+    <div class="fancy-form panel">
+      <form method="post" ng-submit="signup()" name="signupForm">
         <div class="panel-body">
-          <h1>Sign up</h1>
+          <h2 class="text-center">Sign up</h2>
           <div class="form-group">
             <span class="input"></span>
             <input type="text" name="fullName" ng-model="fullName" placeholder="Full name" required>
@@ -21,7 +21,7 @@
             <span class="input"></span>
             <input type="password" name="confirmPassword" ng-model="confirmPassword" repeat-password="password" placeholder="Confirm" required>
           </div>
-          <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-success">Create Account</button>
+          <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-lg btn-success pull-right">Create Account</button>
         </div>
       </form>
     </div>

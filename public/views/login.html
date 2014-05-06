@@ -2,7 +2,7 @@
   <div class="row">
     <div class="panel fancy-form">
         <div class="panel-body">
-          <h2>Login</h2>
+          <h2 class="text-center">Login</h2>
           <form method="post" ng-submit="login()" name="loginForm">
             <div class="form-group">
               <span class="input"></span>
@@ -12,7 +12,7 @@
               <span class="input"></span>
               <input type="password" name="password" ng-model="password" placeholder="Password" required>
             </div>
-            <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-lg btn-block btn-success">Sign In</button>
+            <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-lg btn-success pull-right">Sign In</button>
           </form>
         </div>
     </div>

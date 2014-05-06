@@ -4381,9 +4381,6 @@ body {
 .avatar {
   padding: 10px !important; }
 
-.btn {
-  border-radius: 0; }
-
 .gravatar {
   border-width: 50%;
   max-height: 30px;
@@ -4392,42 +4389,27 @@ body {
 
 .fancy-form {
   width: 370px;
-  margin: 12% auto;
-  text-align: center; }
+  margin: 10% auto; }
   .fancy-form input {
-    font-size: 1.2em;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 1.5em;
     width: 100%;
     height: 55px;
     position: relative;
-    margin: 0 auto;
     display: block;
-    margin-bottom: 10px;
+    margin: 0 auto 10px;
     padding: 15px;
     box-sizing: border-box;
-    -webkit-text-stroke: 0.1px; }
-  .fancy-form input {
+    -webkit-text-stroke: 0.1px;
+    border: thin solid #ccc;
     outline: none;
     -webkit-appearance: none;
-    font-family: 'Lato', sans-serif;
-    border: thin solid #efefef;
     color: #4f4f4f; }
     .fancy-form input:focus {
-      border: thin solid #ededed;
-      border-left: thin solid #282828;
+      background: #fafafa;
+      border: thin solid #999;
       -webkit-transition: all 0.4s ease;
       transition: all 0.4s ease; }
-  .fancy-form ::-webkit-input-placeholder {
-    transition: color 0.2s; }
-  .fancy-form :-moz-placeholder {
-    transition: color 0.2s; }
-  .fancy-form :-ms-input-placeholder {
-    transition: color 0.2s; }
-  .fancy-form input:focus::-webkit-input-placeholder {
-    color: #ddd; }
-  .fancy-form input:focus::-moz-input-placeholder {
-    color: #ddd; }
-  .fancy-form input:focus::-ms-input-placeholder {
-    color: #ddd; }
 
 .pretty-form {
   margin: 12% auto;
