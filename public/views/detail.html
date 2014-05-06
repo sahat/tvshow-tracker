@@ -1,7 +1,18 @@
 <div class="container">
   <div class="panel panel-default">
     <div class="panel-body">
-      <h1>Show Detail page</h1>
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img class="media-object" ng-src="{{show.poster}}">
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">{{show.name}}</h4>
+          <div class="lead">
+            {{show.airsDayOfWeek}} {{show.airsTime}} on {{show.network}}
+          </div>
+          <p>{{show.overview}}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

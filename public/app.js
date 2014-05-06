@@ -11,6 +11,7 @@ angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'ng
         title: 'My Shows'
       })
       .when('/shows/:id', {
+        controller: 'DetailCtrl',
         templateUrl: 'views/detail.html'
       })
       .when('/login', {

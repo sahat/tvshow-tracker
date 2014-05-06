@@ -130,12 +130,19 @@ app.get('/api/status', function(req, res) {
   res.send(req.isAuthenticated() ? req.user : 'Not Authenticated');
 });
 
+
 app.get('/api/shows', function(req, res) {
   Show.find(function(err, shows) {
     res.send(shows);
   });
 });
 
+app.get('/api/shows/:id', function(req, res) {
+  Show.findById(req.params.id, function(err, show) {
+    console.log(show);
+    res.send(show);
+  });
+});
 
 // Add new show
 // @param show

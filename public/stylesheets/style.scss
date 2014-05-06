@@ -8,7 +8,6 @@ $headings-font-family: Avenir, sans-serif;
 $headings-font-weight: bold;
 
 $brand-success: #22ae5f;
-
 $text-muted: #90939a;
 $link-color: #00b2e0;
 $link-hover-color: #009dd7;
@@ -62,6 +61,10 @@ body {
 .jumbotron {
   margin-top: -20px;
   border-bottom: 1px solid #dae2e4;
+}
+
+.media-object {
+  max-width: 200px;
 }
 
 .alert {
