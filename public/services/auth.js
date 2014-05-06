@@ -10,8 +10,9 @@ angular.module('MyApp')
       login: function(user, callback) {
         var cb = callback || angular.noop;
 
-        return $http.post('/api/login', user).then(function(user) {
-          $rootScope.currentUser = user;
+        return $http.post('/api/login', user).success(function(data) {
+          console.log(data);
+          $rootScope.currentUser = data;
           return cb();
         });
       },
@@ -19,7 +20,7 @@ angular.module('MyApp')
       logout: function(callback) {
         var cb = callback || angular.noop;
 
-        return $http.get('/api/logout').then(function() {
+        return $http.get('/api/logout').success(function() {
           $rootScope.currentUser = null;
           return cb();
         });
@@ -28,8 +29,8 @@ angular.module('MyApp')
       signup: function(user, callback) {
         var cb = callback || angular.noop;
 
-        return $http.post('/api/signup', user).then(function(user) {
-          $rootScope.currentUser = user;
+        return $http.post('/api/signup', user).success(function(data) {
+          $rootScope.currentUser = data;
           return cb();
         });
       },
