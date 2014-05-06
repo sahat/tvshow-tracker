@@ -1,7 +1,7 @@
 angular.module('MyApp')
   .controller('SignupCtrl', ['$rootScope', '$scope', '$alert', '$location', '$window', 'Auth', function($rootScope, $scope, $alert, $location, $window, Auth) {
     $scope.signup = function() {
-      Auth.signup({ fullName: $scope.fullName, email: $scope.email, password: $scope.password })
+      Auth.signup({ email: $scope.email, password: $scope.password })
         .then(function(data) {
           $location.path('/');
           $alert({
