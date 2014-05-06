@@ -30,6 +30,7 @@
       <a href="#">Z</a>
     </div>
     <br/>
+
     <div>
       <a class="label label-default" href="#">Action</a>
       <a class="label label-default" href="#">Adventure</a>
@@ -66,7 +67,7 @@
     <div class="panel-body">
       <div class="row show-list">
         <div class="col-xs-4 col-md-3" ng-repeat="show in shows">
-          <img class="img-rounded" ng-src="http://thetvdb.com/banners/{{show.poster}}" width="100%"/>
+          <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
           <div class="text-center">
             <a class="show-name" href="#/shows/{{show._id}}">{{show.name}}</a>
           </div>
@@ -74,7 +75,7 @@
             Episodes: {{show.episodes.length}}
           </div>
         </div>
-
+      </div>
     </div>
   </div>
 </div>

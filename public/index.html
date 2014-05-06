@@ -18,8 +18,6 @@
 
     <ul class="nav navbar-nav">
       <li data-match-route="/$"><a href="#/">Home</a></li>
-      <li data-match-route="/page1"><a href="#/page1">Page One</a></li>
-      <li data-match-route="/page2"><a href="#/page2">Page Two</a></li>
       <li data-match-route="/add"><a href="#/add">Add</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right" ng-hide="currentUser">
@@ -27,11 +25,8 @@
       <li data-match-route="/signup"><a href="#/signup">Sign up</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right" ng-show="currentUser">
-      <li class="dropdown">
-        <a class="avatar" bs-dropdown="dropdown" data-animation="am-flip-x" data-placement="bottom-right">
-          <img class="gravatar" ng-src="{{ currentUser.gravatar }}"> <b class="caret"></b>
-        </a>
-      </li>
+      <li data-match-route="/me"><a href="#/me">My Shows</a></li>
+      <li><a ng-click="logout()">Logout</a></li>
     </ul>
 </div>
 

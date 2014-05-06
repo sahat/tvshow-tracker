@@ -6,14 +6,12 @@ angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'ng
         controller: 'MainCtrl',
         title: 'Home Page'
       })
-      .when('/page1', {
-        templateUrl: 'views/page1.html',
-        controller: 'MainCtrl',
-        title: 'Page 1'
+      .when('/me', {
+        templateUrl: 'views/me.html',
+        title: 'My Shows'
       })
       .when('/page2', {
         templateUrl: 'views/page2.html',
-        controller: 'MainCtrl',
         title: 'Page 2'
       })
       .when('/login', {
