@@ -3217,9 +3217,9 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     background-color: #3073a9; }
 
 .label-success {
-  background-color: #5cb85c; }
+  background-color: #22ae5f; }
   .label-success[href]:hover, .label-success[href]:focus {
-    background-color: #469d44; }
+    background-color: #1a8347; }
 
 .label-info {
   background-color: #5bc0de; }
@@ -3424,7 +3424,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
   animation: progress-bar-stripes 2s linear infinite; }
 
 .progress-bar-success {
-  background-color: #5cb85c; }
+  background-color: #22ae5f; }
   .progress-striped .progress-bar-success {
     background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
     background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent); }
@@ -4381,11 +4381,53 @@ body {
 .avatar {
   padding: 10px !important; }
 
+.btn {
+  border-radius: 0; }
+
 .gravatar {
   border-width: 50%;
   max-height: 30px;
   width: auto;
   vertical-align: middle; }
+
+.fancy-form {
+  width: 370px;
+  margin: 12% auto;
+  text-align: center; }
+  .fancy-form input {
+    font-size: 1.2em;
+    width: 100%;
+    height: 55px;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+    -webkit-text-stroke: 0.1px; }
+  .fancy-form input {
+    outline: none;
+    -webkit-appearance: none;
+    font-family: 'Lato', sans-serif;
+    border: thin solid #efefef;
+    color: #4f4f4f; }
+    .fancy-form input:focus {
+      border: thin solid #ededed;
+      border-left: thin solid #282828;
+      -webkit-transition: all 0.4s ease;
+      transition: all 0.4s ease; }
+  .fancy-form ::-webkit-input-placeholder {
+    transition: color 0.2s; }
+  .fancy-form :-moz-placeholder {
+    transition: color 0.2s; }
+  .fancy-form :-ms-input-placeholder {
+    transition: color 0.2s; }
+  .fancy-form input:focus::-webkit-input-placeholder {
+    color: #ddd; }
+  .fancy-form input:focus::-moz-input-placeholder {
+    color: #ddd; }
+  .fancy-form input:focus::-ms-input-placeholder {
+    color: #ddd; }
 
 .pretty-form {
   margin: 12% auto;
@@ -4429,6 +4471,13 @@ body {
     background: #fff;
     margin: 0% 0 -2em;
     z-index: 1; }
+  .pretty-form .input:after {
+    content: '';
+    width: 1em;
+    height: 100%;
+    position: absolute;
+    right: -19.5em;
+    background: #fff; }
   .pretty-form .placeholder {
     color: #999;
     transition: color 0.2s; }
