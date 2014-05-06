@@ -6,7 +6,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var crypto = require('crypto');
 var bcrypt = require('bcrypt');
 var session = require('express-session');
 var xml2js = require('xml2js');
@@ -14,10 +13,8 @@ var request = require('request');
 var async = require('async');
 
 var userSchema = new mongoose.Schema({
-  fullName: String,
   email: { type: String, unique: true },
-  password: String,
-  gravatar: String
+  password: String
 });
 
 var showSchema = new mongoose.Schema({
@@ -47,12 +44,6 @@ var showSchema = new mongoose.Schema({
   ]
 });
 
-
-/**
- * User Schema pre-save hooks.
- * It is used for hashing and salting user's password and token.
- */
-
 userSchema.pre('save', function(next) {
   var user = this;
   if (!user.isModified('password')) return next();
@@ -66,11 +57,6 @@ userSchema.pre('save', function(next) {
   });
 });
 
-/**
- * Helper method for comparing user's password input with a
- * hashed and salted password stored in the database.
- */
-
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) return cb(err);
@@ -80,10 +66,6 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 var User = mongoose.model('User', userSchema);
 var Show = mongoose.model('Show', showSchema);
-
-/**
- * Passport setup.
- */
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -134,19 +116,12 @@ app.get('/api/logout', function(req, res) {
   res.send(200);
 });
 
-app.post('/api/signup', function(req, res, next) {
+app.post('/api/signup', function(req, res) {
   var user = new User({
-    fullName: req.body.fullName,
-    username: req.body.username,
     email: req.body.email,
     password: req.body.password
   });
-
-  var md5 = crypto.createHash('md5').update(user.email).digest('hex');
-  user.gravatar = 'https://gravatar.com/avatar/' + md5 + '&d=retro';
-
   user.save(function(err) {
-    if (err) return next(err);
     res.send(200);
   });
 });
