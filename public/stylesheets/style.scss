@@ -68,17 +68,6 @@ body {
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
 }
 
-.avatar {
-  padding: 10px !important;
-}
-
-.gravatar {
-  border-width: 50%;
-  max-height: 30px;
-  width: auto;
-  vertical-align: middle;
-}
-
 .fancy-form {
   width: 370px;
   margin: 10% auto;
@@ -105,102 +94,6 @@ body {
       -webkit-transition: all .4s ease;
       transition: all .4s ease;
     }
-  }
-}
-
-.pretty-form {
-  margin: 12% auto;
-  width: 370px;
-  text-align: center;
-
-  input {
-    color: #444;
-    font-size: 1.5em;
-    outline: none;
-    box-shadow: none;
-    -webkit-appearance: none;
-    border-radius: 0;
-    border-top: none;
-    border-left: solid 1px;
-    border-right: solid 1px;
-    border-bottom: solid 1px;
-    border-color: #bbb;
-    background: transparent;
-    display: block;
-    width: 100%;
-    height: 2em;
-    padding: 0 3%;
-    position: relative;
-    z-index: 0;
-    transition: border .25s;
-  }
-
-  input:focus {
-    color: #111;
-    border-color: #444;
-  }
-
-  .input {
-    speak: none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    display: block;
-    position: relative;
-    width: 0.25em;
-    height: 3em;
-    background: #fff;
-    margin: 0% 0 -2em;
-    z-index: 1;
-  }
-
-  .input:after {
-    content: '';
-    width: 1em;
-    height: 100%;
-    position: absolute;
-    right: -19.5em; // eyeball the number
-    background: #fff;
-  }
-
-
-  .placeholder {
-    color: #999;
-    transition: color .2s;
-
-    &:focus {
-      color: #ddd;
-    }
-  }
-
-  ::-webkit-input-placeholder {
-    color: #999;
-    transition: color .2s;
-  }
-
-  :-moz-placeholder {
-    color: #999;
-    transition: color .2s;
-  }
-
-  :-ms-input-placeholder {
-    color: #999;
-    transition: color .2s;
-  }
-
-  input:focus::-webkit-input-placeholder {
-    color: #ddd;
-  }
-
-  input:focus::-moz-input-placeholder {
-    color: #ddd;
-  }
-
-  input:focus::-ms-input-placeholder {
-    color: #ddd;
   }
 }
 
