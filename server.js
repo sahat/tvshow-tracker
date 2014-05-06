@@ -122,7 +122,7 @@ app.post('/api/signup', function(req, res) {
     password: req.body.password
   });
   user.save(function(err) {
-    res.send(200);
+    res.send(user);
   });
 });
 
