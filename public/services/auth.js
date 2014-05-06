@@ -13,7 +13,7 @@ angular.module('MyApp')
       },
 
       signup: function(user) {
-        return $http.post('/api/signup', user).success(function() {
+        return $http.post('/api/signup', user).success(function(data) {
           $rootScope.currentUser = data;
         });
       },
