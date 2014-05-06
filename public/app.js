@@ -10,9 +10,8 @@ angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'ng
         templateUrl: 'views/me.html',
         title: 'My Shows'
       })
-      .when('/page2', {
-        templateUrl: 'views/page2.html',
-        title: 'Page 2'
+      .when('/shows/:id', {
+        templateUrl: 'views/detail.html'
       })
       .when('/login', {
         templateUrl: 'views/login.html',
