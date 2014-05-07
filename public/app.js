@@ -6,10 +6,6 @@ angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'ng
         controller: 'MainCtrl',
         title: 'Home Page'
       })
-      .when('/me', {
-        templateUrl: 'views/me.html',
-        title: 'My Shows'
-      })
       .when('/shows/:id', {
         controller: 'DetailCtrl',
         templateUrl: 'views/detail.html'
