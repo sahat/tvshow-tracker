@@ -2,17 +2,53 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="media">
-        <a class="pull-left" href="#">
-          <img class="media-object" ng-src="{{show.poster}}">
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading">{{show.name}}</h4>
-          <div class="lead">
-            {{show.airsDayOfWeek}} {{show.airsTime}} on {{show.network}}
+        <div class="pull-left">
+          <img class="media-object img-rounded" ng-src="{{show.poster}}">
+
+          <div class="text-center">
+            <button class="btn btn-block btn-success">
+              <span class="glyphicon glyphicon-plus"></span>
+              Subscribe
+            </button>
           </div>
+        </div>
+        <div class="media-body">
+          <h2 class="media-heading">{{show.name}} <a href="http://www.imdb.com/title/{{show.imdbId}}">
+            <img src="/img/imdb.jpg" width="29"/>
+          </a></h2>
+          <h4>
+            <span class="glyphicon glyphicon-calendar text-danger"></span>
+            {{show.airsDayOfWeek}} <em>{{show.airsTime}}</em> on
+            {{show.network}}
+          </h4>
+
           <p>{{show.overview}}</p>
+
         </div>
       </div>
     </div>
   </div>
+
+  <div class="alert alert-success" ng-show="nextEpisode">
+    The next episode starts {{nextEpisode.firstAired | fromNow}}.
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-play"></span> Episodes
+    </div>
+    <div class="panel-body" highlight-episode>
+      <div class="episode" ng-repeat="episode in show.episodes">
+        <h4>{{episode.episodeName}}
+        <small>Season {{episode.season}}, Episode {{episode.episodeNumber}}</small>
+        </h4>
+        <p>
+          <span class="glyphicon glyphicon-calendar"></span>
+          {{episode.firstAired | date: 'short'}}
+        </p>
+        <p>{{episode.overview}}</p>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
