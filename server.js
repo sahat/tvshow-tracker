@@ -140,7 +140,6 @@ app.get('/api/shows', function(req, res) {
 
 app.get('/api/shows/:id', function(req, res) {
   Show.findById(req.params.id, function(err, show) {
-    console.log(show);
     res.send(show);
   });
 });
@@ -188,17 +187,10 @@ app.post('/api/shows', function(req, res) {
             poster: series.poster,
             episodes: []
           });
-
-          var season = 1;
           for (var i = 0; i < episodes.length; i++) {
             var episode = episodes[i];
-            if (episodes[i-1] &&
-              episode.episodenumber < episodes[i-1].episodenumber) {
-              season++;
-              console.log('incrementing')
-            }
             show.episodes.push({
-              season: season,
+              season: episode.seasonnumber,
               episodeNumber: episode.episodenumber,
               episodeName: episode.episodename,
               firstAired: episode.firstaired,

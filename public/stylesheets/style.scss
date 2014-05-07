@@ -43,6 +43,10 @@ $alert-danger-text: #fff;
 $alert-danger-bg: #df4b33;
 $alert-danger-border: darken($alert-danger-bg, 3%);
 
+$alert-info-bg: #e5f7fd;
+$alert-info-border: #bcf8f3;
+$alert-info-text: #25484e;
+
 @import "bootstrap/bootstrap";
 
 .text-danger {
@@ -85,7 +89,6 @@ em {
 .highlight {
   background-color: $brand-warning;
 }
-
 
 .alert {
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);

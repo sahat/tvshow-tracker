@@ -3351,13 +3351,13 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
     color: #e6e6e6; }
 
 .alert-info {
-  background-color: #d9edf7;
-  border-color: #bce9f1;
-  color: #31708f; }
+  background-color: #e5f7fd;
+  border-color: #bcf8f3;
+  color: #25484e; }
   .alert-info hr {
-    border-top-color: #a6e2ec; }
+    border-top-color: #a5f6ee; }
   .alert-info .alert-link {
-    color: #245369; }
+    color: #15282b; }
 
 .alert-warning {
   background-color: #fcf8e3;

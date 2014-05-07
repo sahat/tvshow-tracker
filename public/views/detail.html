@@ -21,15 +21,13 @@
             {{show.airsDayOfWeek}} <em>{{show.airsTime}}</em> on
             {{show.network}}
           </h4>
-
           <p>{{show.overview}}</p>
-
         </div>
       </div>
     </div>
   </div>
 
-  <div class="alert alert-success" ng-show="nextEpisode">
+  <div class="alert alert-info" ng-show="nextEpisode">
     The next episode starts {{nextEpisode.firstAired | fromNow}}.
   </div>
 
@@ -37,7 +35,7 @@
     <div class="panel-heading">
       <span class="glyphicon glyphicon-play"></span> Episodes
     </div>
-    <div class="panel-body" highlight-episode>
+    <div class="panel-body">
       <div class="episode" ng-repeat="episode in show.episodes">
         <h4>{{episode.episodeName}}
         <small>Season {{episode.season}}, Episode {{episode.episodeNumber}}</small>

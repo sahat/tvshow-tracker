@@ -65,7 +65,9 @@
     <div class="panel-body">
       <div class="row show-list">
         <div class="col-xs-4 col-md-3" ng-repeat="show in shows">
-          <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
+          <a class="show-name" href="#/shows/{{show._id}}">
+            <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
+          </a>
           <div class="text-center">
             <a class="show-name" href="#/shows/{{show._id}}">{{show.name}}</a>
           </div>
