@@ -5,6 +5,8 @@ angular.module('MyApp')
     $rootScope.currentUser = $cookieStore.get('user');
     $cookieStore.remove('user');
 
+      console.log($rootScope.currentUser);
+
     return {
       login: function(user) {
         return $http.post('/api/login', user).success(function(data) {

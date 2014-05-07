@@ -7,14 +7,12 @@ angular.module('MyApp')
       Show.getShow($routeParams.id, function(show) {
         $scope.show = show;
 
-        // function
-        if ($rootScope.user) {
-          $rootScope.currentUser.isSubscribed = false;
-        }
-
         $scope.isSubscribed = function() {
           return $rootScope.currentUser.subscriptions.indexOf(show._id) !== -1;
         };
+
+        console.log($scope.isSubscribed());
+
 
         $scope.subscribe = function() {
           Subscription.subscribe(show, $rootScope.currentUser)
