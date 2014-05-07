@@ -36,6 +36,7 @@ var showSchema = new mongoose.Schema({
   poster: String,
   episodes: [
     {
+      season: Number,
       episodeNumber: Number,
       episodeName: String,
       firstAired: Date,
@@ -187,9 +188,17 @@ app.post('/api/shows', function(req, res) {
             poster: series.poster,
             episodes: []
           });
+
+          var season = 1;
           for (var i = 0; i < episodes.length; i++) {
             var episode = episodes[i];
+            if (episodes[i-1] &&
+              episode.episodenumber < episodes[i-1].episodenumber) {
+              season++;
+              console.log('incrementing')
+            }
             show.episodes.push({
+              season: season,
               episodeNumber: episode.episodenumber,
               episodeName: episode.episodename,
               firstAired: episode.firstaired,
