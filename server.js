@@ -15,7 +15,7 @@ var async = require('async');
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
-  subscriptions: Array
+  subscriptions: [String]
 });
 
 var showSchema = new mongoose.Schema({
@@ -145,22 +145,26 @@ app.get('/api/shows/:id', function(req, res) {
   });
 });
 
-app.post('/api/subscribe', function() {
+app.post('/api/subscribe', function(req, res) {
   var showId = req.body.showId;
   var userId = req.body.userId;
-
   User.findById(userId, function(err, user) {
     user.subscriptions.push(showId);
+    user.save(function(err) {
+      res.send(200);
+    })
   });
 });
 
-app.post('/api/unsubscribe', function() {
+app.post('/api/unsubscribe', function(req, res) {
   var showId = req.body.showId;
   var userId = req.body.userId;
-
   User.findById(userId, function(err, user) {
     var index = user.subscriptions.indexOf(showId);
     user.subscriptions.splice(index, 1);
+    user.save(function(err) {
+      res.send(200);
+    });
   });
 });
 
