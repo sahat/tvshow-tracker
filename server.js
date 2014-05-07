@@ -15,7 +15,7 @@ var async = require('async');
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
-  subscriptions: [String]
+  subscriptions: [Number]
 });
 
 var showSchema = new mongoose.Schema({
