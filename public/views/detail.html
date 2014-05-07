@@ -5,12 +5,12 @@
         <div class="pull-left">
           <img class="media-object img-rounded" ng-src="{{show.poster}}">
           <div class="text-center" ng-show="currentUser">
-            <div ng-show="!currentUser.isSubscribed">
+            <div ng-show="isSubscribed()">
               <button ng-click="subscribe()" class="btn btn-block btn-success">
                 <span class="glyphicon glyphicon-plus"></span> Subscribe
               </button>
             </div>
-            <div ng-show="currentUser.isSubscribed">
+            <div ng-show="isSubscribed">
               <button ng-click="unsubscribe()" class="btn btn-block btn-danger">
                 <span class="glyphicon glyphicon-minus"></span> Unsubscribe
               </button>

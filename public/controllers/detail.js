@@ -12,17 +12,22 @@ angular.module('MyApp')
           $rootScope.currentUser.isSubscribed = false;
         }
 
+        $scope.isSubscribed = function() {
+          return $rootScope.currentUser.subscriptions.indexOf(show._id) !== -1;
+        };
+
         $scope.subscribe = function() {
           Subscription.subscribe(show, $rootScope.currentUser)
             .success(function() {
-              $rootScope.currentUser.isSubscribed = true;
+              $rootScope.currentUser.subscriptions.push(show._id);
             });
         };
 
         $scope.unsubscribe = function() {
           Subscription.unsubscribe(show, $rootScope.currentUser)
             .success(function() {
-              $rootScope.currentUser.isSubscribed = false;
+              var index = $rootScope.currentUser.subscriptions.indexOf(show._id);
+              $rootScope.currentUser.subscriptions.splice(index, 1);
             });
         };
 

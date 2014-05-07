@@ -7,7 +7,6 @@ angular.module('MyApp')
           });
         },
         getShow: function(id, callback) {
-          console.log(id);
           $http.get('/api/shows/' + id).success(function(show) {
             callback(show);
           });
