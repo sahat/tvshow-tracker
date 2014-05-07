@@ -14,7 +14,8 @@ var async = require('async');
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
-  password: String
+  password: String,
+  subscriptions: Array
 });
 
 var showSchema = new mongoose.Schema({
@@ -143,6 +144,26 @@ app.get('/api/shows/:id', function(req, res) {
     res.send(show);
   });
 });
+
+app.post('/api/subscribe', function() {
+  var showId = req.body.showId;
+  var userId = req.body.userId;
+
+  User.findById(userId, function(err, user) {
+    user.subscriptions.push(showId);
+  });
+});
+
+app.post('/api/unsubscribe', function() {
+  var showId = req.body.showId;
+  var userId = req.body.userId;
+
+  User.findById(userId, function(err, user) {
+    var index = user.subscriptions.indexOf(showId);
+    user.subscriptions.splice(index, 1);
+  });
+});
+
 
 // Add new show
 // @param show
