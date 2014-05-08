@@ -5,7 +5,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -28,7 +28,6 @@ var showSchema = new mongoose.Schema({
   _id: Number,
   imdbId: String,
   name: String,
-  actors: Array,
   airsDayOfWeek: String,
   airsTime: String,
   firstAired: Date,
@@ -39,24 +38,22 @@ var showSchema = new mongoose.Schema({
   ratingCount: Number,
   status: String,
   poster: String,
-  subscribers: [
-    { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-  ],
-  episodes: [
-    {
-      season: Number,
-      episodeNumber: Number,
-      episodeName: String,
-      firstAired: Date,
-      overview: String
-    }
-  ]
+  subscribers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  episodes: [{
+    season: Number,
+    episodeNumber: Number,
+    episodeName: String,
+    firstAired: Date,
+    overview: String
+  }]
 });
 
 userSchema.pre('save', function(next) {
   var user = this;
+
   if (!user.isModified('password')) return next();
-  bcrypt.genSalt(5, function(err, salt) {
+
+  bcrypt.genSalt(10, function(err, salt) {
     if (err) return next(err);
     bcrypt.hash(user.password, salt, function(err, hash) {
       if (err) return next(err);
@@ -202,7 +199,6 @@ app.post('/api/shows', function(req, res) {
             _id: series.id,
             imdbId: series.imdb_id,
             name: series.seriesname,
-            actors: series.actors.split('|').filter(Boolean),
             airsDayOfWeek: series.airs_dayofweek,
             airsTime: series.airs_time,
             firstAired: series.firstaired,
@@ -249,7 +245,8 @@ app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-var job = new CronJob('*/5 * * * * *', function() {
+// Run every 15th minute, e.g. 4:15, 4:30, 4:45, 5:00
+var job = new CronJob('* */15 * * * *', function() {
   Show
     .find()
     .populate('subscribers')
