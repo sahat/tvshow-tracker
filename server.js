@@ -19,11 +19,6 @@ var moment = require('moment');
 var nodemailer = require('nodemailer');
 var _ = require('lodash');
 
-var userSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
-  password: String
-});
-
 var showSchema = new mongoose.Schema({
   _id: Number,
   imdbId: String,
@@ -31,7 +26,7 @@ var showSchema = new mongoose.Schema({
   airsDayOfWeek: String,
   airsTime: String,
   firstAired: Date,
-  genre: Array,
+  genre: [String],
   network: String,
   overview: String,
   rating: Number,
@@ -46,6 +41,11 @@ var showSchema = new mongoose.Schema({
     firstAired: Date,
     overview: String
   }]
+});
+
+var userSchema = new mongoose.Schema({
+  email: { type: String, unique: true },
+  password: String
 });
 
 userSchema.pre('save', function(next) {
@@ -95,10 +95,10 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
   });
 }));
 
-var ensureAuthenticated = function(req, res, next) {
+function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) next();
   else res.send(401);
-};
+}
 
 mongoose.connect('localhost');
 
