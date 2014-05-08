@@ -1,21 +1,23 @@
-_ = require('lodash');
-var CronJob = require('cron').CronJob;
-var express = require('express');
 var path = require('path');
-var logger = require('morgan');
+var express = require('express');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var bodyParser = require('body-parser');
+var logger = require('morgan');
+
+var bcrypt = require('bcrypt');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var bcrypt = require('bcrypt');
-var session = require('express-session');
-var xml2js = require('xml2js');
-var request = require('request');
+
 var async = require('async');
+var request = require('request');
+var xml2js = require('xml2js');
+
+var CronJob = require('cron').CronJob;
 var moment = require('moment');
 var nodemailer = require('nodemailer');
-
+var _ = require('lodash');
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
