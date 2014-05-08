@@ -24,10 +24,13 @@
           <h2 class="media-heading">{{show.name}} <a href="http://www.imdb.com/title/{{show.imdbId}}">
             <img src="/img/imdb.jpg" width="29"/>
           </a></h2>
-          <h4>
+          <h4 ng-show="show.status === 'Continuing'">
             <span class="glyphicon glyphicon-calendar text-danger"></span>
             {{show.airsDayOfWeek}} <em>{{show.airsTime}}</em> on
             {{show.network}}
+          </h4>
+          <h4 ng-show="show.status === 'Ended'">
+            Status: <span class="text-danger">Ended</span>
           </h4>
           <p>{{show.overview}}</p>
         </div>
