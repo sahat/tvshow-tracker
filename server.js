@@ -1,3 +1,4 @@
+var CronJob = require('cron').CronJob;
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -11,11 +12,11 @@ var session = require('express-session');
 var xml2js = require('xml2js');
 var request = require('request');
 var async = require('async');
+var moment = require('moment');
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
-  password: String,
-  subscriptions: [Number]
+  password: String
 });
 
 var showSchema = new mongoose.Schema({
@@ -35,15 +36,14 @@ var showSchema = new mongoose.Schema({
   runtime: Number,
   status: String,
   poster: String,
-  episodes: [
-    {
+  subscribers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  episodes: [{
       season: Number,
       episodeNumber: Number,
       episodeName: String,
       firstAired: Date,
       overview: String
-    }
-  ]
+  }]
 });
 
 userSchema.pre('save', function(next) {
@@ -140,29 +140,28 @@ app.get('/api/shows', function(req, res) {
 });
 
 app.get('/api/shows/:id', function(req, res) {
-  Show.findById(req.params.id, function(err, show) {
-    res.send(show);
-  });
+  Show
+    .findById(req.params.id)
+    .populate('subscribers', '-password')
+    .exec(function(err, show) {
+      res.send(show);
+    });
 });
 
 app.post('/api/subscribe', function(req, res) {
-  var showId = req.body.showId;
-  var userId = req.body.userId;
-  User.findById(userId, function(err, user) {
-    user.subscriptions.push(showId);
-    user.save(function(err) {
+  Show.findById(req.body.showId, function(err, show) {
+    show.subscribers.push(req.body.userId);
+    show.save(function(err) {
       res.send(200);
-    })
+    });
   });
 });
 
 app.post('/api/unsubscribe', function(req, res) {
-  var showId = req.body.showId;
-  var userId = req.body.userId;
-  User.findById(userId, function(err, user) {
-    var index = user.subscriptions.indexOf(showId);
-    user.subscriptions.splice(index, 1);
-    user.save(function(err) {
+  Show.findById(req.body.showId, function(err, show) {
+    var index = show.subscribers.indexOf(req.body.userId);
+    show.subscribers.splice(index, 1);
+    show.save(function(err) {
       res.send(200);
     });
   });
@@ -183,7 +182,7 @@ app.post('/api/shows', function(req, res) {
     function(callback) {
       request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function(error, response, body) {
         parser.parseString(body, function(err, result) {
-          var seriesId = result.data.series.seriesid;
+          var seriesId = result.data.series.seriesid || result.data.series[0].seriesid;
           callback(err, seriesId);
         });
       });
@@ -252,3 +251,30 @@ var ensureAuthenticated = function(req, res, next) {
     res.send(401);
   }
 };
+
+//var job = new CronJob('* * * * * *', function() {
+//    // Runs every weekday (Monday through Friday)
+//    // at 11:30:00 AM. It does not run on Saturday
+//    // or Sunday.
+//    Show.find(function(err, shows) {
+//      for (var i = 0; i < shows.length; i++) {
+//        var show = shows[i];
+//        for (var j = 0; j < show.episodes.length; j++) {
+//          var nextEpisode;
+//          var today = new Date();
+//          var episodeAirDate = new Date(show.episodes[j].firstAired);
+//
+//          if (episodeAirDate > today) {
+//            nextEpisode = show.episodes[j];
+//            console.log(show.name, nextEpisode.episodeName, nextEpisode.firstAired)
+//            break;
+//          }
+//        }
+//      }
+//    });
+//  }, function() {
+//
+//    // This function is executed when the job stops
+//  },
+//  true /* Start the job right now */
+//);
