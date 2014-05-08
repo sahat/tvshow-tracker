@@ -8,24 +8,21 @@ angular.module('MyApp')
         $scope.show = show;
 
         $scope.isSubscribed = function() {
-          return $rootScope.currentUser.subscriptions.indexOf(show._id) !== -1;
+          return $scope.show.subscribers.indexOf($rootScope.currentUser._id) !== -1;
         };
-
-        console.log($scope.isSubscribed());
-
 
         $scope.subscribe = function() {
           Subscription.subscribe(show, $rootScope.currentUser)
             .success(function() {
-              $rootScope.currentUser.subscriptions.push(show._id);
+              $scope.show.subscribers.push($rootScope.currentUser._id);
             });
         };
 
         $scope.unsubscribe = function() {
           Subscription.unsubscribe(show, $rootScope.currentUser)
             .success(function() {
-              var index = $rootScope.currentUser.subscriptions.indexOf(show._id);
-              $rootScope.currentUser.subscriptions.splice(index, 1);
+              var index = $scope.show.subscribers.indexOf($rootScope.currentUser._id);
+              $scope.show.subscribers.splice(index, 1);
             });
         };
 
@@ -38,6 +35,7 @@ angular.module('MyApp')
             break;
           }
         }
+
         ngProgress.complete();
       });
     }]);
