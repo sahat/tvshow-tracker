@@ -6,11 +6,14 @@
     "bcrypt": "^0.7.8",
     "body-parser": "^1.0.0",
     "cookie-parser": "^1.0.1",
+    "cron": "^1.0.4",
     "debug": "^0.7.4",
     "express": "^4.0.0",
     "express-session": "^1.0.4",
+    "moment": "^2.6.0",
     "mongoose": "^3.8.8",
     "morgan": "^1.0.0",
+    "nodemailer": "^0.6.3",
     "passport": "^0.2.0",
     "passport-facebook": "^1.0.3",
     "passport-local": "^1.0.0",
@@ -22,4 +25,5 @@
     "gulp-plumber": "^0.6.1",
     "gulp-sass": "^0.7.1"
   }
+
 }

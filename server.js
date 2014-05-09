@@ -1,3 +1,4 @@
+_ = require('lodash');
 var CronJob = require('cron').CronJob;
 var express = require('express');
 var path = require('path');
@@ -13,6 +14,8 @@ var xml2js = require('xml2js');
 var request = require('request');
 var async = require('async');
 var moment = require('moment');
+var nodemailer = require('nodemailer');
+
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
@@ -27,23 +30,25 @@ var showSchema = new mongoose.Schema({
   airsDayOfWeek: String,
   airsTime: String,
   firstAired: Date,
-  contentRating: String,
   genre: Array,
   network: String,
   overview: String,
   rating: Number,
   ratingCount: Number,
-  runtime: Number,
   status: String,
   poster: String,
-  subscribers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  episodes: [{
+  subscribers: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  ],
+  episodes: [
+    {
       season: Number,
       episodeNumber: Number,
       episodeName: String,
       firstAired: Date,
       overview: String
-  }]
+    }
+  ]
 });
 
 userSchema.pre('save', function(next) {
@@ -90,6 +95,11 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
     });
   });
 }));
+
+var ensureAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated()) next();
+  else res.send(401);
+};
 
 mongoose.connect('localhost');
 
@@ -140,12 +150,9 @@ app.get('/api/shows', function(req, res) {
 });
 
 app.get('/api/shows/:id', function(req, res) {
-  Show
-    .findById(req.params.id)
-    .populate('subscribers', '-password')
-    .exec(function(err, show) {
-      res.send(show);
-    });
+  Show.findById(req.params.id, function(err, show) {
+    res.send(show);
+  });
 });
 
 app.post('/api/subscribe', function(req, res) {
@@ -167,9 +174,6 @@ app.post('/api/unsubscribe', function(req, res) {
   });
 });
 
-
-// Add new show
-// @param show
 app.post('/api/shows', function(req, res) {
   var apiKey = '9EF1D1E7D28FDA0B';
   var seriesName = (req.body.showName).toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g, '');
@@ -239,42 +243,46 @@ app.post('/api/shows', function(req, res) {
   });
 });
 
-
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-var ensureAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    res.send(401);
-  }
-};
-
-//var job = new CronJob('* * * * * *', function() {
-//    // Runs every weekday (Monday through Friday)
-//    // at 11:30:00 AM. It does not run on Saturday
-//    // or Sunday.
-//    Show.find(function(err, shows) {
-//      for (var i = 0; i < shows.length; i++) {
-//        var show = shows[i];
-//        for (var j = 0; j < show.episodes.length; j++) {
-//          var nextEpisode;
-//          var today = new Date();
-//          var episodeAirDate = new Date(show.episodes[j].firstAired);
-//
-//          if (episodeAirDate > today) {
-//            nextEpisode = show.episodes[j];
-//            console.log(show.name, nextEpisode.episodeName, nextEpisode.firstAired)
-//            break;
-//          }
-//        }
-//      }
-//    });
-//  }, function() {
-//
-//    // This function is executed when the job stops
-//  },
-//  true /* Start the job right now */
-//);
+var job = new CronJob('*/5 * * * * *', function() {
+  Show
+    .find()
+    .populate('subscribers')
+    .exec(function(err, shows) {
+      _.each(shows, function(show) {
+        var emails = [];
+        _.each(show.subscribers, function(user) {
+          emails.push(user.email);
+        });
+        _.each(show.episodes, function(episode) {
+          if (moment(episode.firstAired) > moment()) {
+            var now = moment();
+            var future = moment(episode.firstAired);
+            var difference = moment(future).diff(moment(now));
+            var twoHours = 7200000;
+            if (difference <= twoHours) {
+              var smtpTransport = nodemailer.createTransport('SMTP', {
+                service: 'SendGrid',
+                auth: { user: 'hslogin', pass: 'hspassword00' }
+              });
+              var mailOptions = {
+                from: 'Fred Foo ✔ <foo@blurdybloop.com>',
+                to: emails.join(','),
+                subject: 'Your show is starting soon!',
+                text: show.name + ' starts in less than 2 hours on ' + show.network + '.\n\n' +
+                  'Episode ' + episode.episodeNumber + '\n\n' + episode.overview
+              };
+              smtpTransport.sendMail(mailOptions, function(error, response) {
+                console.log("Message sent: " + response.message);
+                smtpTransport.close(); // shut down the connection pool, no more messages
+              });
+            }
+            return false;
+          }
+        });
+      });
+    });
+}, null, true);
