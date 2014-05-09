@@ -123,6 +123,23 @@ em {
   }
 }
 
+.search {
+  color: #4f4f4f;
+  font-weight: 300;
+  font-size: 1.5em;
+  padding: 7px;
+  margin-top: -10px;
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  -webkit-appearance: none;
+
+  &:focus {
+    -webkit-transition: all .4s ease;
+    transition: all .4s ease;
+  }
+}
+
 .panel {
   border-color: #cfd9D7;
   border-radius: 2px;
