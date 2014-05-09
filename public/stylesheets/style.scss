@@ -48,6 +48,7 @@ $alert-info-bg: #e5f7fd;
 $alert-info-border: #bcf8f3;
 $alert-info-text: #25484e;
 
+@import "nprogress";
 @import "bootstrap/bootstrap";
 
 .alphabet {
@@ -297,31 +298,7 @@ em {
   background-color: transparent !important;
 }
 
-#ngProgress {
-  margin: 0;
-  padding: 0;
-  z-index: 99998;
-  background-color: green;
-  color: green;
-  box-shadow: 0 0 10px 0; /* Inherits the font color */
-  height: 2px;
-  opacity: 0;
 
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out;
-}
-
-#ngProgress-container {
-  position: fixed;
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 99999;
-}
 
 .show-list {
 

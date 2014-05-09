@@ -1,5 +1,100 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
 @import url(http://fonts.googleapis.com/css?family=Nunito:700,400,300);
+/* Make clicks pass-through */
+#nprogress {
+  pointer-events: none;
+  -webkit-pointer-events: none; }
+
+#nprogress .bar {
+  background: #29d;
+  position: fixed;
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px; }
+
+/* Fancy blur effect */
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  opacity: 1;
+  -webkit-transform: rotate(3deg) translate(0px, -4px);
+  -moz-transform: rotate(3deg) translate(0px, -4px);
+  -ms-transform: rotate(3deg) translate(0px, -4px);
+  -o-transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px); }
+
+/* Remove these to get rid of the spinner */
+#nprogress .spinner {
+  display: block;
+  position: fixed;
+  z-index: 1001;
+  top: 15px;
+  right: 15px; }
+
+#nprogress .spinner-icon {
+  width: 14px;
+  height: 14px;
+  border: solid 2px transparent;
+  border-top-color: #29d;
+  border-left-color: #29d;
+  border-radius: 10px;
+  -webkit-animation: nprogress-spinner 400ms linear infinite;
+  -moz-animation: nprogress-spinner 400ms linear infinite;
+  -ms-animation: nprogress-spinner 400ms linear infinite;
+  -o-animation: nprogress-spinner 400ms linear infinite;
+  animation: nprogress-spinner 400ms linear infinite; }
+
+@-webkit-keyframes nprogress-spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@-moz-keyframes nprogress-spinner {
+  0% {
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@-o-keyframes nprogress-spinner {
+  0% {
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@-ms-keyframes nprogress-spinner {
+  0% {
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@keyframes nprogress-spinner {
+  0% {
+    transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -4550,30 +4645,6 @@ em {
 .navbar .navbar-nav .open .dropdown-menu > .disabled > a, .navbar .navbar-nav .open .dropdown-menu > .disabled > a:hover, .navbar .navbar-nav .open .dropdown-menu > .disabled > a:focus {
   color: #999 !important;
   background-color: transparent !important; }
-
-#ngProgress {
-  margin: 0;
-  padding: 0;
-  z-index: 99998;
-  background-color: green;
-  color: green;
-  box-shadow: 0 0 10px 0;
-  /* Inherits the font color */
-  height: 2px;
-  opacity: 0;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out; }
-
-#ngProgress-container {
-  position: fixed;
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 99999; }
 
 .show-list [class^='col'] {
   margin-bottom: 20px; }

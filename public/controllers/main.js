@@ -1,6 +1,6 @@
 angular.module('MyApp')
-  .controller('MainCtrl', ['$scope', 'ngProgress', 'Show', function($scope, ngProgress, Show) {
-    ngProgress.start();
+  .controller('MainCtrl', ['$scope', 'Show', function($scope, Show) {
+    NProgress.start();
 
     $scope.alphabet = Show.alphabet;
     $scope.genres = Show.genres;
@@ -8,24 +8,24 @@ angular.module('MyApp')
 
     Show.getShows(function(shows) {
       $scope.shows = shows;
-      ngProgress.complete();
+      NProgress.done();
     });
 
     $scope.filterByGenre = function(genre) {
-      ngProgress.start();
+      NProgress.start();
       Show.getShowsByGenre(genre).success(function(shows) {
         $scope.shows = shows;
         $scope.headingTitle = genre;
-        ngProgress.complete();
+        NProgress.done();
       });
     };
 
     $scope.filterByAlphabet = function(char) {
-      ngProgress.start();
+      NProgress.start();
       Show.getShowsByAlphabet(char).success(function(shows) {
         $scope.shows = shows;
         $scope.headingTitle = char;
-        ngProgress.complete();
+        NProgress.done();
       });
     };
   }]);

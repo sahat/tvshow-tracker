@@ -1,4 +1,4 @@
-angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'ngAnimate', 'ngProgress', 'mgcrea.ngStrap'])
+angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'mgcrea.ngStrap'])
   .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
     $routeProvider
       .when('/', {

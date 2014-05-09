@@ -1,31 +1,31 @@
 angular.module('MyApp')
-  .controller('DetailCtrl', ['$scope', '$rootScope', '$routeParams', 'ngProgress', 'Show', 'Subscription',
-    function($scope, $rootScope, $routeParams, ngProgress, Show, Subscription) {
+  .controller('DetailCtrl', ['$scope', '$rootScope', '$routeParams', 'Show', 'Subscription',
+    function($scope, $rootScope, $routeParams, Show, Subscription) {
 
-      ngProgress.start();
+      NProgress.start();
 
       Show.getShow($routeParams.id, function(show) {
         $scope.show = show;
+        NProgress.done();
 
         $scope.isSubscribed = function() {
           return $scope.show.subscribers.indexOf($rootScope.currentUser._id) !== -1;
         };
 
         $scope.subscribe = function() {
-          Subscription.subscribe(show, $rootScope.currentUser)
-            .success(function() {
-              $scope.show.subscribers.push($rootScope.currentUser._id);
-            });
+          Subscription.subscribe(show, $rootScope.currentUser).success(function() {
+            $scope.show.subscribers.push($rootScope.currentUser._id);
+          });
         };
 
         $scope.unsubscribe = function() {
-          Subscription.unsubscribe(show, $rootScope.currentUser)
-            .success(function() {
-              var index = $scope.show.subscribers.indexOf($rootScope.currentUser._id);
-              $scope.show.subscribers.splice(index, 1);
-            });
+          Subscription.unsubscribe(show, $rootScope.currentUser).success(function() {
+            var index = $scope.show.subscribers.indexOf($rootScope.currentUser._id);
+            $scope.show.subscribers.splice(index, 1);
+          });
         };
 
+        // mapreduce?
         $scope.nextEpisode = null;
         for (var i = 0; i < show.episodes.length; i++) {
           var today = new Date();
@@ -36,6 +36,5 @@ angular.module('MyApp')
           }
         }
 
-        ngProgress.complete();
       });
     }]);
