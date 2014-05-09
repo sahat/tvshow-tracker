@@ -61,10 +61,13 @@
 
 <div class="container">
   <div class="panel panel-default">
-    <div class="panel-heading">Top Shows</div>
+    <div class="panel-heading">
+      Top Shows
+      <input class="pull-right" type="text" ng-model="query">
+    </div>
     <div class="panel-body">
       <div class="row show-list">
-        <div class="col-xs-4 col-md-3" ng-repeat="show in shows">
+        <div class="col-xs-4 col-md-3" ng-repeat="show in shows | filter:query">
           <a class="show-name" href="#/shows/{{show._id}}">
             <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
           </a>
