@@ -2,12 +2,12 @@
   <div class="container">
     <ul class="alphabet">
       <li ng-repeat="char in alphabet">
-        {{char}}
+        <span ng-click="filterByAlphabet(char)">{{char}}</span>
       </li>
     </ul>
     <ul class="genres">
       <li ng-repeat="genre in genres">
-        {{genre}}
+        <span ng-click="filterByGenre(genre)">{{genre}}</span>
       </li>
     </ul>
   </div>
