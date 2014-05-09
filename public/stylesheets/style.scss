@@ -2,6 +2,7 @@
 @import url(http://fonts.googleapis.com/css?family=Nunito:700,400,300);
 
 $body-bg: #e4e7ec;
+
 $font-family-base: 'Open Sans', sans-serif;
 $headings-color: #111;
 $headings-font-family: Avenir, sans-serif;
@@ -48,6 +49,36 @@ $alert-info-border: #bcf8f3;
 $alert-info-text: #25484e;
 
 @import "bootstrap/bootstrap";
+
+.alphabet {
+  cursor: pointer;
+  font-size: 22px;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+}
+
+.genres {
+  cursor: pointer;
+
+  li {
+    margin-right: 5px;
+    @extend .label;
+    @extend .label-default;
+
+    &:active {
+      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.250);
+    }
+  }
+}
 
 .text-danger {
   color: $brand-danger;
@@ -143,8 +174,8 @@ em {
 .panel {
   border-color: #cfd9D7;
   border-radius: 2px;
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
-  -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .panel-default > .panel-heading {
@@ -169,14 +200,14 @@ em {
 
 .label-default {
   background-color: #e4e7ec;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
   color: #90939a;
 }
 
 .label-default:hover {
   background-color: #90939a;
   color: #f4f6f8;
-  text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
 .navbar {
@@ -290,19 +321,6 @@ em {
   left: 0;
   right: 0;
   z-index: 99999;
-}
-
-.alphabetical-list {
-  font-size: 22px;
-  text-align: center;
-
-  a {
-    color: #333;
-  }
-
-  .active {
-    font-weight: bold;
-  }
 }
 
 .show-list {

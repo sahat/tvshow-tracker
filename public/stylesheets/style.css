@@ -181,7 +181,7 @@ td, th {
     background-color: #fff !important; }
   .btn > .caret, .dropup > .btn > .caret {
     border-top-color: #000 !important; }
-  .label {
+  .label, .genres li {
     border: 1px solid #000; }
   .table {
     border-collapse: collapse !important; }
@@ -3185,7 +3185,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     background-color: #fff;
     cursor: not-allowed; }
 
-.label {
+.label, .genres li {
   display: inline;
   padding: 0.2em 0.6em 0.3em;
   font-size: 75%;
@@ -3196,19 +3196,19 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25em; }
-  .label[href]:hover, .label[href]:focus {
+  .label[href]:hover, .genres li[href]:hover, .label[href]:focus, .genres li[href]:focus {
     color: #fff;
     text-decoration: none;
     cursor: pointer; }
-  .label:empty {
+  .label:empty, .genres li:empty {
     display: none; }
-  .btn .label {
+  .btn .label, .btn .genres li, .genres .btn li {
     position: relative;
     top: -1px; }
 
-.label-default {
+.label-default, .genres li {
   background-color: #999999; }
-  .label-default[href]:hover, .label-default[href]:focus {
+  .label-default[href]:hover, .genres li[href]:hover, .label-default[href]:focus, .genres li[href]:focus {
     background-color: #808080; }
 
 .label-primary {
@@ -4361,6 +4361,24 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
+.alphabet {
+  cursor: pointer;
+  font-size: 22px;
+  text-align: center; }
+  .alphabet li {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px; }
+    .alphabet li:hover {
+      color: #00b1e1; }
+
+.genres {
+  cursor: pointer; }
+  .genres li {
+    margin-right: 5px; }
+    .genres li:active {
+      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.25); }
+
 .text-danger {
   color: #ed5466; }
 
@@ -4448,7 +4466,7 @@ em {
   text-transform: uppercase;
   background-color: #f6f6f6; }
 
-.label {
+.label, .genres li {
   display: inline-block;
   margin-bottom: 5px;
   padding: 4px 8px;
@@ -4458,12 +4476,12 @@ em {
   transition: 0.1s all;
   -webkit-font-smoothing: antialiased; }
 
-.label-default {
+.label-default, .genres li {
   background-color: #e4e7ec;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
   color: #90939a; }
 
-.label-default:hover {
+.label-default:hover, .genres li:hover {
   background-color: #90939a;
   color: #f4f6f8;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2); }
@@ -4556,14 +4574,6 @@ em {
   left: 0;
   right: 0;
   z-index: 99999; }
-
-.alphabetical-list {
-  font-size: 22px;
-  text-align: center; }
-  .alphabetical-list a {
-    color: #333; }
-  .alphabetical-list .active {
-    font-weight: bold; }
 
 .show-list [class^='col'] {
   margin-bottom: 20px; }
