@@ -4,6 +4,7 @@ angular.module('MyApp')
 
     $scope.alphabet = Show.alphabet;
     $scope.genres = Show.genres;
+    $scope.headingTitle = 'Top 12 Shows';
 
     Show.getShows(function(shows) {
       $scope.shows = shows;
@@ -14,6 +15,7 @@ angular.module('MyApp')
       ngProgress.start();
       Show.getShowsByGenre(genre).success(function(shows) {
         $scope.shows = shows;
+        $scope.headingTitle = genre;
         ngProgress.complete();
       });
     };
@@ -22,6 +24,7 @@ angular.module('MyApp')
       ngProgress.start();
       Show.getShowsByAlphabet(char).success(function(shows) {
         $scope.shows = shows;
+        $scope.headingTitle = char;
         ngProgress.complete();
       });
     };
