@@ -142,10 +142,22 @@ app.get('/api/status', function(req, res) {
 });
 
 
+
 app.get('/api/shows', function(req, res) {
-  Show.find(function(err, shows) {
+  var query = Show.find();
+
+  if (req.query.genre) {
+    query.where({ genre: req.query.genre });
+  } else if (req.query.alphabet) {
+    query.where({ name: new RegExp('^' + '[' + req.query.alphabet + ']', 'i') });
+  } else {
+    query.limit(12);
+  }
+
+  query.sort('-rating').exec(function(err, shows) {
     res.send(shows);
   });
+
 });
 
 app.get('/api/shows/:id', function(req, res) {
