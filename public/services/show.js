@@ -10,6 +10,12 @@ angular.module('MyApp')
           $http.get('/api/shows/' + id).success(function(show) {
             callback(show);
           });
+        },
+        getShowsByGenre: function(genre) {
+          return $http.get('/api/shows?genre=' + genre);
+        },
+        getShowsByAlphabet: function(character) {
+          return $http.get('/api/shows?alphabet=' + character);
         }
       };
     }]);
