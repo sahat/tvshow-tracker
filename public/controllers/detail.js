@@ -1,12 +1,8 @@
 angular.module('MyApp')
   .controller('DetailCtrl', ['$scope', '$rootScope', '$routeParams', 'Show', 'Subscription',
     function($scope, $rootScope, $routeParams, Show, Subscription) {
-
-      NProgress.start();
-
       Show.getShow($routeParams.id, function(show) {
         $scope.show = show;
-        NProgress.done();
 
         $scope.isSubscribed = function() {
           return $scope.show.subscribers.indexOf($rootScope.currentUser._id) !== -1;

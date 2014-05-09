@@ -1,4 +1,4 @@
-angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'mgcrea.ngStrap'])
+angular.module('MyApp', ['ngCookies', 'ngAnimate', 'ngSanitize', 'ngResource', 'ngRoute', 'mgcrea.ngStrap', 'chieffancypants.loadingBar'])
   .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
     $routeProvider
       .when('/', {
@@ -45,7 +45,6 @@ angular.module('MyApp', ['ngCookies', 'ngSanitize', 'ngResource', 'ngRoute', 'mg
     }]);
   }])
   .run(function($rootScope, $location, Auth) {
-
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$routeChangeStart', function(event, next) {
 

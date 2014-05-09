@@ -15,18 +15,17 @@
       <span class="glyphicon glyphicon-film"></span>
       Show<strong>Trackr</strong></a>
   </div>
-
-    <ul class="nav navbar-nav">
-      <li data-match-route="/$"><a href="#/">Home</a></li>
-      <li data-match-route="/add"><a href="#/add">Add</a></li>
-    </ul>
-    <ul class="nav navbar-nav pull-right" ng-hide="currentUser">
-      <li data-match-route="/login"><a href="#/login">Login</a></li>
-      <li data-match-route="/signup"><a href="#/signup">Sign up</a></li>
-    </ul>
-    <ul class="nav navbar-nav pull-right" ng-show="currentUser">
-      <li><a ng-click="logout()">Logout</a></li>
-    </ul>
+  <ul class="nav navbar-nav">
+    <li data-match-route="/$"><a href="#/">Home</a></li>
+    <li data-match-route="/add"><a href="#/add">Add</a></li>
+  </ul>
+  <ul class="nav navbar-nav pull-right" ng-if="!currentUser">
+    <li data-match-route="/login"><a href="#/login">Login</a></li>
+    <li data-match-route="/signup"><a href="#/signup">Sign up</a></li>
+  </ul>
+  <ul class="nav navbar-nav pull-right" ng-if="currentUser">
+    <li><a ng-click="logout()">Logout</a></li>
+  </ul>
 </div>
 
 <div ng-view></div>
@@ -39,7 +38,7 @@
 <script src="vendor/angular-cookies.js"></script>
 <script src="vendor/angular-resource.js"></script>
 <script src="vendor/angular-sanitize.js"></script>
-<script src="vendor/nprogress.js"></script>
+<script src="vendor/loading-bar.js"></script>
 <script src="vendor/moment.min.js"></script>
 
 <script src="app.js"></script>
