@@ -1,61 +1,16 @@
 <div class="jumbotron">
   <div class="container">
-    <div class="alphabetical-list">
-      <a href="#">0-9</a>
-      <a href="#">A</a>
-      <a href="#">B</a>
-      <a href="#">C</a>
-      <a href="#">D</a>
-      <a href="#">E</a>
-      <a href="#">F</a>
-      <a href="#">G</a>
-      <a href="#">H</a>
-      <a href="#">I</a>
-      <a href="#">J</a>
-      <a href="#">K</a>
-      <a href="#">L</a>
-      <a href="#">M</a>
-      <a href="#">N</a>
-      <a href="#">O</a>
-      <a href="#">P</a>
-      <a href="#">Q</a>
-      <a href="#">R</a>
-      <a href="#">S</a>
-      <a href="#">T</a>
-      <a href="#">U</a>
-      <a href="#">V</a>
-      <a href="#">W</a>
-      <a href="#">X</a>
-      <a href="#">Y</a>
-      <a href="#">Z</a>
-    </div>
+    <ul class="list-unstyled list-inline">
+      <li class="label label-default" ng-repeat="char in alphabet">
+        {{char}}
+      </li>
+    </ul>
     <br/>
-    <div>
-      <a class="label label-default" href="#">Action</a>
-      <a class="label label-default" href="#">Adventure</a>
-      <a class="label label-default" href="#">Animation</a>
-      <a class="label label-default" href="#">Children</a>
-      <a class="label label-default" href="#">Comedy</a>
-      <a class="label label-default" href="#">Crime</a>
-      <a class="label label-default" href="#">Documentary</a>
-      <a class="label label-default" href="#">Drama</a>
-      <a class="label label-default" href="#">Family</a>
-      <a class="label label-default" href="#">Fantasy</a>
-      <a class="label label-default" href="#">Food</a>
-      <a class="label label-default" href="#">Home and Garden</a>
-      <a class="label label-default" href="#">Horror</a>
-      <a class="label label-default" href="#">Mini-Series</a>
-      <a class="label label-default" href="#">Mystery</a>
-      <a class="label label-default" href="#">News</a>
-      <a class="label label-default" href="#">Reality</a>
-      <a class="label label-default" href="#">Romance</a>
-      <a class="label label-default" href="#">Sci-Fi</a>
-      <a class="label label-default" href="#">Sport</a>
-      <a class="label label-default" href="#">Suspense</a>
-      <a class="label label-default" href="#">Talk Show</a>
-      <a class="label label-default" href="#">Thriller</a>
-      <a class="label label-default" href="#">Travel</a>
-    </div>
+    <ul class="list-unstyled list-inline">
+      <li class="label label-default" ng-repeat="genre in genres">
+        {{genre}}
+      </li>
+    </ul>
   </div>
 </div>
 

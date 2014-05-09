@@ -2,6 +2,9 @@ angular.module('MyApp')
   .controller('MainCtrl', ['$scope', 'ngProgress', 'Show', function($scope, ngProgress, Show) {
     ngProgress.start();
 
+    $scope.alphabet = Show.alphabet;
+    $scope.genres = Show.genres;
+
     Show.getShows(function(shows) {
       $scope.shows = shows;
       ngProgress.complete();
