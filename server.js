@@ -3,6 +3,7 @@ var express = require('express');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 var logger = require('morgan');
 
 var bcrypt = require('bcryptjs');
@@ -105,15 +106,16 @@ app.set('port', process.env.PORT || 3000);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+app.use(methodOverride());
 app.use(cookieParser());
 app.use(session({ secret: 'keyboard cat' }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
   if (req.user) res.cookie('user', JSON.stringify(req.user));
   next();
 });
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/api/login', passport.authenticate('local'), function(req, res) {
   res.send(req.user);
@@ -138,7 +140,7 @@ app.get('/api/status', function(req, res) {
   res.send(req.isAuthenticated() ? req.user : 'Not Authenticated');
 });
 
-app.get('/api/shows', function(req, res) {
+app.get('/api/shows', function(req, res, next) {
   var query = Show.find();
 
   if (req.query.genre) {
@@ -150,6 +152,8 @@ app.get('/api/shows', function(req, res) {
   }
 
   query.exec(function(err, shows) {
+    error = new Error('Hello');
+    if (error) return next(error);
     res.send(shows);
   });
 
@@ -161,7 +165,7 @@ app.get('/api/shows/:id', function(req, res) {
   });
 });
 
-app.post('/api/subscribe', function(req, res) {
+app.post('/api/subscribe', ensureAuthenticated, function(req, res) {
   Show.findById(req.body.showId, function(err, show) {
     show.subscribers.push(req.body.userId);
     show.save(function(err) {
@@ -170,7 +174,7 @@ app.post('/api/subscribe', function(req, res) {
   });
 });
 
-app.post('/api/unsubscribe', function(req, res) {
+app.post('/api/unsubscribe', ensureAuthenticated, function(req, res) {
   Show.findById(req.body.showId, function(err, show) {
     var index = show.subscribers.indexOf(req.body.userId);
     show.subscribers.splice(index, 1);
@@ -248,6 +252,12 @@ app.post('/api/shows', function(req, res) {
 app.get('*', function(req, res) {
   res.redirect('/');
 });
+
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.send(500, { message: err.message });
+});
+
 
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
