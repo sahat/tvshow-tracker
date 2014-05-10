@@ -182,11 +182,11 @@ app.post('/api/unsubscribe', function(req, res) {
 
 app.post('/api/shows', function(req, res) {
   var apiKey = '9EF1D1E7D28FDA0B';
-  var seriesName = (req.body.showName).toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g, '');
   var parser = xml2js.Parser({
     explicitArray: false,
     normalizeTags: true
   });
+  var seriesName = (req.body.showName).toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g, '');
 
   async.waterfall([
     function(callback) {
@@ -218,8 +218,7 @@ app.post('/api/shows', function(req, res) {
             poster: series.poster,
             episodes: []
           });
-          for (var i = 0; i < episodes.length; i++) {
-            var episode = episodes[i];
+          _.each(episodes, function(episode) {
             show.episodes.push({
               season: episode.seasonnumber,
               episodeNumber: episode.episodenumber,
@@ -227,7 +226,7 @@ app.post('/api/shows', function(req, res) {
               firstAired: episode.firstaired,
               overview: episode.overview
             });
-          }
+          });
           callback(err, show);
         });
       });
