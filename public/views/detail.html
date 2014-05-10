@@ -21,7 +21,10 @@
           </div>
         </div>
         <div class="media-body">
-          <h2 class="media-heading">{{show.name}}</h2>
+          <h2 class="media-heading">
+            {{show.name}}
+            <span class="pull-right text-danger">{{show.rating}}</span>
+          </h2>
           <h4 ng-show="show.status === 'Continuing'">
             <span class="glyphicon glyphicon-calendar text-danger"></span>
             {{show.airsDayOfWeek}} <em>{{show.airsTime}}</em> on
