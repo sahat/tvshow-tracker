@@ -122,27 +122,23 @@ app.post('/api/login', passport.authenticate('local'), function(req, res) {
 });
 
 app.get('/api/logout', function(req, res) {
-  req.logOut();
+  req.logout();
   res.send(200);
 });
 
-app.post('/api/signup', function(req, res) {
+app.post('/api/signup', function(req, res, next) {
   var user = new User({
     email: req.body.email,
     password: req.body.password
   });
   user.save(function(err) {
+    if (err) return next(err);
     res.send(user);
   });
 });
 
-app.get('/api/status', function(req, res) {
-  res.send(req.isAuthenticated() ? req.user : 'Not Authenticated');
-});
-
 app.get('/api/shows', function(req, res, next) {
   var query = Show.find();
-
   if (req.query.genre) {
     query.where({ genre: req.query.genre });
   } else if (req.query.alphabet) {
@@ -150,51 +146,58 @@ app.get('/api/shows', function(req, res, next) {
   } else {
     query.limit(12);
   }
-
   query.exec(function(err, shows) {
-    error = new Error('Hello');
-    if (error) return next(error);
+    if (err) return next(err);
     res.send(shows);
   });
 
 });
 
-app.get('/api/shows/:id', function(req, res) {
+app.get('/api/shows/:id', function(req, res, next) {
   Show.findById(req.params.id, function(err, show) {
+    if (err) return next(err);
     res.send(show);
   });
 });
 
-app.post('/api/subscribe', ensureAuthenticated, function(req, res) {
+app.post('/api/subscribe', ensureAuthenticated, function(req, res, next) {
   Show.findById(req.body.showId, function(err, show) {
+    if (err) return next(err);
     show.subscribers.push(req.body.userId);
     show.save(function(err) {
+      if (err) return next(err);
       res.send(200);
     });
   });
 });
 
-app.post('/api/unsubscribe', ensureAuthenticated, function(req, res) {
+app.post('/api/unsubscribe', ensureAuthenticated, function(req, res, next) {
   Show.findById(req.body.showId, function(err, show) {
+    if (err) return next(err);
     var index = show.subscribers.indexOf(req.body.userId);
     show.subscribers.splice(index, 1);
     show.save(function(err) {
+      if (err) return next(err);
       res.send(200);
     });
   });
 });
 
-app.post('/api/shows', function(req, res) {
+app.post('/api/shows', function(req, res, next) {
   var apiKey = '9EF1D1E7D28FDA0B';
   var parser = xml2js.Parser({
     explicitArray: false,
     normalizeTags: true
   });
-  var seriesName = (req.body.showName).toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g, '');
+  var seriesName = req.body.showName
+    .toLowerCase()
+    .replace(/ /g, '_')
+    .replace(/[^\w-]+/g, '');
 
   async.waterfall([
     function(callback) {
       request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function(error, response, body) {
+        if (error) return next(error);
         parser.parseString(body, function(err, result) {
           var seriesId = result.data.series.seriesid || result.data.series[0].seriesid;
           callback(err, seriesId);
@@ -203,6 +206,7 @@ app.post('/api/shows', function(req, res) {
     },
     function(seriesId, callback) {
       request.get('http://thetvdb.com/api/' + apiKey + '/series/' + seriesId + '/all/en.xml', function(error, response, body) {
+        if (error) return next(error);
         parser.parseString(body, function(err, result) {
           var series = result.data.series;
           var episodes = result.data.episode;
@@ -243,7 +247,9 @@ app.post('/api/shows', function(req, res) {
       });
     }
   ], function(err, show) {
+    if (err) return next(err);
     show.save(function(err) {
+      if (err) return next(err);
       res.send(200);
     });
   });
