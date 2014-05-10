@@ -21,7 +21,6 @@ var _ = require('lodash');
 
 var showSchema = new mongoose.Schema({
   _id: Number,
-  imdbId: String,
   name: String,
   airsDayOfWeek: String,
   airsTime: String,
@@ -141,8 +140,6 @@ app.get('/api/status', function(req, res) {
   res.send(req.isAuthenticated() ? req.user : 'Not Authenticated');
 });
 
-
-
 app.get('/api/shows', function(req, res) {
   var query = Show.find();
 
@@ -154,7 +151,7 @@ app.get('/api/shows', function(req, res) {
     query.limit(12);
   }
 
-  query.sort('-rating').exec(function(err, shows) {
+  query.exec(function(err, shows) {
     res.send(shows);
   });
 
