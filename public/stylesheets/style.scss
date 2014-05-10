@@ -14,8 +14,7 @@ $brand-danger: #ed5466;
 $brand-warning: #ffd66a;
 
 $text-muted: #90939a;
-$link-color: #00b2e0;
-$link-hover-color: #009dd7;
+$link-color: #000;
 
 $navbar-default-link-active-bg: #f7f7f7;
 $navbar-default-link-color: #848484;
@@ -299,22 +298,6 @@ em {
 }
 
 
-
-.show-list {
-
-  [class^='col'] {
-    margin-bottom: 20px;
-  }
-
-  a {
-    color: #000;
-    border-bottom: 1px dotted;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
 
 .carousel-inner > .item > a > img, .carousel-inner > .item > img, .thumbnail a > img, .thumbnail > img {
   display: block;

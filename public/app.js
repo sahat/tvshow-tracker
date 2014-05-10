@@ -13,7 +13,7 @@ angular.module('MyApp', ['ngCookies', 'ngAnimate', 'ngSanitize', 'ngResource', '
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
-        title: 'Login'
+        title: 'Lo gin'
       })
       .when('/signup', {
         templateUrl: 'views/signup.html',
@@ -21,7 +21,7 @@ angular.module('MyApp', ['ngCookies', 'ngAnimate', 'ngSanitize', 'ngResource', '
         title: 'Create Account'
       })
       .when('/add', {
-        templateUrl: 'views/add-show.html',
+        templateUrl: 'views/add.html',
         controller: 'AddCtrl',
         title: 'Add Show'
       })
@@ -34,10 +34,9 @@ angular.module('MyApp', ['ngCookies', 'ngAnimate', 'ngSanitize', 'ngResource', '
       return {
         responseError: function(response) {
           if (response.status === 401 || response.status === 403) {
-            $location.path('/login');
+            $location.path('#/login');
             return $q.reject(response);
-          }
-          else {
+          } else {
             return $q.reject(response);
           }
         }
