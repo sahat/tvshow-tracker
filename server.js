@@ -49,9 +49,7 @@ var userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
   var user = this;
-
   if (!user.isModified('password')) return next();
-
   bcrypt.genSalt(10, function(err, salt) {
     if (err) return next(err);
     bcrypt.hash(user.password, salt, function(err, hash) {
@@ -206,12 +204,10 @@ app.post('/api/shows', function(req, res) {
           var episodes = result.data.episode;
           var show = new Show({
             _id: series.id,
-            imdbId: series.imdb_id,
             name: series.seriesname,
             airsDayOfWeek: series.airs_dayofweek,
             airsTime: series.airs_time,
             firstAired: series.firstaired,
-            contentRating: series.contentrating,
             genre: series.genre.split('|').filter(Boolean),
             network: series.network,
             overview: series.overview,
@@ -248,6 +244,10 @@ app.post('/api/shows', function(req, res) {
       res.send(200);
     });
   });
+});
+
+app.get('*', function(req, res) {
+  res.redirect('/');
 });
 
 app.listen(app.get('port'), function() {

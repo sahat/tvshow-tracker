@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="MyApp">
 <head>
+  <base href="/">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,17 +12,17 @@
 <body>
 <div ng-controller="NavbarCtrl" class="navbar navbar-default navbar-static-top" role="navigation" bs-navbar>
   <div class="navbar-header">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
       <span class="glyphicon glyphicon-film"></span>
       Show<strong>Trackr</strong></a>
   </div>
   <ul class="nav navbar-nav">
-    <li data-match-route="/$"><a href="#/">Home</a></li>
-    <li data-match-route="/add"><a href="#/add">Add</a></li>
+    <li data-match-route="/$"><a href="/">Home</a></li>
+    <li data-match-route="/add"><a href="/add">Add</a></li>
   </ul>
   <ul class="nav navbar-nav pull-right" ng-if="!currentUser">
-    <li data-match-route="/login"><a href="#/login">Login</a></li>
-    <li data-match-route="/signup"><a href="#/signup">Sign up</a></li>
+    <li data-match-route="/login"><a href="/login">Login</a></li>
+    <li data-match-route="/signup"><a href="/signup">Sign up</a></li>
   </ul>
   <ul class="nav navbar-nav pull-right" ng-if="currentUser">
     <li><a ng-click="logout()">Logout</a></li>
