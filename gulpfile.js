@@ -1,8 +1,8 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-//var csso = require('gulp-csso');
-//var uglify = require('gulp-uglify');
-//var concat = require('gulp-concat');
+var csso = require('gulp-csso');
+var uglify = require('gulp-uglify');
+var concat = require('gulp-concat');
 var plumber = require('gulp-plumber');
 
 gulp.task('sass', function() {
@@ -12,25 +12,24 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('public/stylesheets'));
 });
 
-//gulp.task('compress', function() {
-//  gulp.src([
-//    'scripts/lib/jquery-2.1.0.min.js',
-//    'scripts/lib/angular.min.js',
-//    'scripts/lib/*.js',
-//    'scripts/app.js',
-//    'scripts/constants/*.js',
-//    'scripts/controllers/*.js',
-//    'scripts/directives/*.js',
-//    'scripts/services/*.js'
-//  ])
-//    .pipe(concat('compiled.js'))
-//    .pipe(uglify())
-//    .pipe(gulp.dest('scripts'));
-//});
+gulp.task('compress', function() {
+  gulp.src([
+    'public/vendor/angular.js',
+    'public/vendor/*.js',
+    'public/app.js',
+    'public/services/*.js',
+    'public/controllers/*.js',
+    'public/filters/*.js',
+    'public/directives/*.js'
+  ])
+    .pipe(concat('app.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('public'));
+});
 
 gulp.task('watch', function() {
   gulp.watch('public/stylesheets/*.scss', ['sass']);
-//  gulp.watch(['scripts/**/*.js', '!scripts/compiled.js'], ['compress']);
+  gulp.watch(['public/**/*.js', '!public/app.min.js', '!public/vendor'], ['compress']);
 });
 
-gulp.task('default', ['sass', 'watch']);
+gulp.task('default', ['sass', 'compress', 'watch']);
