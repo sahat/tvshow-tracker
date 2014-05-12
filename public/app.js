@@ -1,6 +1,9 @@
 angular.module('MyApp', ['ngCookies', 'ngAnimate', 'ngSanitize', 'ngResource', 'ngRoute', 'mgcrea.ngStrap', 'chieffancypants.loadingBar'])
   .config(['$routeProvider', '$httpProvider', '$locationProvider',
     function($routeProvider, $httpProvider, $locationProvider) {
+
+      $locationProvider.html5Mode(true);
+
       $routeProvider
         .when('/', {
           templateUrl: 'views/home.html',
@@ -44,14 +47,12 @@ angular.module('MyApp', ['ngCookies', 'ngAnimate', 'ngSanitize', 'ngResource', '
         };
       }]);
 
-      $locationProvider.html5Mode(true);
     }])
-  .run(function($rootScope, $location, Auth) {
+  .run(['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth) {
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$routeChangeStart', function(event, next) {
-
       if (next.authenticate && !Auth.isLoggedIn()) {
         $location.path('/login');
       }
     });
-  });
+  }]);

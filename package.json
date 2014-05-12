@@ -23,7 +23,10 @@
   },
   "devDependencies": {
     "gulp": "^3.6.2",
+    "gulp-concat": "^2.2.0",
+    "gulp-csso": "^0.2.8",
     "gulp-plumber": "^0.6.1",
-    "gulp-sass": "^0.7.1"
+    "gulp-sass": "^0.7.1",
+    "gulp-uglify": "^0.3.0"
   }
 }
