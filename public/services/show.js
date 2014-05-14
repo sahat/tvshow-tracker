@@ -15,15 +15,11 @@ angular.module('MyApp')
 
       genres: genres,
 
-      getShows: function(callback) {
-        $http.get('/api/shows').success(function(shows) {
-          callback(shows);
-        });
+      getShows: function() {
+        return $http.get('/api/shows');
       },
-      getShow: function(id, callback) {
-        $http.get('/api/shows/' + id).success(function(show) {
-          callback(show);
-        });
+      getShow: function(id) {
+        return $http.get('/api/shows/' + id);
       },
       getShowsByGenre: function(genre) {
         return $http.get('/api/shows?genre=' + genre);

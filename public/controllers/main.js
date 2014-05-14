@@ -4,7 +4,7 @@ angular.module('MyApp')
     $scope.genres = Show.genres;
     $scope.headingTitle = 'Top 12 Shows';
 
-    Show.getShows(function(shows) {
+    Show.getShows().success(function(shows) {
       $scope.shows = shows;
     });
 
