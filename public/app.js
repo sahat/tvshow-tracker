@@ -1,4 +1,4 @@
-angular.module('MyApp', ['ngCookies', 'ngAnimate', 'ngSanitize', 'ngResource', 'ngRoute', 'mgcrea.ngStrap', 'chieffancypants.loadingBar'])
+angular.module('MyApp', ['ngCookies', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
   .config(['$routeProvider', '$httpProvider', '$locationProvider',
     function($routeProvider, $httpProvider, $locationProvider) {
 
