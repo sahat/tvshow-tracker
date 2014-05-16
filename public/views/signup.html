@@ -8,14 +8,25 @@
           <div class="form-group">
             <span class="input"></span>
             <input type="email" name="email" ng-model="email" placeholder="Email" required autofocus>
+            <div class="help-block text-danger" ng-if="signupForm.email.$dirty" ng-messages="signupForm.email.$error">
+              <div ng-message="required">Your email address is required.</div>
+              <div ng-message="email">Your email address is invalid.</div>
+            </div>
           </div>
           <div class="form-group">
             <span class="input"></span>
             <input type="password" name="password" ng-model="password" placeholder="Password" required>
+            <div class="help-block text-danger" ng-if="signupForm.password.$dirty" ng-messages="signupForm.password.$error">
+              <div ng-message="required">Password is required.</div>
+            </div>
           </div>
           <div class="form-group">
             <span class="input"></span>
             <input type="password" name="confirmPassword" ng-model="confirmPassword" repeat-password="password" placeholder="Confirm" required>
+            <div class="help-block text-danger" ng-if="signupForm.confirmPassword.$dirty" ng-messages="signupForm.confirmPassword.$error">
+              <div ng-message="required">You must confirm password.</div>
+              <div ng-message="repeat">Passwords do not match.</div>
+            </div>
           </div>
           <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-lg btn-success pull-right">Create Account</button>
         </div>
