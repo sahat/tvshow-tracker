@@ -21,15 +21,8 @@ angular.module('MyApp')
           });
         };
 
-        // mapreduce?
-        $scope.nextEpisode = null;
-        for (var i = 0; i < show.episodes.length; i++) {
-          var today = new Date();
-          var episodeAirDate = new Date(show.episodes[i].firstAired);
-          if (episodeAirDate > today) {
-            $scope.nextEpisode = show.episodes[i];
-            break;
-          }
-        }
+        $scope.nextEpisode = show.episodes.filter(function(episode) {
+          return new Date(episode.firstAired) > new Date();
+        })[0];
       });
     }]);
