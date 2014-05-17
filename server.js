@@ -250,15 +250,12 @@ app.post('/api/shows', function(req, res, next) {
     }
   ], function(err, show) {
     if (err) return next(err);
+
+    var alertDate = Date.create('Next ' + show.airsDayOfWeek + ' at ' + show.airsTime).rewind({ hour: 2});
+    agenda.schedule(alertDate, 'send email alert', show.name).repeatEvery('1 week').save();
+
     show.save(function(err) {
       if (err) return next(err);
-
-      show.airsTime.split(':').splice(0, 1, -2)
-      var twoHoursBefore = show.airsTime.split(':').splice(0, 1, -2);
-      agenda
-        .schedule(show.airsDayOfWeek + ' at ' + twoHoursBefore, 'send email alert', show.name)
-        .repeatEvery('1 week')
-        .save();
       res.send(200);
     });
   });
