@@ -1,7 +1,7 @@
 angular.module('MyApp')
   .controller('DetailCtrl', ['$scope', '$rootScope', '$routeParams', 'Show', 'Subscription',
     function($scope, $rootScope, $routeParams, Show, Subscription) {
-      Show.getShow($routeParams.id).success(function(show) {
+      Show.get({ _id: $routeParams.id }, function(show) {
         $scope.show = show;
 
         $scope.isSubscribed = function() {
@@ -31,6 +31,5 @@ angular.module('MyApp')
             break;
           }
         }
-
       });
     }]);
