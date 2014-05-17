@@ -1,5 +1,4 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
-@import url(http://fonts.googleapis.com/css?family=Nunito:700,400,300);
 
 $body-bg: #e4e7ec;
 
@@ -9,8 +8,8 @@ $headings-font-family: Avenir, sans-serif;
 $headings-font-weight: bold;
 
 $brand-success: #22ae5f;
-$brand-primary: #00b1e1;
-$brand-danger: #ed5466;
+$brand-primary: #1d7cf4;
+$brand-danger: #b30015;
 $brand-warning: #ffd66a;
 
 $text-muted: #90939a;
@@ -34,13 +33,14 @@ $jumbotron-padding: 16px;
 $jumbotron-bg: #f4f6f8;
 
 $alert-border-radius: 0;
+$input-border-radius: 0;
 
 $alert-success-text: #fff;
 $alert-success-bg: #60c060;
 $alert-success-border: darken($alert-success-bg, 3%);
 
 $alert-danger-text: #fff;
-$alert-danger-bg: #df4b33;
+$alert-danger-bg: $brand-danger;
 $alert-danger-border: darken($alert-danger-bg, 3%);
 
 $alert-info-bg: #e5f7fd;
@@ -48,6 +48,7 @@ $alert-info-border: #bcf8f3;
 $alert-info-text: #25484e;
 
 @import 'bootstrap/bootstrap';
+@import 'angular-motion';
 
 body {
   padding-bottom: 20px;
@@ -88,10 +89,6 @@ em {
   }
 }
 
-.text-danger {
-  color: $brand-danger;
-}
-
 .jumbotron {
   margin-top: -20px;
   border-bottom: 1px solid #dae2e4;
@@ -115,32 +112,30 @@ em {
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
 }
 
-.fancy-form {
-  width: 370px;
+.alert.top-right {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  margin: 20px;
+  z-index: 1050;
+  outline: none;
+
+  .close {
+    padding-left: 10px
+  }
+}
+
+.btn {
+  border-radius: 2px;
+}
+
+.signup-form,
+.login-form {
+  width: 330px;
   margin: 10% auto;
 
   input {
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-    font-size: 1.5em;
-    width: 100%;
-    height: 55px;
-    position: relative;
-    display: block;
-    margin: 0 auto 10px;
-    padding: 15px;
-    box-sizing: border-box;
-    -webkit-text-stroke: 0.1px;
-    border: thin solid #ccc;
-    outline: none;
-    -webkit-appearance: none;
-    color: #4f4f4f;
-
-    &:focus {
-      background: #fafafa;
-      border: thin solid #999;
-      -webkit-transition: all .4s ease;
-      transition: all .4s ease;
-    }
+    border-radius: 0;
   }
 }
 
