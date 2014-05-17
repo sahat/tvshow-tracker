@@ -15,8 +15,10 @@ var async = require('async');
 var request = require('request');
 var xml2js = require('xml2js');
 
+var agenda = require('agenda')({ db: { address: 'localhost:27017/test' } });
 var CronJob = require('cron').CronJob;
 var moment = require('moment');
+var sugar = require('sugar');
 var nodemailer = require('nodemailer');
 var _ = require('lodash');
 
@@ -250,6 +252,13 @@ app.post('/api/shows', function(req, res, next) {
     if (err) return next(err);
     show.save(function(err) {
       if (err) return next(err);
+
+      show.airsTime.split(':').splice(0, 1, -2)
+      var twoHoursBefore = show.airsTime.split(':').splice(0, 1, -2);
+      agenda
+        .schedule(show.airsDayOfWeek + ' at ' + twoHoursBefore, 'send email alert', show.name)
+        .repeatEvery('1 week')
+        .save();
       res.send(200);
     });
   });
@@ -264,48 +273,112 @@ app.use(function(err, req, res, next) {
   res.send(500, { message: err.message });
 });
 
-
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
 
+agenda.define('send email alert', function(job, done) {
+  var data = job.attrs.data;
+  console.log('sending email...');
+  console.log(data);
+  done();
+});
+
+
+agenda.start();
+
+agenda.on('start', function(job) {
+  console.log("Job %s starting", job.attrs.name);
+});
+
+agenda.on('complete', function(job) {
+  console.log("Job %s finished", job.attrs.name);
+});
+
+// Create schedules for all active shows
+//agenda.define('check shows', function(job, done) {
+//  console.log('getting shows');
+//  Show.find({ status: 'Continuing' }).exec(function(err, shows) {
+//    _.each(shows, function(show) {
+//
+//      var emails = show.subscribers.map(function(email) {
+//        return email;
+//      });
+//
+//
+//
+//      _.each(show.episodes, function(episode) {
+//        if (moment(episode.firstAired) > moment()) {
+//          var now = moment();
+//          var future = moment(episode.firstAired);
+//          var difference = moment(future).diff(moment(now));
+//          var twoHours = 7200000;
+//          if (difference <= twoHours) {
+//            // TODO: Send only once by creating N jobs for each show and send 2 hours before show's start time
+//            var smtpTransport = nodemailer.createTransport('SMTP', {
+//              service: 'SendGrid',
+//              auth: { user: 'hslogin', pass: 'hspassword00' }
+//            });
+//            var mailOptions = {
+//              from: 'Fred Foo ✔ <foo@blurdybloop.com>',
+//              to: emails.join(','),
+//              subject: 'Your show is starting soon!',
+//              text: show.name + ' starts in less than 2 hours on ' + show.network + '.\n\n' +
+//                'Episode ' + episode.episodeNumber + '\n\n' + episode.overview
+//            };
+//            smtpTransport.sendMail(mailOptions, function(error, response) {
+//              console.log("Message sent: " + response.message);
+//              smtpTransport.close(); // shut down the connection pool, no more messages
+//            });
+//          }
+//          return false;
+//        }
+//    });
+//
+//    done();
+//  });
+//});
+
+
+// Replace with agenda
 // Run every 15th minute, e.g. 4:15, 4:30, 4:45, 5:00
-var job = new CronJob('* */15 * * * *', function() {
-  Show
-    .find()
-    .populate('subscribers')
-    .exec(function(err, shows) {
-      _.each(shows, function(show) {
-        var emails = [];
-        _.each(show.subscribers, function(user) {
-          emails.push(user.email);
-        });
-        _.each(show.episodes, function(episode) {
-          if (moment(episode.firstAired) > moment()) {
-            var now = moment();
-            var future = moment(episode.firstAired);
-            var difference = moment(future).diff(moment(now));
-            var twoHours = 7200000;
-            if (difference <= twoHours) {
-              var smtpTransport = nodemailer.createTransport('SMTP', {
-                service: 'SendGrid',
-                auth: { user: 'hslogin', pass: 'hspassword00' }
-              });
-              var mailOptions = {
-                from: 'Fred Foo ✔ <foo@blurdybloop.com>',
-                to: emails.join(','),
-                subject: 'Your show is starting soon!',
-                text: show.name + ' starts in less than 2 hours on ' + show.network + '.\n\n' +
-                  'Episode ' + episode.episodeNumber + '\n\n' + episode.overview
-              };
-              smtpTransport.sendMail(mailOptions, function(error, response) {
-                console.log("Message sent: " + response.message);
-                smtpTransport.close(); // shut down the connection pool, no more messages
-              });
-            }
-            return false;
-          }
-        });
-      });
-    });
-}, null, true);
+//var job = new CronJob('* */15 * * * *', function() {
+//  Show
+//    .find()
+//    .populate('subscribers')
+//    .exec(function(err, shows) {
+//      _.each(shows, function(show) {
+//        var emails = [];
+//        _.each(show.subscribers, function(user) {
+//          emails.push(user.email);
+//        });
+//        _.each(show.episodes, function(episode) {
+//          if (moment(episode.firstAired) > moment()) {
+//            var now = moment();
+//            var future = moment(episode.firstAired);
+//            var difference = moment(future).diff(moment(now));
+//            var twoHours = 7200000;
+//            if (difference <= twoHours) {
+//              // TODO: Send only once by creating N jobs for each show and send 2 hours before show's start time
+//              var smtpTransport = nodemailer.createTransport('SMTP', {
+//                service: 'SendGrid',
+//                auth: { user: 'hslogin', pass: 'hspassword00' }
+//              });
+//              var mailOptions = {
+//                from: 'Fred Foo ✔ <foo@blurdybloop.com>',
+//                to: emails.join(','),
+//                subject: 'Your show is starting soon!',
+//                text: show.name + ' starts in less than 2 hours on ' + show.network + '.\n\n' +
+//                  'Episode ' + episode.episodeNumber + '\n\n' + episode.overview
+//              };
+//              smtpTransport.sendMail(mailOptions, function(error, response) {
+//                console.log("Message sent: " + response.message);
+//                smtpTransport.close(); // shut down the connection pool, no more messages
+//              });
+//            }
+//            return false;
+//          }
+//        });
+//      });
+//    });
+//}, null, true);

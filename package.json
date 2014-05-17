@@ -2,6 +2,7 @@
   "name": "application-name",
   "version": "0.0.0",
   "dependencies": {
+    "agenda": "^0.6.10",
     "async": "^0.8.0",
     "bcryptjs": "^0.7.12",
     "body-parser": "^1.0.0",
@@ -18,6 +19,7 @@
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
     "request": "^2.34.0",
+    "sugar": "^1.4.1",
     "xml2js": "^0.4.2"
   },
   "devDependencies": {
