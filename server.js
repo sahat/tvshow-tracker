@@ -16,8 +16,6 @@ var request = require('request');
 var xml2js = require('xml2js');
 
 var agenda = require('agenda')({ db: { address: 'localhost:27017/test' } });
-var CronJob = require('cron').CronJob;
-var moment = require('moment');
 var sugar = require('sugar');
 var nodemailer = require('nodemailer');
 var _ = require('lodash');
