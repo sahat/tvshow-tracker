@@ -2,6 +2,7 @@ var path = require('path');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var logger = require('morgan');
@@ -33,14 +34,18 @@ var showSchema = new mongoose.Schema({
   ratingCount: Number,
   status: String,
   poster: String,
-  subscribers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  episodes: [{
-    season: Number,
-    episodeNumber: Number,
-    episodeName: String,
-    firstAired: Date,
-    overview: String
-  }]
+  subscribers: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  ],
+  episodes: [
+    {
+      season: Number,
+      episodeNumber: Number,
+      episodeName: String,
+      firstAired: Date,
+      overview: String
+    }
+  ]
 });
 
 var userSchema = new mongoose.Schema({
@@ -108,7 +113,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(methodOverride());
 app.use(cookieParser());
-app.use(session({ secret: 'keyboard cat' }));
+app.use(session({
+  store: new RedisStore({
+    host: 'pub-redis-14534.us-east-1-1.2.ec2.garantiadata.com',
+    port: '14534',
+    pass: 'red'
+  }),
+  secret: 'keyboard cat' }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));

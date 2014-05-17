@@ -6,6 +6,7 @@
     "async": "^0.8.0",
     "bcryptjs": "^0.7.12",
     "body-parser": "^1.0.0",
+    "connect-redis": "^2.0.0",
     "cookie-parser": "^1.0.1",
     "express": "^4.0.0",
     "express-session": "^1.0.4",
