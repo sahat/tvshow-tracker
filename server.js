@@ -250,12 +250,10 @@ app.post('/api/shows', function(req, res, next) {
     }
   ], function(err, show) {
     if (err) return next(err);
-
-    var alertDate = Date.create('Next ' + show.airsDayOfWeek + ' at ' + show.airsTime).rewind({ hour: 2});
-    agenda.schedule(alertDate, 'send email alert', show.name).repeatEvery('1 week').save();
-
     show.save(function(err) {
       if (err) return next(err);
+      var alertDate = Date.create('Next ' + show.airsDayOfWeek + ' at ' + show.airsTime).rewind({ hour: 2});
+      agenda.schedule(alertDate, 'send email alert', show.name).repeatEvery('1 week');
       res.send(200);
     });
   });
@@ -275,12 +273,35 @@ app.listen(app.get('port'), function() {
 });
 
 agenda.define('send email alert', function(job, done) {
-  var data = job.attrs.data;
-  console.log('sending email...');
-  console.log(data);
-  done();
-});
+  Show.findOne({ name: job.attrs.data }).populate('subscribers').exec(function(err, show) {
+    var emails = show.subscribers.map(function(user) {
+      return user.email;
+    });
 
+    var upcomingEpisode = show.episodes.filter(function(episode) {
+      return new Date(episode.firstAired) > new Date();
+    })[0];
+
+    var smtpTransport = nodemailer.createTransport('SMTP', {
+      service: 'SendGrid',
+      auth: { user: 'hslogin', pass: 'hspassword00' }
+    });
+
+    var mailOptions = {
+      from: 'Fred Foo ✔ <foo@blurdybloop.com>',
+      to: emails.join(','),
+      subject: upcomingEpisode.episodeName + ' is starting soon!',
+      text: show.name + ' starts in less than 2 hours on ' + show.network + '.\n\n' +
+        'Episode ' + upcomingEpisode.episodeNumber + ' Overview\n\n' + upcomingEpisode.overview
+    };
+
+    smtpTransport.sendMail(mailOptions, function(error, response) {
+      console.log('Message sent: ' + response.message);
+      smtpTransport.close();
+      done();
+    });
+  });
+});
 
 agenda.start();
 
@@ -291,91 +312,3 @@ agenda.on('start', function(job) {
 agenda.on('complete', function(job) {
   console.log("Job %s finished", job.attrs.name);
 });
-
-// Create schedules for all active shows
-//agenda.define('check shows', function(job, done) {
-//  console.log('getting shows');
-//  Show.find({ status: 'Continuing' }).exec(function(err, shows) {
-//    _.each(shows, function(show) {
-//
-//      var emails = show.subscribers.map(function(email) {
-//        return email;
-//      });
-//
-//
-//
-//      _.each(show.episodes, function(episode) {
-//        if (moment(episode.firstAired) > moment()) {
-//          var now = moment();
-//          var future = moment(episode.firstAired);
-//          var difference = moment(future).diff(moment(now));
-//          var twoHours = 7200000;
-//          if (difference <= twoHours) {
-//            // TODO: Send only once by creating N jobs for each show and send 2 hours before show's start time
-//            var smtpTransport = nodemailer.createTransport('SMTP', {
-//              service: 'SendGrid',
-//              auth: { user: 'hslogin', pass: 'hspassword00' }
-//            });
-//            var mailOptions = {
-//              from: 'Fred Foo ✔ <foo@blurdybloop.com>',
-//              to: emails.join(','),
-//              subject: 'Your show is starting soon!',
-//              text: show.name + ' starts in less than 2 hours on ' + show.network + '.\n\n' +
-//                'Episode ' + episode.episodeNumber + '\n\n' + episode.overview
-//            };
-//            smtpTransport.sendMail(mailOptions, function(error, response) {
-//              console.log("Message sent: " + response.message);
-//              smtpTransport.close(); // shut down the connection pool, no more messages
-//            });
-//          }
-//          return false;
-//        }
-//    });
-//
-//    done();
-//  });
-//});
-
-
-// Replace with agenda
-// Run every 15th minute, e.g. 4:15, 4:30, 4:45, 5:00
-//var job = new CronJob('* */15 * * * *', function() {
-//  Show
-//    .find()
-//    .populate('subscribers')
-//    .exec(function(err, shows) {
-//      _.each(shows, function(show) {
-//        var emails = [];
-//        _.each(show.subscribers, function(user) {
-//          emails.push(user.email);
-//        });
-//        _.each(show.episodes, function(episode) {
-//          if (moment(episode.firstAired) > moment()) {
-//            var now = moment();
-//            var future = moment(episode.firstAired);
-//            var difference = moment(future).diff(moment(now));
-//            var twoHours = 7200000;
-//            if (difference <= twoHours) {
-//              // TODO: Send only once by creating N jobs for each show and send 2 hours before show's start time
-//              var smtpTransport = nodemailer.createTransport('SMTP', {
-//                service: 'SendGrid',
-//                auth: { user: 'hslogin', pass: 'hspassword00' }
-//              });
-//              var mailOptions = {
-//                from: 'Fred Foo ✔ <foo@blurdybloop.com>',
-//                to: emails.join(','),
-//                subject: 'Your show is starting soon!',
-//                text: show.name + ' starts in less than 2 hours on ' + show.network + '.\n\n' +
-//                  'Episode ' + episode.episodeNumber + '\n\n' + episode.overview
-//              };
-//              smtpTransport.sendMail(mailOptions, function(error, response) {
-//                console.log("Message sent: " + response.message);
-//                smtpTransport.close(); // shut down the connection pool, no more messages
-//              });
-//            }
-//            return false;
-//          }
-//        });
-//      });
-//    });
-//}, null, true);
