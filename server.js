@@ -269,7 +269,7 @@ app.post('/api/shows', function(req, res, next) {
 });
 
 app.get('*', function(req, res) {
-  res.redirect('/');
+  res.redirect('/#' + req.originalUrl);
 });
 
 app.use(function(err, req, res, next) {
