@@ -4,6 +4,7 @@ var csso = require('gulp-csso');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var plumber = require('gulp-plumber');
+var templateCache = require('gulp-angular-templatecache');
 
 gulp.task('sass', function() {
   gulp.src('public/stylesheets/style.scss')
@@ -27,9 +28,15 @@ gulp.task('compress', function() {
     .pipe(gulp.dest('public'));
 });
 
+gulp.task('templates', function() {
+  gulp.src('public/views/**/*.html')
+    .pipe(templateCache({ root: 'views', module: 'MyApp' }))
+    .pipe(gulp.dest('public'));
+});
+
 gulp.task('watch', function() {
   gulp.watch('public/stylesheets/*.scss', ['sass']);
   gulp.watch(['public/**/*.js', '!public/app.min.js', '!public/vendor'], ['compress']);
 });
 
-gulp.task('default', ['sass', 'compress', 'watch']);
+gulp.task('default', ['sass', 'compress', 'templates', 'watch']);
