@@ -104,10 +104,6 @@ em {
   padding-left: 10px;
 }
 
-.highlight {
-  background-color: $brand-warning;
-}
-
 .alert {
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
 }
@@ -129,8 +125,7 @@ em {
   border-radius: 2px;
 }
 
-.signup-form,
-.login-form {
+.center-form {
   width: 330px;
   margin: 10% auto;
 

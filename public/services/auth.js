@@ -16,6 +16,7 @@ angular.module('MyApp')
 
       signup: function(user) {
         return $http.post('/api/signup', user).success(function(data) {
+          console.log(data);
           $rootScope.currentUser = data;
         });
       },
@@ -24,10 +25,6 @@ angular.module('MyApp')
         return $http.get('/api/logout').success(function() {
           $rootScope.currentUser = null;
         });
-      },
-
-      currentUser: function() {
-        return $rootScope.currentUser;
       }
     };
   }]);

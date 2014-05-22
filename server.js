@@ -299,7 +299,7 @@ agenda.define('send email alert', function(job, done) {
     var mailOptions = {
       from: 'Fred Foo ✔ <foo@blurdybloop.com>',
       to: emails.join(','),
-      subject: upcomingEpisode.episodeName + ' is starting soon!',
+      subject: show.name + ' is starting soon!',
       text: show.name + ' starts in less than 2 hours on ' + show.network + '.\n\n' +
         'Episode ' + upcomingEpisode.episodeNumber + ' Overview\n\n' + upcomingEpisode.overview
     };

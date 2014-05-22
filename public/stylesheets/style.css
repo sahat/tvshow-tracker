@@ -5118,9 +5118,6 @@ em {
   border-left: 5px solid #111;
   padding-left: 10px; }
 
-.highlight {
-  background-color: #ffd66a; }
-
 .alert {
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3); }
 
@@ -5137,10 +5134,10 @@ em {
 .btn {
   border-radius: 2px; }
 
-.signup-form, .login-form {
+.center-form {
   width: 330px;
   margin: 10% auto; }
-  .signup-form input, .login-form input {
+  .center-form input {
     border-radius: 0; }
 
 .search {
