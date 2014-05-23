@@ -6,12 +6,21 @@ angular.module('MyApp')
       $cookieStore.remove('user');
 
       return {
-        isLoggedIn: function() {
-          return $rootScope.currentUser ? true : false;
+        isLoggedIn: function(data) {
+          return $http.get('/api/status')
+            .success(function(data) {
+              console.log(data);
+              $rootScope.currentUser = data;
+              $cookieStore.put('user', data);
+            })
+            .error(function(data) {
+              console.log(data);
+            });
         },
         login: function(user) {
           return $http.post('/api/login', user)
-            .success(function(response) {
+            .success(function(data) {
+              console.log(data);
               $rootScope.currentUser = data;
               $location.path('/');
 
@@ -60,6 +69,13 @@ angular.module('MyApp')
         logout: function() {
           return $http.get('/api/logout').success(function() {
             $rootScope.currentUser = null;
+            $cookieStore.remove('user');
+            $alert({
+              content: 'You have been logged out.',
+              placement: 'top-right',
+              type: 'info',
+              duration: 3
+            });
           });
         }
       };
