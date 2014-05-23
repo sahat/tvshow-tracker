@@ -81,7 +81,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+  User.findById(id, '-password', function(err, user) {
     done(err, user);
   });
 });
@@ -114,11 +114,11 @@ app.use(bodyParser.urlencoded());
 app.use(methodOverride());
 app.use(cookieParser());
 app.use(session({
-  store: new RedisStore({
-    host: 'pub-redis-14534.us-east-1-1.2.ec2.garantiadata.com',
-    port: '14534',
-    pass: 'red'
-  }),
+//  store: new RedisStore({
+//    host: 'pub-redis-14534.us-east-1-1.2.ec2.garantiadata.com',
+//    port: '14534',
+//    pass: 'red'
+//  }),
   secret: 'keyboard cat' }));
 app.use(passport.initialize());
 app.use(passport.session());
