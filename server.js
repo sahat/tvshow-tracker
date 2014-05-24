@@ -81,7 +81,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, '-password', function(err, user) {
+  User.findById(id, function(err, user) {
     done(err, user);
   });
 });
@@ -114,6 +114,9 @@ app.use(bodyParser.urlencoded());
 app.use(methodOverride());
 app.use(cookieParser());
 app.use(session({
+  store: new RedisStore({
+    host: 'localhost'
+  }),
 //  store: new RedisStore({
 //    host: 'pub-redis-14534.us-east-1-1.2.ec2.garantiadata.com',
 //    port: '14534',
@@ -124,11 +127,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
-  if (req.user) res.cookie('user', JSON.stringify(req.user));
+  if (req.user) {
+    res.cookie('user', JSON.stringify(req.user));
+  }
   next();
 });
 
 app.post('/api/login', passport.authenticate('local'), function(req, res) {
+  res.cookie('user', JSON.stringify(req.user));
   res.send(req.user);
 });
 
@@ -144,7 +150,7 @@ app.post('/api/signup', function(req, res, next) {
   });
   user.save(function(err) {
     if (err) return next(err);
-    res.send(user);
+    res.send(200);
   });
 });
 

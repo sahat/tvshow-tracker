@@ -1,26 +1,13 @@
 angular.module('MyApp')
   .factory('Auth', ['$http', '$location', '$rootScope', '$cookieStore', '$alert',
     function($http, $location, $rootScope, $cookieStore, $alert) {
-
       $rootScope.currentUser = $cookieStore.get('user');
       $cookieStore.remove('user');
 
       return {
-        isLoggedIn: function(data) {
-          return $http.get('/api/status')
-            .success(function(data) {
-              console.log(data);
-              $rootScope.currentUser = data;
-              $cookieStore.put('user', data);
-            })
-            .error(function(data) {
-              console.log(data);
-            });
-        },
         login: function(user) {
           return $http.post('/api/login', user)
             .success(function(data) {
-              console.log(data);
               $rootScope.currentUser = data;
               $location.path('/');
 
@@ -32,7 +19,7 @@ angular.module('MyApp')
                 duration: 3
               });
             })
-            .error(function(response) {
+            .error(function() {
               $alert({
                 title: 'Error!',
                 content: 'Invalid username or password.',
@@ -44,9 +31,8 @@ angular.module('MyApp')
         },
         signup: function(user) {
           return $http.post('/api/signup', user)
-            .success(function(data) {
-              $rootScope.currentUser = data;
-              $location.path('/');
+            .success(function() {
+              $location.path('/login');
 
               $alert({
                 title: 'Congratulations!',
