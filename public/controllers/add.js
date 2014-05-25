@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('AddCtrl', ['$scope', '$alert', '$location', '$http', function($scope, $alert, $location, $http) {
+  .controller('AddCtrl', ['$scope', '$alert', '$http', function($scope, $alert, $http) {
     $scope.addShow = function() {
       $http.post('/api/shows', { showName: $scope.showName })
         .success(function() {

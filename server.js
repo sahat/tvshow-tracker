@@ -155,7 +155,6 @@ app.get('/api/shows', function(req, res, next) {
     if (err) return next(err);
     res.send(shows);
   });
-
 });
 
 app.get('/api/shows/:id', function(req, res, next) {

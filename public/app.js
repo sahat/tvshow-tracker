@@ -15,7 +15,7 @@ angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mg
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
-        title: 'Lo gin'
+        title: 'Login'
       })
       .when('/signup', {
         templateUrl: 'views/signup.html',
