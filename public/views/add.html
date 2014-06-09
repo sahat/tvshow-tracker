@@ -2,11 +2,14 @@
   <div class="panel panel-default">
     <div class="panel-heading">Add TV Show</div>
     <div class="panel-body">
-      <form method="post" ng-submit="addShow()" name="addForm" class="form-inline">
-        <div class="form-group">
-          <input class="form-control" type="text" name="showName" ng-model="showName" placeholder="Enter TV show name" autofocus>
+      <form class="form" method="post" ng-submit="addShow()" name="addForm">
+        <div class="form-group" ng-class="{ 'has-success' : addForm.showName.$valid && addForm.showName.$dirty, 'has-error' : addForm.showName.$invalid && addForm.showName.$dirty }">
+          <input class="form-control" type="text" name="showName" ng-model="showName" placeholder="Enter TV show name" required autofocus>
+          <div class="help-block text-danger" ng-if="addForm.showName.$dirty" ng-messages="addForm.showName.$error">
+            <div ng-message="required">TV show name is required.</div>
+          </div>
         </div>
-        <button class="btn btn-primary" type="submit">Add</button>
+        <button class="btn btn-primary" type="submit" ng-disabled="addForm.$invalid">Add</button>
       </form>
     </div>
   </div>
