@@ -204,7 +204,7 @@ app.post('/api/shows', function(req, res, next) {
         if (error) return next(error);
         parser.parseString(body, function(err, result) {
           if (!result.data.series) {
-            return res.send(404, { message: seriesName + ' was not found.' });
+            return res.send(404, { message: req.body.showName + ' was not found.' });
           }
           var seriesId = result.data.series.seriesid || result.data.series[0].seriesid;
           callback(err, seriesId);
