@@ -203,6 +203,9 @@ app.post('/api/shows', function(req, res, next) {
       request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function(error, response, body) {
         if (error) return next(error);
         parser.parseString(body, function(err, result) {
+          if (!result.data.series) {
+            return res.send(404, seriesName + ' was not found.');
+          }
           var seriesId = result.data.series.seriesid || result.data.series[0].seriesid;
           callback(err, seriesId);
         });
