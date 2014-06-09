@@ -204,7 +204,7 @@ app.post('/api/shows', function(req, res, next) {
         if (error) return next(error);
         parser.parseString(body, function(err, result) {
           if (!result.data.series) {
-            return res.send(404, seriesName + ' was not found.');
+            return res.send(404, { message: seriesName + ' was not found.' });
           }
           var seriesId = result.data.series.seriesid || result.data.series[0].seriesid;
           callback(err, seriesId);
@@ -256,7 +256,12 @@ app.post('/api/shows', function(req, res, next) {
   ], function(err, show) {
     if (err) return next(err);
     show.save(function(err) {
-      if (err) return next(err);
+      if (err) {
+        if (err.code == 11000) {
+          return res.send(409, { message: show.name + ' already exists.' });
+        }
+        return next(err);
+      }
       var alertDate = Date.create('Next ' + show.airsDayOfWeek + ' at ' + show.airsTime).rewind({ hour: 2});
       agenda.schedule(alertDate, 'send email alert', show.name).repeatEvery('1 week');
       res.send(200);
