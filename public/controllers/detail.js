@@ -9,13 +9,13 @@ angular.module('MyApp')
         };
 
         $scope.subscribe = function() {
-          Subscription.subscribe(show, $rootScope.currentUser).success(function() {
+          Subscription.subscribe(show).success(function() {
             $scope.show.subscribers.push($rootScope.currentUser._id);
           });
         };
 
         $scope.unsubscribe = function() {
-          Subscription.unsubscribe(show, $rootScope.currentUser).success(function() {
+          Subscription.unsubscribe(show).success(function() {
             var index = $scope.show.subscribers.indexOf($rootScope.currentUser._id);
             $scope.show.subscribers.splice(index, 1);
           });
