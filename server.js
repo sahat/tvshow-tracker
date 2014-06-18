@@ -187,7 +187,7 @@ app.post('/api/unsubscribe', ensureAuthenticated, function(req, res, next) {
   });
 });
 
-app.post('/api/shows', function(req, res, next) {
+app.post('/api/shows', function (req, res, next) {
   var apiKey = '9EF1D1E7D28FDA0B';
   var parser = xml2js.Parser({
     explicitArray: false,
@@ -199,10 +199,10 @@ app.post('/api/shows', function(req, res, next) {
     .replace(/[^\w-]+/g, '');
 
   async.waterfall([
-    function(callback) {
-      request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function(error, response, body) {
+    function (callback) {
+      request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function (error, response, body) {
         if (error) return next(error);
-        parser.parseString(body, function(err, result) {
+        parser.parseString(body, function (err, result) {
           if (!result.data.series) {
             return res.send(404, { message: req.body.showName + ' was not found.' });
           }
@@ -211,10 +211,10 @@ app.post('/api/shows', function(req, res, next) {
         });
       });
     },
-    function(seriesId, callback) {
-      request.get('http://thetvdb.com/api/' + apiKey + '/series/' + seriesId + '/all/en.xml', function(error, response, body) {
+    function (seriesId, callback) {
+      request.get('http://thetvdb.com/api/' + apiKey + '/series/' + seriesId + '/all/en.xml', function (error, response, body) {
         if (error) return next(error);
-        parser.parseString(body, function(err, result) {
+        parser.parseString(body, function (err, result) {
           var series = result.data.series;
           var episodes = result.data.episode;
           var show = new Show({
@@ -233,7 +233,7 @@ app.post('/api/shows', function(req, res, next) {
             poster: series.poster,
             episodes: []
           });
-          _.each(episodes, function(episode) {
+          _.each(episodes, function (episode) {
             show.episodes.push({
               season: episode.seasonnumber,
               episodeNumber: episode.episodenumber,
@@ -246,16 +246,16 @@ app.post('/api/shows', function(req, res, next) {
         });
       });
     },
-    function(show, callback) {
+    function (show, callback) {
       var url = 'http://thetvdb.com/banners/' + show.poster;
-      request({ url: url, encoding: null }, function(error, response, body) {
+      request({ url: url, encoding: null }, function (error, response, body) {
         show.poster = 'data:' + response.headers['content-type'] + ';base64,' + body.toString('base64');
         callback(error, show);
       });
     }
-  ], function(err, show) {
+  ], function (err, show) {
     if (err) return next(err);
-    show.save(function(err) {
+    show.save(function (err) {
       if (err) {
         if (err.code == 11000) {
           return res.send(409, { message: show.name + ' already exists.' });
