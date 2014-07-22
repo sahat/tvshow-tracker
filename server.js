@@ -5,10 +5,9 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var logger = require('morgan');
 
+var crypto = require('crypto');
 var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var expressJwt = require('express-jwt');
 var jwt = require('jwt-simple');
 var moment = require('moment');
@@ -77,18 +76,6 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 var User = mongoose.model('User', userSchema);
 var Show = mongoose.model('Show', showSchema);
 
-passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
-  User.findOne({ email: email }, function(err, user) {
-    if (err) return done(err);
-    if (!user) return done(null, false);
-    user.comparePassword(password, function(err, isMatch) {
-      if (err) return done(err);
-      if (isMatch) return done(null, user);
-      return done(null, false);
-    });
-  });
-}));
-
 mongoose.connect('localhost');
 
 var app = express();
@@ -100,7 +87,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(methodOverride());
 app.use(cookieParser());
-app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, 'public')));
 
 function ensureAuthenticated(req, res, next) {
@@ -111,10 +97,11 @@ function ensureAuthenticated(req, res, next) {
       if (decoded.exp <= Date.now()) {
         res.send(400, 'Access token has expired');
       } else {
+        req.user = decoded.user;
         return next();
       }
     } catch (err) {
-      return next();
+      return res.send(500, 'Error parsing token');
     }
   } else {
     return res.send(401);
@@ -133,15 +120,6 @@ function createJwtToken(user) {
 app.get('/api/profile', expressJwt({secret: 'some token'}), function(req, res, next) {
   console.log(req.user);
   res.send(200);
-});
-
-app.post('/api/login', passport.authenticate('local', { session: false }), function(req, res) {
-  var payload = {
-    prn: req.user,
-    exp: moment().add('days', 7).valueOf()
-  };
-  var token = jwt.encode(payload, tokenSecret);
-  res.send({ token: token });
 });
 
 app.post('/auth/login', function(req, res, next) {
@@ -224,7 +202,7 @@ app.get('/api/shows/:id', function(req, res, next) {
 app.post('/api/subscribe', ensureAuthenticated, function(req, res, next) {
   Show.findById(req.body.showId, function(err, show) {
     if (err) return next(err);
-    show.subscribers.push(req.user.id);
+    show.subscribers.push(req.user._id);
     show.save(function(err) {
       if (err) return next(err);
       res.send(200);
@@ -235,7 +213,7 @@ app.post('/api/subscribe', ensureAuthenticated, function(req, res, next) {
 app.post('/api/unsubscribe', ensureAuthenticated, function(req, res, next) {
   Show.findById(req.body.showId, function(err, show) {
     if (err) return next(err);
-    var index = show.subscribers.indexOf(req.user.id);
+    var index = show.subscribers.indexOf(req.user._id);
     show.subscribers.splice(index, 1);
     show.save(function(err) {
       if (err) return next(err);
