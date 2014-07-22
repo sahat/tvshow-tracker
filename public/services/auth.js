@@ -33,7 +33,7 @@ angular.module('MyApp')
               signedRequest: response.authResponse.signedRequest,
               profile: profile
             };
-            $http.post(config.providers.facebook.url, data).success(function(token) {
+            $http.post('/auth/facebook', data).success(function(token) {
               var payload = JSON.parse($window.atob(token.split('.')[1]));
               $window.localStorage.token = token;
               $rootScope.currentUser = payload.user;
@@ -50,12 +50,12 @@ angular.module('MyApp')
         }, { scope: 'email, public_profile' });
       },
       login: function(user) {
-        return $http.post('/api/login', user)
+        return $http.post('/auth/login', user)
           .success(function(data, status, headers, config) {
             $window.localStorage.token = data.token;
             var payload = JSON.parse($window.atob(data.token.split('.')[1]));
             $rootScope.currentUser = payload.user;
-            $location.path(config.loginRedirect);
+            $location.path('/');
             $alert({
               title: 'Cheers!',
               content: 'You have successfully logged in.',
@@ -76,7 +76,7 @@ angular.module('MyApp')
           });
       },
       signup: function(user) {
-        return $http.post('/api/signup', user)
+        return $http.post('/auth/signup', user)
           .success(function() {
             $location.path('/login');
 
@@ -99,15 +99,13 @@ angular.module('MyApp')
           });
       },
       logout: function() {
-        return $http.get('/api/logout').success(function() {
-          delete $window.localStorage.token;
-          $rootScope.currentUser = null;
-          $alert({
-            content: 'You have been logged out.',
-            placement: 'top-right',
-            type: 'info',
-            duration: 3
-          });
+        delete $window.localStorage.token;
+        $rootScope.currentUser = null;
+        $alert({
+          content: 'You have been logged out.',
+          placement: 'top-right',
+          type: 'info',
+          duration: 3
         });
       }
     };
