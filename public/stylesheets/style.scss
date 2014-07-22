@@ -1,10 +1,10 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
 
-$body-bg: #e4e7ec;
+$body-bg: #fff;
 
 $font-family-base: 'Open Sans', sans-serif;
 $headings-color: #111;
-$headings-font-family: Avenir, sans-serif;
+$headings-font-family: 'Raleway', 'Open Sans', 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
 $headings-font-weight: bold;
 
 $brand-success: #22ae5f;
@@ -220,5 +220,31 @@ em {
     > a {
       padding: 15px;
     }
+  }
+}
+
+.page-title {
+  display: inline-block;
+  border-bottom: 3px solid;
+  padding-bottom: 7px;
+  margin-bottom: 44px;
+  text-transform: uppercase;
+}
+
+.caption {
+  margin-bottom: 44px;
+
+  p {
+    font-size: 12px;
+  }
+
+  strong {
+    color: $gray-darker;
+  }
+
+  h5 {
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
   }
 }

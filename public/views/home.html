@@ -14,25 +14,20 @@
 </div>
 
 <div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      {{headingTitle}}
-      <div class="pull-right">
-        <input class="search" type="text" ng-model="query.name" placeholder="Search...">
-      </div>
-    </div>
-    <div class="panel-body">
-      <div class="row show-list">
-        <div class="col-xs-4 col-md-3" ng-repeat="show in shows | filter:query | orderBy:'rating':true">
-          <a href="/shows/{{show._id}}">
-            <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
-          </a>
-          <div class="text-center">
-            <a href="/shows/{{show._id}}">{{show.name}}</a>
-            <p class="text-muted">Episodes: {{show.episodes.length}}</p>
-          </div>
-        </div>
+  <h5 class="page-title">{{headingTitle}}</h5>
+  <div class="pull-right">
+    <input class="search" type="text" ng-model="query.name" placeholder="Search...">
+  </div>
+  <div class="row show-list">
+    <div class="col-xs-4 col-md-3" ng-repeat="show in shows | filter:query | orderBy:'rating':true">
+      <a href="/shows/{{show._id}}">
+        <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
+      </a>
+      <div class="caption">
+        <h5><a href="/shows/{{show._id}}">{{show.name}}</a></h5>
+        <p class="text-muted">Episodes: <strong>{{show.episodes.length}}</strong></p>
       </div>
     </div>
   </div>
+
 </div>
