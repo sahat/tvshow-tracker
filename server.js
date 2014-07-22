@@ -1,7 +1,6 @@
 var path = require('path');
 var express = require('express');
 var cookieParser = require('cookie-parser');
-var session = require('express-session');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var logger = require('morgan');
@@ -10,6 +9,9 @@ var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var expressJwt = require('express-jwt');
+var jwt = require('jwt-simple');
+var moment = require('moment');
 
 var async = require('async');
 var request = require('request');
@@ -19,6 +21,8 @@ var agenda = require('agenda')({ db: { address: 'localhost:27017/test' } });
 var sugar = require('sugar');
 var nodemailer = require('nodemailer');
 var _ = require('lodash');
+
+var tokenSecret = 'hello world';
 
 var showSchema = new mongoose.Schema({
   _id: Number,
@@ -73,16 +77,6 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 var User = mongoose.model('User', userSchema);
 var Show = mongoose.model('Show', showSchema);
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
-
 passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
   User.findOne({ email: email }, function(err, user) {
     if (err) return done(err);
@@ -95,43 +89,106 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
   });
 }));
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) next();
-  else res.send(401);
-}
-
 mongoose.connect('localhost');
 
 var app = express();
 
 app.set('port', process.env.PORT || 3000);
+app.set('tokenSecret', 'keyboard cat');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(methodOverride());
 app.use(cookieParser());
-app.use(session({ secret: 'keyboard cat' }));
 app.use(passport.initialize());
-app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(function(req, res, next) {
-  if (req.user) {
-    res.cookie('user', JSON.stringify(req.user));
+
+function ensureAuthenticated(req, res, next) {
+  if (req.headers.authorization) {
+    var token = req.headers.authorization.split(' ')[1];
+    try {
+      var decoded = jwt.decode(token, app.get('tokenSecret'));
+      if (decoded.exp <= Date.now()) {
+        res.send(400, 'Access token has expired');
+      } else {
+        return next();
+      }
+    } catch (err) {
+      return next();
+    }
+  } else {
+    return res.send(401);
   }
-  next();
-});
+}
 
-app.post('/api/login', passport.authenticate('local'), function(req, res) {
-  res.cookie('user', JSON.stringify(req.user));
-  res.send(req.user);
-});
+function createJwtToken(user) {
+  var payload = {
+    user: user,
+    iat: new Date().getTime(),
+    exp: moment().add('days', 7).valueOf()
+  };
+  return jwt.encode(payload, app.get('tokenSecret'));
+}
 
-app.get('/api/logout', function(req, res) {
-  req.logout();
+app.get('/api/profile', expressJwt({secret: 'some token'}), function(req, res, next) {
+  console.log(req.user);
   res.send(200);
 });
 
-app.post('/api/signup', function(req, res, next) {
+app.post('/api/login', passport.authenticate('local', { session: false }), function(req, res) {
+  var payload = {
+    prn: req.user,
+    exp: moment().add('days', 7).valueOf()
+  };
+  var token = jwt.encode(payload, tokenSecret);
+  res.send({ token: token });
+});
+
+app.post('/auth/login', function(req, res, next) {
+  User.findOne({ email: req.body.email }, function(err, user) {
+    if (!user) return res.send(401, 'User does not exist');
+    user.comparePassword(req.body.password, function(err, isMatch) {
+      if (!isMatch) return res.send(401, 'Invalid email and/or password');
+      var token = createJwtToken(user);
+      res.send({ token: token });
+    });
+  });
+});
+
+app.post('/auth/facebook', function(req, res, next) {
+  var profile = req.body.profile;
+  var signedRequest = req.body.signedRequest;
+  var encodedSignature = signedRequest.split('.')[0];
+  var payload = signedRequest.split('.')[1];
+
+  var appSecret = '298fb6c080fda239b809ae418bf49700';
+
+  var expectedSignature = crypto.createHmac('sha256', appSecret).update(payload).digest('base64');
+  expectedSignature = expectedSignature.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+  if (encodedSignature !== expectedSignature) {
+    return res.send(400, 'Bad signature');
+  }
+
+  User.findOne({ facebook: profile.id }, '-password', function(err, existingUser) {
+    if (existingUser) {
+      var token = createJwtToken(existingUser);
+      return res.send(token);
+    }
+    var user = new User({
+      facebook: profile.id,
+      firstName: profile.first_name,
+      lastName: profile.last_name
+    });
+    user.save(function(err) {
+      if (err) return next(err);
+      var token = createJwtToken(user);
+      res.send(token);
+    });
+  });
+});
+
+app.post('/auth/signup', function(req, res, next) {
   var user = new User({
     email: req.body.email,
     password: req.body.password
