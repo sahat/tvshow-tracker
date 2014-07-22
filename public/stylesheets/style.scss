@@ -107,21 +107,26 @@ em {
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
 }
 
-.alert.top-right {
-  position: fixed;
-  top: 50px;
-  right: 0;
-  margin: 20px;
-  z-index: 1050;
-  outline: none;
-
-  .close {
-    padding-left: 10px
-  }
-}
+//.alert.top-right {
+//  position: fixed;
+//  top: 50px;
+//  right: 0;
+//  margin: 20px;
+//  z-index: 1050;
+//  outline: none;
+//
+//  .close {
+//    padding-left: 10px
+//  }
+//}
 
 .btn {
   border-radius: 2px;
+}
+
+.btn-facebook {
+  border-color: darken(#3b5998, 20%);
+  background-color: #3b5998;
 }
 
 .center-form {
