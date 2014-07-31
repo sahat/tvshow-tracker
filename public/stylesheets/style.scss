@@ -256,7 +256,7 @@ em {
   font-size: 1.2em;
 }
 
-.view.ng-enter {
+.fadeZoom.ng-enter {
   -webkit-animation-name: fadeIn, zoomIn;
   -webkit-animation-duration: 0.6s, 0.2s;
   animation-name: fadeIn, zoomIn;

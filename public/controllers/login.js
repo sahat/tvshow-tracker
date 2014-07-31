@@ -9,5 +9,11 @@ angular.module('MyApp')
 
     $scope.facebookLogin = function() {
       Auth.facebookLogin();
-    }
+    };
+
+    $scope.googleLogin = function() {
+      Auth.facebookLogin();
+    };
+
+    $scope.pageClass = 'fadeZoom';
   });
