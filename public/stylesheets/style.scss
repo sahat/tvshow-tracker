@@ -259,4 +259,33 @@ em {
 .view.ng-enter {
   -webkit-animation-name: fadeIn, zoomIn;
   -webkit-animation-duration: 0.6s, 0.2s;
+  animation-name: fadeIn, zoomIn;
+  animation-duration: 0.6s, 0.2s;
+}
+
+// Animate.css overrides
+
+@-webkit-keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.8, .8, .8);
+    transform: scale3d(.8, .8, .8);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.8, .8, .8);
+    -ms-transform: scale3d(.8, .8, .8);
+    transform: scale3d(.8, .8, .8);
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
