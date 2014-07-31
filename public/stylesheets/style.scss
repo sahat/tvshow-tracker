@@ -48,6 +48,9 @@ $alert-info-bg: #e5f7fd;
 $alert-info-border: #bcf8f3;
 $alert-info-text: #25484e;
 
+$btn-font-weight: bold;
+
+
 @import 'bootstrap/bootstrap';
 
 body {
@@ -120,6 +123,17 @@ em {
   &:hover {
     color: #fff;
     background-color: darken(#3b5998, 6%);
+  }
+}
+
+.btn-google-plus {
+  color: #fff;
+  background-color: #dd4b39;
+  border: 1px solid darken(#dd4b39, 3%);
+
+  &:hover {
+    color: #fff;
+    background-color: darken(#dd4b39, 6%);
   }
 }
 
@@ -224,13 +238,20 @@ em {
   height: 46px;
   line-height: 46px;
   color: #555;
-  font-size: 1.2em;
 }
 
 .has-feedback .form-control {
   padding-left: 42.5px;
 }
 
+[class^='ion-'] {
+  font-size: 1.2em;
+}
+
 .btn [class^='ion-'] {
   margin-right: 6px;
+}
+
+.btn-lg {
+  font-size: 14px;
 }
