@@ -1,10 +1,11 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
-
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 $body-bg: #e4e7ec;
 
 $font-family-base: 'Open Sans', sans-serif;
 $headings-color: #111;
-$headings-font-family: Avenir, sans-serif;
+
+$headings-font-family: 'Montserrat', sans-serif;
 $headings-font-weight: bold;
 
 $brand-success: #22ae5f;
@@ -107,19 +108,6 @@ em {
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
 }
 
-.alert.top-right {
-  position: fixed;
-  top: 50px;
-  right: 0;
-  margin: 20px;
-  z-index: 1050;
-  outline: none;
-
-  .close {
-    padding-left: 10px
-  }
-}
-
 .btn {
   border-radius: 2px;
 }
@@ -164,8 +152,8 @@ em {
 .panel {
   border-color: #cfd9D7;
   border-radius: 2px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 3px rgba(0,0,0,.1);
+  -webkit-box-shadow: 0 0 3px rgba(0,0,0,.1)
 }
 
 .panel-default > .panel-heading {
@@ -227,4 +215,17 @@ em {
       padding: 15px;
     }
   }
+}
+
+.has-feedback .form-control-feedback {
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  line-height: 46px;
+  color: #555;
+}
+
+.has-feedback .form-control {
+  padding-left: 42.5px;
 }
