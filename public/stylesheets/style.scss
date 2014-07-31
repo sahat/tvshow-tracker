@@ -115,6 +115,14 @@ em {
   border-radius: 2px;
 }
 
+.btn-lg {
+  font-size: 14px;
+}
+
+.btn [class^='ion-'] {
+  margin-right: 6px;
+}
+
 .btn-facebook {
   color: #fff;
   background-color: #3b5998;
@@ -122,7 +130,7 @@ em {
 
   &:hover {
     color: #fff;
-    background-color: darken(#3b5998, 6%);
+    background-color: darken(#3b5998, 7%);
   }
 }
 
@@ -133,7 +141,7 @@ em {
 
   &:hover {
     color: #fff;
-    background-color: darken(#dd4b39, 6%);
+    background-color: darken(#dd4b39, 7%);
   }
 }
 
@@ -246,12 +254,4 @@ em {
 
 [class^='ion-'] {
   font-size: 1.2em;
-}
-
-.btn [class^='ion-'] {
-  margin-right: 6px;
-}
-
-.btn-lg {
-  font-size: 14px;
 }
