@@ -1,5 +1,14 @@
 angular.module('MyApp')
-  .controller('AddCtrl', ['$scope', '$alert', 'Show', function($scope, $alert, Show) {
+  .controller('AddCtrl', ['$scope', '$alert', 'Show', function($scope, $alert, $typeahead, Show) {
+
+    $alert({
+      animation: 'fadeZoomFadeDown',
+      content: 'Hi',
+      type: 'material',
+      duration: 2
+    });
+
+
     $scope.addShow = function() {
       Show.save({ showName: $scope.showName },
         function() {

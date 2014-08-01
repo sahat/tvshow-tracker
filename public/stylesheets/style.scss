@@ -1,5 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
 @import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+
 $body-bg: #e4e7ec;
 
 $font-family-base: 'Open Sans', sans-serif;
@@ -49,7 +50,6 @@ $alert-info-border: #bcf8f3;
 $alert-info-text: #25484e;
 
 $btn-font-weight: bold;
-
 
 @import 'bootstrap/bootstrap';
 
@@ -174,8 +174,8 @@ em {
 .panel {
   border-color: #cfd9D7;
   border-radius: 2px;
-  box-shadow: 0 0 3px rgba(0,0,0,.1);
-  -webkit-box-shadow: 0 0 3px rgba(0,0,0,.1)
+  box-shadow: 0 0 3px rgba(0, 0, 0, .1);
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .1)
 }
 
 .panel-default > .panel-heading {
@@ -239,6 +239,46 @@ em {
   }
 }
 
+.alert-material {
+  display: inline-block;
+  background: #323232;
+  color: #f1f1f1;
+  min-height: 48px;
+  min-width: 288px;
+  padding: 16px 24px 12px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+  border-radius: 2px;
+  font-size: 14px;
+  cursor: default;
+  position: fixed;
+  max-width: 879px;
+  max-height: 40px;
+  bottom: 12px;
+  opacity: 1;
+  transform: translate(0, 0);
+  -webkit-transform: translate(0, 0);
+  transition: transform .2s ease-in-out, opacity .2s ease-in-out;
+  -webkit-transition: -webkit-transform .2s ease-in-out, opacity .2s ease-in-out;
+
+  right: 12px;
+
+  span {
+    overflow: hidden;
+  }
+}
+
+.alert-dismissable .close {
+  line-height: 19px;
+  top: 0;
+  right: -11px;
+  color: #eeff41;
+  cursor: pointer;
+  float: right;
+  opacity: 1;
+  text-shadow: none;
+  font-weight: normal;
+}
+
 .signup-or-separator {
   background: none;
   height: 34px;
@@ -286,6 +326,15 @@ em {
   -webkit-animation-duration: 0.6s, 0.2s;
   animation-name: fadeIn, zoomIn;
   animation-duration: 0.6s, 0.2s;
+}
+
+.fadeZoomFadeDown.ng-enter {
+  @extend .fadeZoom.ng-enter;
+}
+
+.fadeZoomFadeDown.ng-leave {
+  -webkit-animation: fadeOutDown 0.6s;
+  animation: fadeOutDown 0.6s;
 }
 
 // Animate.css overrides
