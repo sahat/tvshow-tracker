@@ -238,13 +238,14 @@ em {
 
 
 .alert-material {
+  font-family: 'Roboto', sans-serif;
   outline: none;
   display: inline-block;
   background: #323232;
   color: #f1f1f1;
   min-height: 48px;
   min-width: 288px;
-  padding: 16px 24px 12px;
+  padding: 13px 24px 12px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
   border-radius: 2px;
   font-size: 14px;
