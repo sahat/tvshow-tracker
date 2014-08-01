@@ -168,6 +168,23 @@ em {
   }
 }
 
+.password-strength-indicator {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  width: 5px;
+  padding: 0 15px;
+}
+
+.password-strength-indicator span {
+  display: block;
+  height: 5px;
+  margin-bottom: 2px;
+  width: 5px;
+  border-radius: 5px;
+  background: #ebeef1;
+}
+
 .panel {
   border-color: #cfd9D7;
   border-radius: 2px;
@@ -358,3 +375,4 @@ em {
     opacity: 1;
   }
 }
+
