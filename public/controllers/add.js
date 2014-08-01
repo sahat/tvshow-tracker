@@ -1,23 +1,14 @@
 angular.module('MyApp')
-  .controller('AddCtrl', ['$scope', '$alert', 'Show', function($scope, $alert, $typeahead, Show) {
-
-    $alert({
-      animation: 'fadeZoomFadeDown',
-      content: 'Hi',
-      type: 'material',
-      duration: 2
-    });
-
-
+  .controller('AddCtrl', function($scope, $alert, $typeahead, Show) {
     $scope.addShow = function() {
       Show.save({ showName: $scope.showName },
         function() {
           $scope.showName = '';
           $scope.addForm.$setPristine();
           $alert({
+            animation: 'fadeZoomFadeDown',
             content: 'TV show has been added.',
-            placement: 'top-right',
-            type: 'success',
+            type: 'material',
             duration: 3
           });
         },
@@ -25,11 +16,11 @@ angular.module('MyApp')
           $scope.showName = '';
           $scope.addForm.$setPristine();
           $alert({
+            animation: 'fadeZoomFadeDown',
             content: response.data.message,
-            placement: 'top-right',
-            type: 'danger',
+            type: 'material',
             duration: 3
           });
         });
     };
-  }]);
+  });
