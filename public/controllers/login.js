@@ -12,7 +12,7 @@ angular.module('MyApp')
     };
 
     $scope.googleLogin = function() {
-      Auth.facebookLogin();
+      Auth.googleLogin();
     };
 
     $scope.pageClass = 'fadeZoom';

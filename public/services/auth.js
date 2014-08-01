@@ -41,8 +41,8 @@ angular.module('MyApp')
               $alert({
                 title: 'Cheers!',
                 content: 'You have successfully signed-in with Facebook.',
-                placement: 'top-right',
-                type: 'success',
+                animation: 'fadeZoomFadeDown',
+                type: 'material',
                 duration: 3
               });
             });
@@ -59,8 +59,8 @@ angular.module('MyApp')
             $alert({
               title: 'Cheers!',
               content: 'You have successfully logged in.',
-              placement: 'top-right',
-              type: 'success',
+              animation: 'fadeZoomFadeDown',
+              type: 'material',
               duration: 3
             });
           })
@@ -69,8 +69,8 @@ angular.module('MyApp')
             $alert({
               title: 'Error!',
               content: 'Invalid username or password.',
-              placement: 'top-right',
-              type: 'danger',
+              animation: 'fadeZoomFadeDown',
+              type: 'material',
               duration: 3
             });
           });
@@ -79,12 +79,11 @@ angular.module('MyApp')
         return $http.post('/auth/signup', user)
           .success(function() {
             $location.path('/login');
-
             $alert({
               title: 'Congratulations!',
               content: 'Your account has been created.',
-              placement: 'top-right',
-              type: 'success',
+              animation: 'fadeZoomFadeDown',
+              type: 'material',
               duration: 3
             });
           })
@@ -92,8 +91,8 @@ angular.module('MyApp')
             $alert({
               title: 'Error!',
               content: response.data,
-              placement: 'top-right',
-              type: 'danger',
+              animation: 'fadeZoomFadeDown',
+              type: 'material',
               duration: 3
             });
           });
@@ -103,8 +102,8 @@ angular.module('MyApp')
         $rootScope.currentUser = null;
         $alert({
           content: 'You have been logged out.',
-          placement: 'top-right',
-          type: 'info',
+          animation: 'fadeZoomFadeDown',
+          type: 'material',
           duration: 3
         });
       }
