@@ -2,7 +2,7 @@
   "name": "application-name",
   "version": "0.0.0",
   "scripts": {
-    "test": "karma start test/karma.conf.js"
+    "test": "karma start public/test/karma.conf.js"
   },
   "dependencies": {
     "agenda": "^0.6.10",
@@ -36,6 +36,8 @@
     "gulp-plumber": "^0.6.1",
     "gulp-sass": "^0.7.1",
     "gulp-uglify": "^0.3.0",
-    "karma": "^0.12.19"
+    "karma": "^0.12.19",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-jasmine": "^0.1.5"
   }
 }
