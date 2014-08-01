@@ -239,6 +239,26 @@ em {
   }
 }
 
+.signup-or-separator {
+  background: none;
+  height: 34px;
+  position: relative;
+  text-align: center;
+
+  hr {
+    border-top: 1px solid #dce0e0;
+    margin: -16px auto 10px auto;
+    width: 90%;
+  }
+
+  .text {
+    background-color: #fff;
+    display: inline-block;
+    margin: 0;
+    padding: 8px;
+  }
+}
+
 .has-feedback .form-control-feedback {
   top: 0;
   left: 0;
