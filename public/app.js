@@ -1,8 +1,11 @@
 // TODO user profile page
 // TODO Live validation of email availability during user signup
 // TODO password strength
-angular.module('MyApp', ['ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
-  .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+// TODO tests
+// TODO https://trakt.tv/
+
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate', 'mgcrea.ngStrap'])
+  .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 
     $routeProvider
@@ -29,7 +32,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'
       .otherwise({
         redirectTo: '/'
       });
-  }])
+  })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push(function ($rootScope, $q, $window, $location) {
       return {
