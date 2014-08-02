@@ -71,12 +71,8 @@ angular.module('MyApp')
             var request = gapi.client.plus.people.get({
               userId: 'me'
             });
-            request.execute(function(response) {
-              var data = {
-                accessToken: token.access_token,
-                profile: response
-              };
-              $http.post('/auth/google', data).success(function(token) {
+            request.execute(function(authData) {
+              $http.post('/auth/google', authData).success(function(token) {
                 var payload = JSON.parse($window.atob(token.split('.')[1]));
                 $window.localStorage.token = token;
                 $rootScope.currentUser = payload.user;

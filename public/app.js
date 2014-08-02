@@ -44,7 +44,4 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate', 'mg
         }
       }
     });
-  })
-  .run(function($rootScope, $location) {
-
   });
