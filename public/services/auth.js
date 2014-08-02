@@ -6,6 +6,7 @@ angular.module('MyApp')
       $rootScope.currentUser = payload.user;
     }
 
+    // Asynchronously initialize Facebook SDK
     $window.fbAsyncInit = function() {
       FB.init({
         appId: '624059410963642',
@@ -14,6 +15,7 @@ angular.module('MyApp')
       });
     };
 
+    // Asynchronously load Facebook SDK
     (function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {
@@ -24,6 +26,16 @@ angular.module('MyApp')
       js.src = "//connect.facebook.net/en_US/sdk.js";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+
+    // Asynchronously load Google+ SDK
+    (function() {
+      var po = document.createElement('script');
+      po.type = 'text/javascript';
+      po.async = true;
+      po.src = 'https://apis.google.com/js/client:plusone.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(po, s);
+    })();
 
     return {
       facebookLogin: function() {
@@ -49,9 +61,34 @@ angular.module('MyApp')
           });
         }, { scope: 'email, public_profile' });
       },
+      googleLogin: function() {
+        gapi.auth.authorize({
+          client_id: '55262601920-5jhf3qth89okujq6a7lh8bqc9epr8475.apps.googleusercontent.com',
+          scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read',
+          immediate: false
+        }, function(token) {
+          gapi.client.load('plus', 'v1', function() {
+            var request = gapi.client.plus.people.get({
+              userId: 'me'
+            });
+            request.execute(function(response) {
+              var data = {
+                accessToken: token.access_token,
+                profile: response
+              };
+              $http.post('/auth/google', data).success(function(token) {
+                var payload = JSON.parse($window.atob(token.split('.')[1]));
+                $window.localStorage.token = token;
+                $rootScope.currentUser = payload.user;
+                $location.path('/');
+              });
+            });
+          });
+        });
+      },
       login: function(user) {
         return $http.post('/auth/login', user)
-          .success(function(data, status, headers, config) {
+          .success(function(data) {
             $window.localStorage.token = data.token;
             var payload = JSON.parse($window.atob(data.token.split('.')[1]));
             $rootScope.currentUser = payload.user;
