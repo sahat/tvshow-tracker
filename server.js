@@ -154,18 +154,20 @@ app.post('/auth/facebook', function(req, res, next) {
   expectedSignature = expectedSignature.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
   if (encodedSignature !== expectedSignature) {
-    return res.send(400, 'Bad signature');
+    return res.send(400, 'Invalid Request Signature');
   }
 
-  User.findOne({ facebook: profile.id }, '-password', function(err, existingUser) {
+  User.findOne({ facebook: profile.id }, function(err, existingUser) {
     if (existingUser) {
       var token = createJwtToken(existingUser);
       return res.send(token);
     }
     var user = new User({
-      facebook: profile.id,
-      name: profile.first_name,
-      email: profile.last_name
+      name: profile.name,
+      facebook: {
+        id: profile.id,
+        email: profile.email
+      }
     });
     user.save(function(err) {
       if (err) return next(err);
