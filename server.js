@@ -8,7 +8,6 @@ var logger = require('morgan');
 var crypto = require('crypto');
 var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
-var expressJwt = require('express-jwt');
 var jwt = require('jwt-simple');
 var moment = require('moment');
 
@@ -21,7 +20,7 @@ var sugar = require('sugar');
 var nodemailer = require('nodemailer');
 var _ = require('lodash');
 
-var tokenSecret = 'hello world';
+var tokenSecret = 'your unique secret';
 
 var showSchema = new mongoose.Schema({
   _id: Number,
@@ -90,7 +89,6 @@ mongoose.connect('localhost');
 var app = express();
 
 app.set('port', process.env.PORT || 3000);
-app.set('tokenSecret', 'keyboard cat');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -102,7 +100,7 @@ function ensureAuthenticated(req, res, next) {
   if (req.headers.authorization) {
     var token = req.headers.authorization.split(' ')[1];
     try {
-      var decoded = jwt.decode(token, app.get('tokenSecret'));
+      var decoded = jwt.decode(token, tokenSecret);
       if (decoded.exp <= Date.now()) {
         res.send(400, 'Access token has expired');
       } else {
@@ -123,11 +121,10 @@ function createJwtToken(user) {
     iat: new Date().getTime(),
     exp: moment().add('days', 7).valueOf()
   };
-  return jwt.encode(payload, app.get('tokenSecret'));
+  return jwt.encode(payload, tokenSecret);
 }
 
 app.post('/auth/signup', function(req, res, next) {
-  console.log(req.body);
   var user = new User({
     name: req.body.name,
     email: req.body.email,
@@ -242,39 +239,16 @@ app.get('/api/shows/:id', function(req, res, next) {
   });
 });
 
-app.post('/api/subscribe', ensureAuthenticated, function(req, res, next) {
-  Show.findById(req.body.showId, function(err, show) {
-    if (err) return next(err);
-    show.subscribers.push(req.user._id);
-    show.save(function(err) {
-      if (err) return next(err);
-      res.send(200);
-    });
-  });
-});
-
-app.post('/api/unsubscribe', ensureAuthenticated, function(req, res, next) {
-  Show.findById(req.body.showId, function(err, show) {
-    if (err) return next(err);
-    var index = show.subscribers.indexOf(req.user._id);
-    show.subscribers.splice(index, 1);
-    show.save(function(err) {
-      if (err) return next(err);
-      res.send(200);
-    });
-  });
-});
-
 app.post('/api/shows', function (req, res, next) {
+  var seriesName = req.body.showName
+    .toLowerCase()
+    .replace(/ /g, '_')
+    .replace(/[^\w-]+/g, '');
   var apiKey = '9EF1D1E7D28FDA0B';
   var parser = xml2js.Parser({
     explicitArray: false,
     normalizeTags: true
   });
-  var seriesName = req.body.showName
-    .toLowerCase()
-    .replace(/ /g, '_')
-    .replace(/[^\w-]+/g, '');
 
   async.waterfall([
     function (callback) {
@@ -347,6 +321,29 @@ app.post('/api/shows', function (req, res, next) {
   });
 });
 
+app.post('/api/subscribe', ensureAuthenticated, function(req, res, next) {
+  Show.findById(req.body.showId, function(err, show) {
+    if (err) return next(err);
+    show.subscribers.push(req.user._id);
+    show.save(function(err) {
+      if (err) return next(err);
+      res.send(200);
+    });
+  });
+});
+
+app.post('/api/unsubscribe', ensureAuthenticated, function(req, res, next) {
+  Show.findById(req.body.showId, function(err, show) {
+    if (err) return next(err);
+    var index = show.subscribers.indexOf(req.user._id);
+    show.subscribers.splice(index, 1);
+    show.save(function(err) {
+      if (err) return next(err);
+      res.send(200);
+    });
+  });
+});
+
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
 });
@@ -363,7 +360,13 @@ app.listen(app.get('port'), function() {
 agenda.define('send email alert', function(job, done) {
   Show.findOne({ name: job.attrs.data }).populate('subscribers').exec(function(err, show) {
     var emails = show.subscribers.map(function(user) {
-      return user.email;
+      if (user.facebook) {
+        return user.facebook.email;
+      } else if (user.google) {
+        return user.google.email
+      } else {
+        return user.email
+      }
     });
 
     var upcomingEpisode = show.episodes.filter(function(episode) {
