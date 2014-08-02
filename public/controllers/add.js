@@ -1,8 +1,8 @@
 angular.module('MyApp')
   .controller('AddCtrl', function($scope, $alert, Show) {
     $scope.addShow = function() {
-      Show.save({ showName: $scope.showName },
-        function() {
+      Show.save({ showName: $scope.showName }).$promise
+        .then(function() {
           $scope.showName = '';
           $scope.addForm.$setPristine();
           $alert({
@@ -11,8 +11,8 @@ angular.module('MyApp')
             type: 'material',
             duration: 3
           });
-        },
-        function(response) {
+        })
+        .catch(function(response) {
           $scope.showName = '';
           $scope.addForm.$setPristine();
           $alert({
