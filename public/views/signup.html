@@ -6,7 +6,7 @@
           <h2 class="text-center">Sign up</h2>
 
           <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.fullName.$invalid && signupForm.fullName.$dirty }">
-            <input class="form-control input-lg" type="text" name="fullName" ng-model="fullName" placeholder="Name" required>
+            <input class="form-control input-lg" type="text" name="displayName" ng-model="displayName" placeholder="Name" required>
             <span class="ion-person form-control-feedback"></span>
             <div class="help-block text-danger" ng-if="signupForm.fullName.$dirty" ng-messages="signupForm.fullName.$error">
               <div ng-message="required">You must enter your name.</div>
@@ -25,7 +25,6 @@
 
           <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.password.$invalid && signupForm.password.$dirty }">
             <input password-strength class="form-control input-lg" type="password" name="password" ng-model="password" placeholder="Password" required>
-
             <span class="ion-key form-control-feedback"></span>
             <div class="help-block text-danger" ng-if="signupForm.password.$dirty" ng-messages="signupForm.password.$error">
               <div ng-message="required">Password is required.</div>

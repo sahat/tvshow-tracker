@@ -126,9 +126,16 @@ function createJwtToken(user) {
   return jwt.encode(payload, app.get('tokenSecret'));
 }
 
-app.get('/api/profile', expressJwt({secret: 'some token'}), function(req, res, next) {
-  console.log(req.user);
-  res.send(200);
+app.post('/auth/signup', function(req, res, next) {
+  var user = new User({
+    name: req.body.displayName,
+    email: req.body.email,
+    password: req.body.password
+  });
+  user.save(function(err) {
+    if (err) return next(err);
+    res.send(200);
+  });
 });
 
 app.post('/auth/login', function(req, res, next) {
@@ -210,16 +217,7 @@ app.get('/api/users', function(req, res, next) {
   });
 });
 
-app.post('/auth/signup', function(req, res, next) {
-  var user = new User({
-    email: req.body.email,
-    password: req.body.password
-  });
-  user.save(function(err) {
-    if (err) return next(err);
-    res.send(200);
-  });
-});
+
 
 app.get('/api/shows', function(req, res, next) {
   var query = Show.find();
