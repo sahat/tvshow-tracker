@@ -4,12 +4,13 @@ module.exports = function(config) {
     basePath: '../',
 
     files: [
+      'vendor/angular.js',
       'vendor/*.js',
       'app.js',
-      'controllers/*.js',
-      'directives/*.js',
-      'filters/*.js',
       'services/*.js',
+      'controllers/*.js',
+      'filters/*.js',
+      'directives/*.js',
       'test/unit/*.js'
     ],
 

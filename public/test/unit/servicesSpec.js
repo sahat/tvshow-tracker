@@ -1,10 +1,9 @@
 describe('service', function() {
-  beforeEach(module('myApp.services'));
+  beforeEach(module('MyApp'));
 
-
-  describe('version', function() {
-    it('should return current version', inject(function(version) {
-      expect(version).toEqual('0.1');
+  describe('Auth', function() {
+    it('should return current version', inject(function(Auth) {
+      expect(Auth).toBeDefined();
     }));
   });
 });
