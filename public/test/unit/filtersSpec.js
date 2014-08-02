@@ -1,4 +1,4 @@
-describe('filter', function() {
+describe('filters', function() {
   beforeEach(module('MyApp'));
 
   describe('fromNow', function() {
