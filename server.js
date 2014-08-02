@@ -127,8 +127,9 @@ function createJwtToken(user) {
 }
 
 app.post('/auth/signup', function(req, res, next) {
+  console.log(req.body);
   var user = new User({
-    name: req.body.displayName,
+    name: req.body.name,
     email: req.body.email,
     password: req.body.password
   });
