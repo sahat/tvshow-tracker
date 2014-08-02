@@ -49,8 +49,17 @@ var showSchema = new mongoose.Schema({
 });
 
 var userSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
-  password: String
+  name: { type: String, trim: true, required: true },
+  email: { type: String, unique: true, lowercase: true, trim: true },
+  password: String,
+  facebook: {
+    id: String,
+    email: String
+  },
+  google: {
+    id: String,
+    email: String
+  }
 });
 
 userSchema.pre('save', function(next) {
@@ -155,14 +164,47 @@ app.post('/auth/facebook', function(req, res, next) {
     }
     var user = new User({
       facebook: profile.id,
-      firstName: profile.first_name,
-      lastName: profile.last_name
+      name: profile.first_name,
+      email: profile.last_name
     });
     user.save(function(err) {
       if (err) return next(err);
       var token = createJwtToken(user);
       res.send(token);
     });
+  });
+});
+
+app.post('/auth/google', function(req, res, next) {
+  var profile = req.body.profile;
+  User.findOne({ google: profile.id }, function(err, existingUser) {
+    if (existingUser) {
+      var token = createJwtToken(existingUser);
+      return res.send(token);
+    }
+    var user = new User({
+      name: profile.displayName,
+      google: {
+        id: profile.id,
+        email: profile.emails[0].value
+      }
+    });
+    user.save(function(err) {
+      if (err) return next(err);
+      var token = createJwtToken(user);
+      res.send(token);
+    });
+  });
+});
+
+app.get('/api/users', function(req, res, next) {
+  if (!req.query.email) {
+    return res.send(400, { message: 'Email parameter is required.' });
+  }
+
+  User.findOne({ email: req.query.email }, function(err, user) {
+    if (err) return next(err);
+    res.send({ available: !user });
   });
 });
 
