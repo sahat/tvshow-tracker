@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var csso = require('gulp-csso');
-var ngmin = require('gulp-ngmin');
+var ngAnnotate = require('gulp-ng-annotate');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var plumber = require('gulp-plumber');
@@ -27,7 +27,7 @@ gulp.task('compress', function() {
     'public/directives/*.js'
   ])
     .pipe(concat('app.min.js'))
-    .pipe(ngmin())
+    .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(gulp.dest('public'));
 });
