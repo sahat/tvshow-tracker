@@ -19,7 +19,7 @@
             <div class="help-block text-danger" ng-if="signupForm.email.$dirty" ng-messages="signupForm.email.$error">
               <div ng-message="required">Your email address is required.</div>
               <div ng-message="email">Your email address is invalid.</div>
-              <div ng-message="unique">Email is already taken.</div>
+              <div ng-message="unique"><span class="ion-looping"></span> Email is already taken.</div>
             </div>
           </div>
 
