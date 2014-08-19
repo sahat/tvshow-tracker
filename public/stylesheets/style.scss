@@ -1,10 +1,9 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
-
 $body-bg: #e4e7ec;
 
 $font-family-base: 'Open Sans', sans-serif;
 $headings-color: #111;
-$headings-font-family: Avenir, sans-serif;
+
+$headings-font-family: 'Montserrat', sans-serif;
 $headings-font-weight: bold;
 
 $brand-success: #22ae5f;
@@ -46,6 +45,8 @@ $alert-danger-border: darken($alert-danger-bg, 3%);
 $alert-info-bg: #e5f7fd;
 $alert-info-border: #bcf8f3;
 $alert-info-text: #25484e;
+
+$btn-font-weight: bold;
 
 @import 'bootstrap/bootstrap';
 
@@ -107,21 +108,38 @@ em {
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
 }
 
-.alert.top-right {
-  position: fixed;
-  top: 50px;
-  right: 0;
-  margin: 20px;
-  z-index: 1050;
-  outline: none;
+.btn {
+  border-radius: 2px;
+}
 
-  .close {
-    padding-left: 10px
+.btn-lg {
+  font-size: 14px;
+}
+
+.btn [class^='ion-'] {
+  margin-right: 6px;
+}
+
+.btn-facebook {
+  color: #fff;
+  background-color: #3b5998;
+  border: 1px solid darken(#3b5998, 3%);
+
+  &:hover {
+    color: #fff;
+    background-color: darken(#3b5998, 7%);
   }
 }
 
-.btn {
-  border-radius: 2px;
+.btn-google-plus {
+  color: #fff;
+  background-color: #dd4b39;
+  border: 1px solid darken(#dd4b39, 3%);
+
+  &:hover {
+    color: #fff;
+    background-color: darken(#dd4b39, 7%);
+  }
 }
 
 .center-form {
@@ -150,11 +168,27 @@ em {
   }
 }
 
+.password-strength-indicator {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  width: 5px;
+  padding: 0 15px;
+}
+
+.password-strength-indicator span {
+  display: block;
+  height: 5px;
+  margin-bottom: 2px;
+  width: 5px;
+  border-radius: 5px;
+  background: #ebeef1;
+}
+
 .panel {
   border-color: #cfd9D7;
   border-radius: 2px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 17px rgba(0,0,0,.2);
 }
 
 .panel-default > .panel-heading {
@@ -190,7 +224,8 @@ em {
 }
 
 .navbar {
-  box-shadow: 0 3px 2px -3px rgba(0, 0, 0, 0.1);
+  border: 0;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
 }
 
 .navbar-header {
@@ -215,5 +250,118 @@ em {
     > a {
       padding: 15px;
     }
+  }
+}
+
+
+.alert-material {
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  display: inline-block;
+  background: #323232;
+  color: #f1f1f1;
+  min-height: 48px;
+  padding: 13px 24px 12px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+  z-index: 1;
+  border-radius: 2px;
+  cursor: default;
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+}
+
+.alert-dismissable .close {
+  line-height: 19px;
+  top: 0;
+  right: -11px;
+  color: #eeff41;
+  cursor: pointer;
+  float: right;
+  opacity: 1;
+  text-shadow: none;
+  font-weight: normal;
+}
+
+.signup-or-separator {
+  background: none;
+  height: 34px;
+  position: relative;
+  text-align: center;
+
+  hr {
+    border-top: 1px solid #dce0e0;
+    margin: -16px auto 10px auto;
+    width: 90%;
+  }
+
+  .text {
+    background-color: #fff;
+    display: inline-block;
+    margin: 0;
+    padding: 8px;
+  }
+}
+
+.has-feedback .form-control-feedback {
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  line-height: 46px;
+  color: #555;
+}
+
+.has-feedback .form-control {
+  padding-left: 42.5px;
+}
+
+[class^='ion-'] {
+  font-size: 1.2em;
+}
+
+.fade-repeat.ng-enter {
+  -webkit-animation: fadeIn 0.2s;
+  animation: fadeIn 0.2s;
+}
+
+.fadeZoom.ng-enter {
+  -webkit-animation-name: fadeIn, zoomIn;
+  -webkit-animation-duration: 0.6s, 0.2s;
+  animation-name: fadeIn, zoomIn;
+  animation-duration: 0.6s, 0.2s;
+}
+
+.fadeZoomFadeDown.ng-enter {
+  @extend .fadeZoom.ng-enter;
+}
+
+.fadeZoomFadeDown.ng-leave {
+  -webkit-animation: fadeOutDown 0.6s;
+  animation: fadeOutDown 0.6s;
+}
+
+@-webkit-keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.8, .8, .8);
+    transform: scale3d(.8, .8, .8);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.8, .8, .8);
+    -ms-transform: scale3d(.8, .8, .8);
+    transform: scale3d(.8, .8, .8);
+  }
+
+  50% {
+    opacity: 1;
   }
 }

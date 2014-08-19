@@ -3,18 +3,19 @@
 <head>
   <base href="/">
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ShowTrackr</title>
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link href="favicon.png" rel="icon" type="image/png">
+  <link href='http://fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+  <link href="//cdn.jsdelivr.net/ionicons/1.4.1/css/ionicons.min.css" rel="stylesheet">
+  <link href="stylesheets/animate.css" rel="stylesheet">
   <link href="stylesheets/style.css" rel="stylesheet">
 </head>
 <body>
 <div ng-controller="NavbarCtrl" class="navbar navbar-default navbar-static-top" role="navigation" bs-navbar>
   <div class="navbar-header">
     <a class="navbar-brand" href="/">
-      <span class="glyphicon glyphicon-film"></span>
-      Show<strong>Trackr</strong></a>
+      <span>Show<strong>Trackr</strong></span>
+    </a>
   </div>
   <ul class="nav navbar-nav">
     <li data-match-route="/$"><a href="/">Home</a></li>
@@ -30,7 +31,7 @@
   </ul>
 </div>
 
-<div ng-view></div>
+<div ng-view class="{{pageClass}}"></div>
 
 <script src="vendor/angular.js"></script>
 <script src="vendor/angular-strap.js"></script>
@@ -38,12 +39,13 @@
 <script src="vendor/angular-messages.js"></script>
 <script src="vendor/angular-resource.js"></script>
 <script src="vendor/angular-route.js"></script>
-<script src="vendor/angular-cookies.js"></script>
+<script src="vendor/angular-animate.js"></script>
 <script src="vendor/moment.min.js"></script>
 
 <script src="app.js"></script>
 <script src="filters/fromNow.js"></script>
-<script src="directives/repeatPassword.js"></script>
+<script src="directives/uniqueEmail.js"></script>
+<script src="directives/passwordStrength.js"></script>
 <script src="controllers/main.js"></script>
 <script src="controllers/detail.js"></script>
 <script src="controllers/add.js"></script>
