@@ -77,6 +77,13 @@ angular.module('MyApp')
                 $window.localStorage.token = token;
                 $rootScope.currentUser = payload.user;
                 $location.path('/');
+                $alert({
+                  title: 'Cheers!',
+                  content: 'You have successfully signed-in with Google.',
+                  animation: 'fadeZoomFadeDown',
+                  type: 'material',
+                  duration: 3
+                });
               });
             });
           });
