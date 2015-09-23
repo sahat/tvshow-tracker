@@ -2,8 +2,6 @@
   "name": "showtrackr",
   "version": "0.0.0",
   "scripts": {
-    "start": "npm run server",
-    "server": "node ./server",
     "test": "karma start public/test/karma.conf.js"
   },
   "dependencies": {

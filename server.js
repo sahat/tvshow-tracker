@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 
 var crypto = require('crypto');
+var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
 var jwt = require('jwt-simple');
 var moment = require('moment');
@@ -19,8 +20,67 @@ var _ = require('lodash');
 
 var tokenSecret = 'your unique secret';
 
-var User = require('./models/user');
-var Show = require('./models/show');
+var showSchema = new mongoose.Schema({
+  _id: Number,
+  name: String,
+  airsDayOfWeek: String,
+  airsTime: String,
+  firstAired: Date,
+  genre: [String],
+  network: String,
+  overview: String,
+  rating: Number,
+  ratingCount: Number,
+  status: String,
+  poster: String,
+  subscribers: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'User'
+  }],
+  episodes: [{
+    season: Number,
+    episodeNumber: Number,
+    episodeName: String,
+    firstAired: Date,
+    overview: String
+  }]
+});
+
+var userSchema = new mongoose.Schema({
+  name: { type: String, trim: true, required: true },
+  email: { type: String, unique: true, lowercase: true, trim: true },
+  password: String,
+  facebook: {
+    id: String,
+    email: String
+  },
+  google: {
+    id: String,
+    email: String
+  }
+});
+
+userSchema.pre('save', function(next) {
+  var user = this;
+  if (!user.isModified('password')) return next();
+  bcrypt.genSalt(10, function(err, salt) {
+    if (err) return next(err);
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if (err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
+
+var User = mongoose.model('User', userSchema);
+var Show = mongoose.model('Show', showSchema);
 
 mongoose.connect('localhost');
 
@@ -30,7 +90,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.resolve(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 function ensureAuthenticated(req, res, next) {
   if (req.headers.authorization) {
@@ -319,7 +379,7 @@ agenda.define('send email alert', function(job, done) {
       to: emails.join(','),
       subject: show.name + ' is starting soon!',
       text: show.name + ' starts in less than 2 hours on ' + show.network + '.\n\n' +
-        'Episode ' + upcomingEpisode.episodeNumber + ' Overview\n\n' + upcomingEpisode.overview
+      'Episode ' + upcomingEpisode.episodeNumber + ' Overview\n\n' + upcomingEpisode.overview
     };
 
     smtpTransport.sendMail(mailOptions, function(error, response) {
