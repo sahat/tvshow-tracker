@@ -1,38 +1,38 @@
 <div class="jumbotron">
-  <div class="container">
-    <ul class="alphabet">
-      <li ng-repeat="char in alphabet">
-        <span ng-click="filterByAlphabet(char)">{{char}}</span>
-      </li>
-    </ul>
-    <ul class="genres">
-      <li ng-repeat="genre in genres">
-        <span ng-click="filterByGenre(genre)">{{genre}}</span>
-      </li>
-    </ul>
-  </div>
+    <div class="container">
+        <ul class="alphabet">
+            <li ng-repeat="char in alphabet">
+                <span ng-click="filterByAlphabet(char)">{{char}}</span>
+            </li>
+        </ul>
+        <ul class="genres">
+            <li ng-repeat="genre in genres">
+                <span ng-click="filterByGenre(genre)">{{genre}}</span>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      {{headingTitle}}
-      <div class="pull-right">
-        <input class="search" type="text" ng-model="query.name" placeholder="Search...">
-      </div>
-    </div>
-    <div class="panel-body">
-      <div class="row show-list">
-        <div class="col-xs-4 col-md-3" ng-repeat="show in shows | filter:query | orderBy:'rating':true">
-          <a href="/shows/{{show._id}}">
-            <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
-          </a>
-          <div class="text-center">
-            <a href="/shows/{{show._id}}">{{show.name}}</a>
-            <p class="text-muted">Episodes: {{show.episodes.length}}</p>
-          </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{headingTitle}}
+            <div class="pull-right">
+                <input class="search" type="text" ng-model="query.name" placeholder="Search...">
+            </div>
         </div>
-      </div>
+        <div class="panel-body">
+            <div class="row show-list">
+                <div class="fade-repeat col-xs-4 col-md-3" ng-repeat="show in shows | filter:query | orderBy:'rating':true">
+                    <a href="/shows/{{show._id}}">
+                        <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
+                    </a>
+                    <div class="text-center">
+                        <a href="/shows/{{show._id}}">{{show.name}}</a>
+                        <p class="text-muted">Episodes: {{show.episodes.length}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

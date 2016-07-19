@@ -1,6 +1,5 @@
 angular.module('MyApp')
-  .controller('DetailCtrl', ['$scope', '$rootScope', '$routeParams', 'Show', 'Subscription',
-    function($scope, $rootScope, $routeParams, Show, Subscription) {
+  .controller('DetailCtrl', function($scope, $rootScope, $routeParams, Show, Subscription) {
       Show.get({ _id: $routeParams.id }, function(show) {
         $scope.show = show;
 
@@ -9,13 +8,13 @@ angular.module('MyApp')
         };
 
         $scope.subscribe = function() {
-          Subscription.subscribe(show, $rootScope.currentUser).success(function() {
+          Subscription.subscribe(show).success(function() {
             $scope.show.subscribers.push($rootScope.currentUser._id);
           });
         };
 
         $scope.unsubscribe = function() {
-          Subscription.unsubscribe(show, $rootScope.currentUser).success(function() {
+          Subscription.unsubscribe(show).success(function() {
             var index = $scope.show.subscribers.indexOf($rootScope.currentUser._id);
             $scope.show.subscribers.splice(index, 1);
           });
@@ -25,4 +24,4 @@ angular.module('MyApp')
           return new Date(episode.firstAired) > new Date();
         })[0];
       });
-    }]);
+    });

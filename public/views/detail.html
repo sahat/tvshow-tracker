@@ -7,12 +7,12 @@
           <div class="text-center" ng-if="currentUser">
             <div ng-show="!isSubscribed()">
               <button ng-click="subscribe()" class="btn btn-block btn-success">
-                <span class="glyphicon glyphicon-plus"></span> Subscribe
+                <span class="ion-plus"></span> Subscribe
               </button>
             </div>
             <div ng-show="isSubscribed()">
               <button ng-click="unsubscribe()" class="btn btn-block btn-danger">
-                <span class="glyphicon glyphicon-minus"></span> Unsubscribe
+                <span class="ion-minus"></span> Unsubscribe
               </button>
             </div>
           </div>
@@ -23,10 +23,10 @@
         <div class="media-body">
           <h2 class="media-heading">
             {{show.name}}
-            <span class="pull-right text-danger">{{show.rating}}</span>
+            <span class="pull-right text-danger"><span class="ion-heart"></span> {{show.rating}}</span>
           </h2>
           <h4 ng-show="show.status === 'Continuing'">
-            <span class="glyphicon glyphicon-calendar text-danger"></span>
+            <span class="ion-calendar"></span>
             {{show.airsDayOfWeek}} <em>{{show.airsTime}}</em> on
             {{show.network}}
           </h4>
@@ -45,7 +45,7 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <span class="glyphicon glyphicon-play"></span> Episodes
+      <span class="ion-film-marker"></span> Episodes
     </div>
     <div class="panel-body">
       <div class="episode" ng-repeat="episode in show.episodes">
@@ -53,7 +53,7 @@
         <small>Season {{episode.season}}, Episode {{episode.episodeNumber}}</small>
         </h4>
         <p>
-          <span class="glyphicon glyphicon-calendar"></span>
+          <span class="ion-clock"></span>
           {{episode.firstAired | date: 'short'}}
         </p>
         <p>{{episode.overview}}</p>

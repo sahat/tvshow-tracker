@@ -1,5 +1,5 @@
-angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
-  .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate', 'mgcrea.ngStrap'])
+  .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 
     $routeProvider
@@ -26,4 +26,22 @@ angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mg
       .otherwise({
         redirectTo: '/'
       });
-  }]);
+  })
+  .config(function ($httpProvider) {
+    $httpProvider.interceptors.push(function ($rootScope, $q, $window, $location) {
+      return {
+        request: function(config) {
+          if ($window.localStorage.token) {
+            config.headers.Authorization = 'Bearer ' + $window.localStorage.token;
+          }
+          return config;
+        },
+        responseError: function(response) {
+          if (response.status === 401 || response.status === 403) {
+            $location.path('/login');
+          }
+          return $q.reject(response);
+        }
+      }
+    });
+  });
