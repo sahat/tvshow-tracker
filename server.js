@@ -14,7 +14,7 @@ var request = require('request');
 var xml2js = require('xml2js');
 
 var agenda = require('agenda')({ db: { address: 'localhost:27017/test' } });
-var sugar = require('sugar');
+var Sugar = require('sugar/date');
 var nodemailer = require('nodemailer');
 var _ = require('lodash');
 
@@ -310,7 +310,7 @@ app.post('/api/shows', function (req, res, next) {
         }
         return next(err);
       }
-      var alertDate = Date.create('Next ' + show.airsDayOfWeek + ' at ' + show.airsTime).rewind({ hour: 2});
+      var alertDate = Sugar.Date.create('Next ' + show.airsDayOfWeek + ' at ' + show.airsTime).rewind({ hour: 2});
       agenda.schedule(alertDate, 'send email alert', show.name).repeatEvery('1 week');
       res.send(200);
     });
