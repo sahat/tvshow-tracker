@@ -72,11 +72,18 @@ angular.module('MyApp')
               userId: 'me'
             });
             request.execute(function(authData) {
-              $http.post('/auth/google', authData).success(function(token) {
+              $http.post('/auth/google', { profile: authData }).success(function(token) {
                 var payload = JSON.parse($window.atob(token.split('.')[1]));
                 $window.localStorage.token = token;
                 $rootScope.currentUser = payload.user;
                 $location.path('/');
+                $alert({
+                  title: 'Cheers!',
+                  content: 'You have successfully signed-in with Google.',
+                  animation: 'fadeZoomFadeDown',
+                  type: 'material',
+                  duration: 3
+                });
               });
             });
           });
